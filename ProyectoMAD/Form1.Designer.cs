@@ -46,7 +46,11 @@
             this.label1.Location = new System.Drawing.Point(401, 88);
             this.label1.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label1.Name = "label1";
+
             this.label1.Size = new System.Drawing.Size(83, 27);
+
+            this.label1.Size = new System.Drawing.Size(66, 21);
+
             this.label1.TabIndex = 0;
             this.label1.Text = "Correo:";
             // 
@@ -57,7 +61,11 @@
             this.label2.Location = new System.Drawing.Point(360, 167);
             this.label2.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label2.Name = "label2";
+
             this.label2.Size = new System.Drawing.Size(124, 27);
+
+            this.label2.Size = new System.Drawing.Size(101, 21);
+
             this.label2.TabIndex = 1;
             this.label2.Text = "Contraseña:";
             // 
@@ -65,14 +73,21 @@
             // 
             this.textBox1.Location = new System.Drawing.Point(491, 81);
             this.textBox1.Name = "textBox1";
+
             this.textBox1.Size = new System.Drawing.Size(252, 34);
+
+            this.textBox1.Size = new System.Drawing.Size(252, 29);
+
             this.textBox1.TabIndex = 2;
             // 
             // textBox2
             // 
             this.textBox2.Location = new System.Drawing.Point(491, 164);
             this.textBox2.Name = "textBox2";
+
             this.textBox2.Size = new System.Drawing.Size(252, 34);
+
+            this.textBox2.Size = new System.Drawing.Size(252, 29);
             this.textBox2.TabIndex = 3;
             // 
             // button1
@@ -101,14 +116,20 @@
             this.button3.TabIndex = 6;
             this.button3.Text = "Crear Cuenta";
             this.button3.UseVisualStyleBackColor = true;
+
             this.button3.Click += new System.EventHandler(this.button3_Click);
+
             // 
             // label3
             // 
             this.label3.AutoSize = true;
             this.label3.Location = new System.Drawing.Point(443, 355);
             this.label3.Name = "label3";
+
             this.label3.Size = new System.Drawing.Size(427, 27);
+
+            this.label3.Size = new System.Drawing.Size(347, 21);
+
             this.label3.TabIndex = 7;
             this.label3.Text = "En caso de no tener cuenta, cree una ahora:";
             // 
@@ -117,14 +138,22 @@
             this.checkBox1.AutoSize = true;
             this.checkBox1.Location = new System.Drawing.Point(530, 297);
             this.checkBox1.Name = "checkBox1";
+
             this.checkBox1.Size = new System.Drawing.Size(186, 31);
+
+            this.checkBox1.Size = new System.Drawing.Size(149, 25);
+
             this.checkBox1.TabIndex = 8;
             this.checkBox1.Text = "Recordar sesión";
             this.checkBox1.UseVisualStyleBackColor = true;
             // 
             // frmLogin
             // 
+
             this.AutoScaleDimensions = new System.Drawing.SizeF(12F, 27F);
+
+            this.AutoScaleDimensions = new System.Drawing.SizeF(10F, 21F);
+
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1200, 759);
             this.Controls.Add(this.checkBox1);
