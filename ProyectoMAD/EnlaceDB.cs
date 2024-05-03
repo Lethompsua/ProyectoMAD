@@ -253,6 +253,7 @@ namespace WindowsFormsApplication1
             return registroExitoso;
         }
 
+
         public bool AgregarUsuario(string email, string password, string nombreCompleto, DateTime fechaNacimiento, int idGenero, string preguntaSeguridad, string respuestaSeguridad)
         {
             bool agregado = false;
