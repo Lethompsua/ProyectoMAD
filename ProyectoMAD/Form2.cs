@@ -26,8 +26,8 @@ namespace ProyectoMAD
 
             //Inicializo los textbox para no tener que estar llenándolos cada vez:
             txtNomCom.Text = "Daniel Zambrano";
-            txtCorreo.Text = "password1";
-            txtContrasena.Text = "password1";
+            txtCorreo.Text = "danyzglez@hotmail.com";
+            txtContrasena.Text = "passwoRd1#";
             txtConfContrasenaña.Text = "password1";
             txtRespuesta.Text = "dslafkjadsf";
             DateTime fechaTemp = new DateTime(1990, 5, 5, 0, 0, 0);
@@ -50,12 +50,13 @@ namespace ProyectoMAD
                 int idGenero;
                 string email = txtCorreo.Text;
                 string password = txtContrasena.Text;
+                string confirmarContraseña = txtConfContrasenaña.Text;
                 string nombreCompleto = txtNomCom.Text;
                 string PreguntaSeguridad = cbPregunta.Text;
                 string RespuestaSeguridad = txtRespuesta.Text;
                 DateTime fechaNacimiento = DTPFechaNac.Value;
 
-                //Validar nombre
+                //Validando nombre
                 string patronNombre = @"^[\p{L}\s]+$"; //Expresión Unicode que admite todos los caracteres del español
                 if (Regex.IsMatch(nombreCompleto, patronNombre) == false)
                 {
@@ -63,11 +64,42 @@ namespace ProyectoMAD
                     return;
                 }
 
-                //Validar email
+                //Validando email
                 string patronEmail = @"^[\w\.-]+@[a-zA-Z\d\.-]+\.[a-zA-Z]{2,}$"; //Expresión Regex para validar email
                 if (Regex.IsMatch(email, patronEmail) == false)
                 {
                     MessageBox.Show("El formato del email no es correcto", "ATENCIÓN", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    return;
+                }
+
+                //Validando contraseña
+                string patronContraseña = @"^(?=.*[a-z])(?=.*[A-Z])(?=.*[^a-zA-Z0-9]).{8,}$"; //Expresión Regex para validar contraseña
+                // 8 caracteres, una mayúscula, una minúscula y un caracter especial
+                if (Regex.IsMatch(password, patronContraseña) == false)
+                {
+                    MessageBox.Show("La contraseña debe tener al menos 8 caracteres, una mayúscula, una minúscula" +
+                        " y un caracter especial", "ATENCIÓN", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    return;
+                }
+                if (confirmarContraseña != password)
+                {
+                    MessageBox.Show("Las contraseñas no coinciden", "ATENCIÓN", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    return;
+                }
+
+                //Validando que el usuario sea mayor de 12 años
+                DateTime fechaActual = DateTime.Now;
+                int edad = fechaActual.Year - fechaNacimiento.Year; //Diferencia de años
+
+                //Diferencia de días
+                if (fechaNacimiento > fechaActual.AddYears(-edad))
+                {
+                    edad--; //Si es true, aún no ha cumplido años este año
+                }
+
+                if (edad <= 12) 
+                {
+                    MessageBox.Show("Solo pueden registrarse personas mayores de 12 años", "ATENCIÓN", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                     return;
                 }
 
@@ -86,10 +118,17 @@ namespace ProyectoMAD
                     return;
                 }
 
-                //Validar pregunta de seguridad
+                //Validando que haya escogido una pregunta de seguridad
                 if (PreguntaSeguridad == "Selecciona una pregunta")
                 {
                     MessageBox.Show("Por favor, selecciona una pregunta.", "ATENCIÓN", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    return;
+                }
+
+                //Validando que la respuesta no este vacía
+                if (RespuestaSeguridad == "")
+                {
+                    MessageBox.Show("Por favor, responda la pregunta de seguridad", "ATENCIÓN", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                     return;
                 }
 
