@@ -253,7 +253,6 @@ namespace WindowsFormsApplication1
             return registroExitoso;
         }
 
-<<<<<<< HEAD
         public bool AgregarUsuario(string email, string password, string nombreCompleto, DateTime fechaNacimiento, int idGenero, string preguntaSeguridad, string respuestaSeguridad)
         {
             bool agregado = false;
@@ -291,10 +290,5 @@ namespace WindowsFormsApplication1
             }
             return agregado;
         }
-
-
-=======
->>>>>>> 029fe0545f58f38b87b44f01d3824e8ec7c01c4f
-
     }
 }

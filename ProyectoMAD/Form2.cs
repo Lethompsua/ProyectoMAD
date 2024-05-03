@@ -46,11 +46,8 @@ namespace ProyectoMAD
                 }
                 else if (rbFem.Checked)
                 {
-<<<<<<< HEAD
                     idGenero = 0; // Supongamos que el ID para género femenino es 2
-=======
                     idGenero = 2; // Supongamos que el ID para género femenino es 2
->>>>>>> 029fe0545f58f38b87b44f01d3824e8ec7c01c4f
                 }
                 else
                 {
@@ -64,11 +61,7 @@ namespace ProyectoMAD
                 string RespuestaSeguridad = txtRespuesta.Text;
 
                 // Llamar al método para agregar un nuevo usuario a la base de datos
-<<<<<<< HEAD
                 bool registroExitoso = enlaceDB.AgregarUsuario(email, password, nombreCompleto, fechaNacimiento, idGenero, PreguntaSeguridad, RespuestaSeguridad);
-=======
-                bool registroExitoso = enlaceDB.RegistrarUsuario(email, password, nombreCompleto, fechaNacimiento, idGenero, PreguntaSeguridad, RespuestaSeguridad);
->>>>>>> 029fe0545f58f38b87b44f01d3824e8ec7c01c4f
 
                 if (registroExitoso)
                 {
