@@ -1,6 +1,9 @@
-CREATE PROCEDURE VerificarLogin
-    @NombreUsuario VARCHAR(50),
-    @Contraseña VARCHAR(50)
+USE DB_Proyecto;
+GO
+
+CREATE OR ALTER PROCEDURE VerificarLogin
+    @Email VARCHAR(50),
+    @Password VARCHAR(50)
 AS
 BEGIN
     SET NOCOUNT ON;
@@ -9,51 +12,52 @@ BEGIN
     DECLARE @IntentosFallidos INT;
 
     -- Obtener el número de intentos fallidos del usuario
-    SELECT @IntentosFallidos = IntentosFallidos
+    SELECT @IntentosFallidos = intentos
     FROM Usuarios
-    WHERE NombreUsuario = @NombreUsuario;
+    WHERE email = @email;
 
     -- Si el usuario existe y aún no ha sido desactivado
     IF @IntentosFallidos IS NOT NULL AND @IntentosFallidos < 3
-    BEGIN
-        -- Verificar si el usuario y contraseña son correctos
-        SELECT @UsuarioExiste = COUNT(*)
-        FROM Usuarios
-        WHERE NombreUsuario = @NombreUsuario AND Contraseña = @Contraseña;
+	BEGIN
+		-- Verificar si el usuario y contraseña son correctos
+		SELECT @UsuarioExiste = COUNT(id_usuario)
+		FROM Usuarios
+		WHERE email = @Email AND password = @Password;
 
-        -- Si el login es correcto
-        IF @UsuarioExiste = 1
-        BEGIN
-            -- Reiniciar el contador de intentos fallidos
-            UPDATE Usuarios
-            SET IntentosFallidos = 0
-            WHERE NombreUsuario = @NombreUsuario;
+		-- Si el login es correcto
+		IF @UsuarioExiste = 1
+		BEGIN
+			-- Reiniciar el contador de intentos fallidos
+			UPDATE Usuarios
+			SET intentos = 0
+			WHERE email = @Email;
 
-            -- Devolver 1 para indicar login correcto
-            SELECT 1 AS LoginCorrecto;
-        END
-        ELSE
-        BEGIN
-            -- Incrementar el contador de intentos fallidos
-            UPDATE Usuarios
-            SET IntentosFallidos = @IntentosFallidos + 1
-            WHERE NombreUsuario = @NombreUsuario;
+			PRINT('Login exitoso');
+		END
+		ELSE
+		BEGIN
+			-- Incrementar el contador de intentos fallidos
+			UPDATE Usuarios
+			SET intentos = @IntentosFallidos + 1
+			WHERE email = @Email;
 
-            -- Devolver 0 para indicar login incorrecto
-            SELECT 0 AS LoginCorrecto;
-        END
-    END
-    ELSE
-    BEGIN
-        -- Si el usuario no existe o ha sido desactivado, devolver 0
-        SELECT 0 AS LoginCorrecto;
-    END
+			PRINT('El correo o contraseña no coinciden');
+		END
+	END
+    ELSE IF @IntentosFallidos IS NULL
+	BEGIN
+		PRINT('El usuario ingresado no existe');
+	END
+	ELSE IF @IntentosFallidos >= 3
+	BEGIN
+		PRINT('El usuario ingresado ha sido desactivado');
+	END
 
     -- Desactivar el usuario si ha excedido el límite de intentos fallidos
     IF @IntentosFallidos >= 2
     BEGIN
         UPDATE Usuarios
-        SET Activo = 0
-        WHERE NombreUsuario = @NombreUsuario;
+        SET habilitado = 0
+        WHERE email = @Email;
     END
 END;

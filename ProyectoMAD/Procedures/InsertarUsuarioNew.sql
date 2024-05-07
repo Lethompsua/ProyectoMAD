@@ -12,7 +12,7 @@ GO
 CREATE PROCEDURE [dbo].[InsertarUsuario]
     @nombre_completo VARCHAR(50),
     @email VARCHAR(50),
-    @password VARCHAR(8),
+    @password VARCHAR(50),
     @fecha_nacimiento DATE,
     @id_genero SMALLINT,
     @fecha_registro DATETIME,
