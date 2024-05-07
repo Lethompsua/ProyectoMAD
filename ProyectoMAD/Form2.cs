@@ -23,15 +23,6 @@ namespace ProyectoMAD
             cbPregunta.Items.Add("¿Cuál es el nombre de tu abuela materna?");
             cbPregunta.Items.Add("¿Cuál es tu comida favorita?");
             cbPregunta.Items.Add("¿Cuál es tu película favorita?");
-
-            //Inicializo los textbox para no tener que estar llenándolos cada vez:
-            txtNomCom.Text = "Daniel Zambrano";
-            txtCorreo.Text = "danyzglez@hotmail.com";
-            txtContrasena.Text = "passwoRd1#";
-            txtConfContrasenaña.Text = "password1";
-            txtRespuesta.Text = "dslafkjadsf";
-            DateTime fechaTemp = new DateTime(1990, 5, 5, 0, 0, 0);
-            DTPFechaNac.Value = fechaTemp;
         }
 
         private void btnCancelar_Click(object sender, EventArgs e)
@@ -55,6 +46,13 @@ namespace ProyectoMAD
                 string PreguntaSeguridad = cbPregunta.Text;
                 string RespuestaSeguridad = txtRespuesta.Text;
                 DateTime fechaNacimiento = DTPFechaNac.Value;
+
+                //Validando si hay campos vacíos
+                if (string.IsNullOrEmpty(email) == true || string.IsNullOrEmpty(password) == true || string.IsNullOrEmpty(confirmarContraseña) == true ||
+                    string.IsNullOrEmpty(nombreCompleto) == true || string.IsNullOrEmpty(RespuestaSeguridad) == true) {
+                    MessageBox.Show("Por favor, llene los campos faltantes", "ATENCIÓN", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    return;
+                }
 
                 //Validando nombre
                 string patronNombre = @"^[\p{L}\s]+$"; //Expresión Unicode que admite todos los caracteres del español
@@ -138,6 +136,7 @@ namespace ProyectoMAD
                 if (registroExitoso)
                 {
                     MessageBox.Show("Usuario registrado exitosamente.", "Registro Exitoso", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    this.Close();
                 }
                 else
                 {

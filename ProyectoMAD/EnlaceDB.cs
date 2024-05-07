@@ -290,5 +290,38 @@ namespace WindowsFormsApplication1
             }
             return agregado;
         }
+
+        public bool Login (string email, string password)
+        {
+            bool loginExitoso = false;
+
+            try
+            {
+                conectar();
+                string qry = "VerificarLogin"; //Nombre del sp
+                _comandosql = new SqlCommand(qry, _conexion);
+                _comandosql.CommandType = CommandType.StoredProcedure;
+
+                // Parámetros del sp
+                _comandosql.Parameters.AddWithValue("@Email", email);
+                _comandosql.Parameters.AddWithValue("@Password", password);
+
+                _comandosql.ExecuteNonQuery();
+                loginExitoso = true; // Si llega aquí sin lanzar una excepción, se considera que el usuario se agregó correctamente
+            }
+            catch (SqlException e)
+            {
+                // Manejo de errores
+                string msg = "Excepción de base de datos: \n";
+                msg += e.Message;
+                MessageBox.Show(msg, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+            finally
+            {
+                desconectar();
+            }
+
+            return loginExitoso;
+        }
     }
 }
