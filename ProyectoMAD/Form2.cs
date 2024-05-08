@@ -23,6 +23,13 @@ namespace ProyectoMAD
             cbPregunta.Items.Add("¿Cuál es el nombre de tu abuela materna?");
             cbPregunta.Items.Add("¿Cuál es tu comida favorita?");
             cbPregunta.Items.Add("¿Cuál es tu película favorita?");
+
+            //test
+            txtCorreo.Text = "danyzglez@hotmail.com";
+            txtContrasena.Text = "passworD#";
+            txtConfContrasenaña.Text = "passworD#";
+            txtNomCom.Text = "Daniel Zambrano";
+            txtRespuesta.Text = "Tierra Blanca";
         }
 
         private void btnCancelar_Click(object sender, EventArgs e)
@@ -32,12 +39,10 @@ namespace ProyectoMAD
 
         private void btnRegUsu_Click(object sender, EventArgs e)
         {
-            // Crear una instancia de la clase EnlaceDB
             EnlaceDB enlaceDB = new EnlaceDB();
 
             try
             {
-                // Obtener los datos del usuario desde los controles del formulario
                 int idGenero;
                 string email = txtCorreo.Text;
                 string password = txtContrasena.Text;
@@ -47,14 +52,13 @@ namespace ProyectoMAD
                 string RespuestaSeguridad = txtRespuesta.Text;
                 DateTime fechaNacimiento = DTPFechaNac.Value;
 
-                //Validando si hay campos vacíos
+                //Validaciones
                 if (string.IsNullOrEmpty(email) == true || string.IsNullOrEmpty(password) == true || string.IsNullOrEmpty(confirmarContraseña) == true ||
                     string.IsNullOrEmpty(nombreCompleto) == true || string.IsNullOrEmpty(RespuestaSeguridad) == true) {
                     MessageBox.Show("Por favor, llene los campos faltantes", "ATENCIÓN", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                     return;
                 }
 
-                //Validando nombre
                 string patronNombre = @"^[\p{L}\s]+$"; //Expresión Unicode que admite todos los caracteres del español
                 if (Regex.IsMatch(nombreCompleto, patronNombre) == false)
                 {
@@ -62,16 +66,14 @@ namespace ProyectoMAD
                     return;
                 }
 
-                //Validando email
-                string patronEmail = @"^[\w\.-]+@[a-zA-Z\d\.-]+\.[a-zA-Z]{2,}$"; //Expresión Regex para validar email
+                string patronEmail = @"^[\w\.-]+@[a-zA-Z\d\.-]+\.[a-zA-Z]{2,}$";
                 if (Regex.IsMatch(email, patronEmail) == false)
                 {
                     MessageBox.Show("El formato del email no es correcto", "ATENCIÓN", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                     return;
                 }
 
-                //Validando contraseña
-                string patronContraseña = @"^(?=.*[a-z])(?=.*[A-Z])(?=.*[^a-zA-Z0-9]).{8,}$"; //Expresión Regex para validar contraseña
+                string patronContraseña = @"^(?=.*[a-z])(?=.*[A-Z])(?=.*[^a-zA-Z0-9]).{8,}$";
                 // 8 caracteres, una mayúscula, una minúscula y un caracter especial
                 if (Regex.IsMatch(password, patronContraseña) == false)
                 {
@@ -85,7 +87,6 @@ namespace ProyectoMAD
                     return;
                 }
 
-                //Validando que el usuario sea mayor de 12 años
                 DateTime fechaActual = DateTime.Now;
                 int edad = fechaActual.Year - fechaNacimiento.Year; //Diferencia de años
 
@@ -101,7 +102,6 @@ namespace ProyectoMAD
                     return;
                 }
 
-                //Obteniendo Género
                 if (rbMas.Checked)
                 {
                     idGenero = 1; // id = 1 = Masculino
@@ -116,21 +116,19 @@ namespace ProyectoMAD
                     return;
                 }
 
-                //Validando que haya escogido una pregunta de seguridad
                 if (PreguntaSeguridad == "Selecciona una pregunta")
                 {
                     MessageBox.Show("Por favor, selecciona una pregunta.", "ATENCIÓN", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                     return;
                 }
 
-                //Validando que la respuesta no este vacía
                 if (RespuestaSeguridad == "")
                 {
                     MessageBox.Show("Por favor, responda la pregunta de seguridad", "ATENCIÓN", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                     return;
                 }
 
-                // Llamar al método para agregar un nuevo usuario a la base de datos
+                //Agregar nuevo usuario a la DB
                 bool registroExitoso = enlaceDB.AgregarUsuario(email, password, nombreCompleto, fechaNacimiento, idGenero, PreguntaSeguridad, RespuestaSeguridad);
 
                 if (registroExitoso)
@@ -138,14 +136,10 @@ namespace ProyectoMAD
                     MessageBox.Show("Usuario registrado exitosamente.", "Registro Exitoso", MessageBoxButtons.OK, MessageBoxIcon.Information);
                     this.Close();
                 }
-                else
-                {
-                    MessageBox.Show("Error al registrar usuario. Por favor, inténtalo de nuevo.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                }
             }
             catch (Exception ex)
             {
-                MessageBox.Show("Error: " + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show("Error en el formulario: " + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
 
