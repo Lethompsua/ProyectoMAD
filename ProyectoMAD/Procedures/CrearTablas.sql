@@ -36,7 +36,7 @@ CREATE TABLE Generos (
 
 CREATE TABLE Usuarios (
 	id_usuario SMALLINT IDENTITY(1,1) NOT NULL,
-	email VARCHAR(50) NOT NULL,
+	email VARCHAR(50) NOT NULL UNIQUE,
 	password VARCHAR(50) NOT NULL,
 	nombre_completo VARCHAR(50) NOT NULL,
 	fecha_nacimiento DATE NOT NULL,
@@ -54,7 +54,7 @@ CREATE TABLE Usuarios (
 	tamaño_texto SMALLINT,
 	idioma VARCHAR(10),
 
-	pregunta_seguridad VARCHAR(50) NOT NULL,
+	pregunta_seguridad VARCHAR(100) NOT NULL,
 	respuesta_seguridad TEXT NOT NULL
 
 	CONSTRAINT pk_usuarios PRIMARY KEY (id_usuario),

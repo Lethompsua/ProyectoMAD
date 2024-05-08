@@ -213,58 +213,17 @@ namespace WindowsFormsApplication1
             return add;
         }
 
-        public bool RegistrarUsuario(string nombreCompleto, string email, string password, DateTime fechaNacimiento, int idGenero, string preguntaSeguridad, string respuestaSeguridad)
-        {
-            bool registroExitoso = false;
-            
-            try
-            {
-                conectar();
-
-                // Crear el comando para ejecutar el procedimiento almacenado
-                SqlCommand cmd = new SqlCommand("InsertarUsuario", _conexion);
-                cmd.CommandType = CommandType.StoredProcedure;
-
-                // Agregar los parámetros necesarios para el procedimiento almacenado
-                cmd.Parameters.AddWithValue("@nombre_completo", nombreCompleto);
-                cmd.Parameters.AddWithValue("@email", email);
-                cmd.Parameters.AddWithValue("@password", password);
-                cmd.Parameters.AddWithValue("@fecha_nacimiento", fechaNacimiento);
-                cmd.Parameters.AddWithValue("@id_genero", idGenero);
-                cmd.Parameters.AddWithValue("@fecha_registro", DateTime.Now); // Otra opción es obtener la fecha actual en C#
-                cmd.Parameters.AddWithValue("@pregunta_seguridad", preguntaSeguridad);
-                cmd.Parameters.AddWithValue("@respuesta_seguridad", respuestaSeguridad);
-
-                // Ejecutar el comando
-                cmd.ExecuteNonQuery();
-
-                registroExitoso = true; // Si no ocurren excepciones, consideramos el registro exitoso
-            }
-            catch (SqlException ex)
-            {
-                // Manejar la excepción, por ejemplo, mostrando un mensaje de error
-                MessageBox.Show("Error al registrar usuario en la base de datos: " + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-            }
-            finally
-            {
-                desconectar();
-            }
-
-            return registroExitoso;
-        }
-
         public bool AgregarUsuario(string email, string password, string nombreCompleto, DateTime fechaNacimiento, int idGenero, string preguntaSeguridad, string respuestaSeguridad)
         {
-            bool agregado = false;
+            bool agregado = true;
             try
             {
                 conectar();
-                string qry = "InsertarUsuario"; // Solo el nombre del procedimiento almacenado
+                string qry = "InsertarUsuario"; // Nombre del SP
                 _comandosql = new SqlCommand(qry, _conexion);
                 _comandosql.CommandType = CommandType.StoredProcedure;
                 _comandosql.CommandTimeout = 1200;
 
-                // Parámetros del procedimiento almacenado
                 _comandosql.Parameters.AddWithValue("@Email", email);
                 _comandosql.Parameters.AddWithValue("@Password", password);
                 _comandosql.Parameters.AddWithValue("@nombre_completo", nombreCompleto);
@@ -274,12 +233,23 @@ namespace WindowsFormsApplication1
                 _comandosql.Parameters.AddWithValue("@pregunta_seguridad", preguntaSeguridad);
                 _comandosql.Parameters.AddWithValue("@respuesta_seguridad", respuestaSeguridad);
 
+                SqlParameter usuarioExistente = new SqlParameter("@usuarioExistente", SqlDbType.Bit);
+                usuarioExistente.Direction = ParameterDirection.Output;
+                _comandosql.Parameters.Add(usuarioExistente);
+
                 _comandosql.ExecuteNonQuery();
-                agregado = true; // Si llega aquí sin lanzar una excepción, se considera que el usuario se agregó correctamente
+
+                bool resultado = (bool)usuarioExistente.Value;
+
+                if (resultado == true)
+                {
+                    MessageBox.Show("El usuario ingresado ya estaba registrado", "ATENCIÓN", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    agregado = false;
+                }
             }
             catch (SqlException e)
             {
-                // Manejo de errores
+                agregado = false;
                 string msg = "Excepción de base de datos: \n";
                 msg += e.Message;
                 MessageBox.Show(msg, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
