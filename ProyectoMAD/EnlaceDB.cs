@@ -213,7 +213,7 @@ namespace WindowsFormsApplication1
             return add;
         }
 
-        public bool AgregarUsuario(string email, string password, string nombreCompleto, DateTime fechaNacimiento, int idGenero, string preguntaSeguridad, string respuestaSeguridad)
+        public bool AgregarUsuario(string email, string password, string nombreCompleto, DateTime fechaNacimiento, string genero, string preguntaSeguridad, string respuestaSeguridad)
         {
             bool agregado = true;
             try
@@ -228,7 +228,7 @@ namespace WindowsFormsApplication1
                 _comandosql.Parameters.AddWithValue("@Password", password);
                 _comandosql.Parameters.AddWithValue("@nombre_completo", nombreCompleto);
                 _comandosql.Parameters.AddWithValue("@fecha_nacimiento", fechaNacimiento);
-                _comandosql.Parameters.AddWithValue("@id_genero", idGenero);
+                _comandosql.Parameters.AddWithValue("@genero", genero);
                 _comandosql.Parameters.AddWithValue("@fecha_registro", DateTime.Now);
                 _comandosql.Parameters.AddWithValue("@pregunta_seguridad", preguntaSeguridad);
                 _comandosql.Parameters.AddWithValue("@respuesta_seguridad", respuestaSeguridad);
@@ -261,9 +261,9 @@ namespace WindowsFormsApplication1
             return agregado;
         }
 
-        public bool Login (string email, string password)
+        public int Login (string email, string password)
         {
-            bool loginExitoso = false;
+            int loginExitoso = 1;
 
             try
             {
@@ -272,19 +272,25 @@ namespace WindowsFormsApplication1
                 _comandosql = new SqlCommand(qry, _conexion);
                 _comandosql.CommandType = CommandType.StoredProcedure;
 
-                // Parámetros del sp
                 _comandosql.Parameters.AddWithValue("@Email", email);
                 _comandosql.Parameters.AddWithValue("@Password", password);
 
                 _comandosql.ExecuteNonQuery();
-                loginExitoso = true; // Si llega aquí sin lanzar una excepción, se considera que el usuario se agregó correctamente
             }
             catch (SqlException e)
             {
-                // Manejo de errores
-                string msg = "Excepción de base de datos: \n";
-                msg += e.Message;
-                MessageBox.Show(msg, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                //string msg = "Atención: \n";
+                string msg = e.Message;
+                MessageBox.Show(msg, "ATENCIÓN", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+
+                if (e.State == 2)
+                {
+                    loginExitoso = 2; //El usuario ha sido desactivado
+                }
+                else
+                {
+                    loginExitoso = 0;
+                }
             }
             finally
             {

@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
+using System.Diagnostics.Contracts;
 using System.Drawing;
 using System.Linq;
 using System.Text;
@@ -31,25 +32,24 @@ namespace ProyectoMAD
                 return;
             }
 
-            bool loginExitoso = enlaceDB.Login(email, password);
+            int loginExitoso = enlaceDB.Login(email, password);
 
-            if (loginExitoso)
+            if (loginExitoso == 1)
             {
                 Homepage homepage = new Homepage();
                 homepage.Show();
+                this.Hide();
             }
-            else
+            else if (loginExitoso == 2)
             {
-                MessageBox.Show("Error al iniciar sesión", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                ContraseñaTemporal contraseñaTemporal = new ContraseñaTemporal();
+                contraseñaTemporal.Show();
             }
         }
 
         private void button3_Click(object sender, EventArgs e)
         {
-            // Al hacer clic en el botón, creamos una nueva instancia de la otra ventana
             Form2 IngresarUsu = new Form2();
-
-            // Mostramos la nueva ventana
             IngresarUsu.Show();
         }
 

@@ -10,16 +10,11 @@ using System.Windows.Forms;
 
 namespace ProyectoMAD
 {
-    public partial class Homepage : Form
+    public partial class ContraseñaTemporal : Form
     {
-        public Homepage()
+        public ContraseñaTemporal()
         {
             InitializeComponent();
-            this.FormClosed += Homepage_FormClosed;
-        }
-        private void Homepage_FormClosed(object sender, FormClosedEventArgs e)
-        {
-            Application.Exit();
         }
     }
 }

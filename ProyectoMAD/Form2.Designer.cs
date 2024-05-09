@@ -113,6 +113,7 @@
             // 
             this.txtConfContrasenaña.Location = new System.Drawing.Point(417, 209);
             this.txtConfContrasenaña.Name = "txtConfContrasenaña";
+            this.txtConfContrasenaña.PasswordChar = '*';
             this.txtConfContrasenaña.Size = new System.Drawing.Size(300, 29);
             this.txtConfContrasenaña.TabIndex = 8;
             // 
