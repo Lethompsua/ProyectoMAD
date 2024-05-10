@@ -71,9 +71,29 @@ BEGIN
 		END
 		ELSE
 		BEGIN
-			SET @id = dbo.GetUser(@Email);
-			SET @usuarioDesactivado = 1;
-			PRINT(CONCAT('El se encuentra desactivado', @usuarioDesactivado));
+			SELECT @ContraseñaCorrecta = COUNT(id_usuario)
+				FROM Usuarios
+				WHERE email = @Email AND contraseña_temporal = @Password;
+
+			IF @ContraseñaCorrecta = 1
+			BEGIN
+				UPDATE Usuarios
+					SET habilitado = 1, 
+						intentos = 0
+					WHERE email = @Email;
+
+				SET @id = dbo.GetUser(@Email);
+				SET @usuarioDesactivado = 0;
+				RETURN;
+			END
+			ELSE
+			BEGIN
+				SET @id = dbo.GetUser(@Email);
+				SET @usuarioDesactivado = 1;
+				PRINT(CONCAT('El usuario se encuentra desactivado', @usuarioDesactivado));
+				RETURN;
+			END
+
 			RETURN;
 		END
 	END

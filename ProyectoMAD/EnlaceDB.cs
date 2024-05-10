@@ -24,6 +24,7 @@ using System.Configuration;
 using System.Windows.Forms;
 using ProyectoMAD;
 using static System.Windows.Forms.VisualStyles.VisualStyleElement.ListView;
+using System.Runtime.Remoting.Messaging;
 
 
 /*
@@ -313,6 +314,8 @@ namespace WindowsFormsApplication1
 
         public string getQuestion(int id)
         {
+            string result = "No se encontró la pregunta";
+
             try
             {
                 conectar();
@@ -320,21 +323,49 @@ namespace WindowsFormsApplication1
                 _comandosql = new SqlCommand(qry, _conexion);
                 _comandosql.Parameters.AddWithValue("@id", id);
 
-                string result = _comandosql.ExecuteScalar().ToString();
-
-                return result;
+                result = _comandosql.ExecuteScalar().ToString();
             }
             catch (SqlException e)
             {
                 string msg = e.Message;
                 MessageBox.Show(msg, "ERROR", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                return string.Empty;
             }
             finally 
             { 
                 desconectar(); 
             }
+
+            return result;
         }
 
+        public bool ValidarRespuesta (string respuesta, string contraseña, int id)
+        {
+            bool result = false;
+            try
+            {
+                conectar();
+                string qry = "spValidarRespuesta";
+                _comandosql = new SqlCommand(qry, _conexion);
+                _comandosql.CommandType = CommandType.StoredProcedure;
+
+                _comandosql.Parameters.AddWithValue("@Respuesta", respuesta);
+                _comandosql.Parameters.AddWithValue("@Contraseña", contraseña);
+                _comandosql.Parameters.AddWithValue("@ID", id);
+
+                _comandosql.ExecuteNonQuery();
+                result = true;
+            }
+            catch (SqlException e)
+            {
+                string msg = e.Message;
+                MessageBox.Show(msg, "ERROR", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+            finally
+            {
+                desconectar();
+            }
+
+            return result;
+        }
     }
 }

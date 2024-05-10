@@ -33,6 +33,9 @@
             this.labelQuestion = new System.Windows.Forms.Label();
             this.btnSend = new System.Windows.Forms.Button();
             this.btnCancel = new System.Windows.Forms.Button();
+            this.picCopy = new System.Windows.Forms.PictureBox();
+            this.labelCopy = new System.Windows.Forms.Label();
+            ((System.ComponentModel.ISupportInitialize)(this.picCopy)).BeginInit();
             this.SuspendLayout();
             // 
             // label4
@@ -84,20 +87,47 @@
             this.btnCancel.UseVisualStyleBackColor = false;
             this.btnCancel.Click += new System.EventHandler(this.btnCancel_Click);
             // 
+            // picCopy
+            // 
+            this.picCopy.Image = global::ProyectoMAD.Properties.Resources.clipboard_icon;
+            this.picCopy.Location = new System.Drawing.Point(410, 187);
+            this.picCopy.Name = "picCopy";
+            this.picCopy.Size = new System.Drawing.Size(23, 26);
+            this.picCopy.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
+            this.picCopy.TabIndex = 15;
+            this.picCopy.TabStop = false;
+            this.picCopy.Click += new System.EventHandler(this.picCopy_Click);
+            // 
+            // labelCopy
+            // 
+            this.labelCopy.AutoSize = true;
+            this.labelCopy.BackColor = System.Drawing.SystemColors.Control;
+            this.labelCopy.Font = new System.Drawing.Font("Microsoft YaHei", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.labelCopy.ForeColor = System.Drawing.Color.SeaGreen;
+            this.labelCopy.Location = new System.Drawing.Point(439, 187);
+            this.labelCopy.Name = "labelCopy";
+            this.labelCopy.Size = new System.Drawing.Size(64, 22);
+            this.labelCopy.TabIndex = 16;
+            this.labelCopy.Text = "Copiar";
+            this.labelCopy.Click += new System.EventHandler(this.labelCopy_Click);
+            // 
             // ContraseñaTemporal
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(10F, 21F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(839, 396);
+            this.Controls.Add(this.labelCopy);
+            this.Controls.Add(this.picCopy);
             this.Controls.Add(this.btnCancel);
             this.Controls.Add(this.btnSend);
             this.Controls.Add(this.labelQuestion);
             this.Controls.Add(this.txtAnswer);
             this.Controls.Add(this.label4);
             this.Font = new System.Drawing.Font("Microsoft YaHei", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.Margin = new System.Windows.Forms.Padding(5, 5, 5, 5);
+            this.Margin = new System.Windows.Forms.Padding(5);
             this.Name = "ContraseñaTemporal";
             this.Text = "ContraseñaTemporal";
+            ((System.ComponentModel.ISupportInitialize)(this.picCopy)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -110,5 +140,7 @@
         private System.Windows.Forms.Label labelQuestion;
         private System.Windows.Forms.Button btnSend;
         private System.Windows.Forms.Button btnCancel;
+        private System.Windows.Forms.PictureBox picCopy;
+        private System.Windows.Forms.Label labelCopy;
     }
 }

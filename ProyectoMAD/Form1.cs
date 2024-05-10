@@ -43,7 +43,7 @@ namespace ProyectoMAD
             }
             else if (loginExitoso == 2)
             {
-                MessageBox.Show("Se ha equivocado 3 veces seguidas. Su usuario ha sido desactivado", "ATENCIÓN", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show("Se ha equivocado muchas veces seguidas. Su usuario ha sido desactivado", "ATENCIÓN", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 ContraseñaTemporal contraseñaTemporal = new ContraseñaTemporal();
                 contraseñaTemporal.Show();
             }

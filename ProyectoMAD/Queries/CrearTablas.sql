@@ -36,7 +36,7 @@ CREATE TABLE Usuarios (
 	fecha_login DATETIME,
 	intentos SMALLINT DEFAULT 0,
 	habilitado BIT NOT NULL,
-	contraseña_temporal VARCHAR(8),
+	contraseña_temporal VARCHAR(50),
 
 	estatus BIT NOT NULL,
 	fecha_baja DATE,
@@ -45,7 +45,7 @@ CREATE TABLE Usuarios (
 	idioma VARCHAR(10),
 
 	pregunta_seguridad VARCHAR(100) NOT NULL,
-	respuesta_seguridad TEXT NOT NULL
+	respuesta_seguridad VARCHAR(100) NOT NULL
 
 	CONSTRAINT pk_usuarios PRIMARY KEY (id_usuario),
 );

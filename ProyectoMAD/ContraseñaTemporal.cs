@@ -4,6 +4,7 @@ using System.ComponentModel;
 using System.Data;
 using System.Drawing;
 using System.Linq;
+using System.Reflection.Emit;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
@@ -13,15 +14,21 @@ namespace ProyectoMAD
 {
     public partial class ContraseñaTemporal : Form
     {
+
+        private string password {  get; set; }
         public ContraseñaTemporal()
         {
             InitializeComponent();
 
             EnlaceDB enlaceDB = new EnlaceDB();
             string pregunta = enlaceDB.getQuestion(frmLogin.userID);
-
-            string password = getRandomPassword();
             labelQuestion.Text = pregunta;
+
+            picCopy.Visible = false;
+            picCopy.Enabled = false;
+
+            labelCopy.Visible = false;
+            labelCopy.Enabled = false;
         }
 
         private void btnCancel_Click(object sender, EventArgs e)
@@ -31,7 +38,39 @@ namespace ProyectoMAD
 
         private void btnSend_Click(object sender, EventArgs e)
         {
-            
+            string answer = txtAnswer.Text;
+            password = getRandomPassword();
+
+            if (answer == "")
+            {
+                MessageBox.Show("Por favor, responda la pregunta", "ATENCIÓN", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+            }
+            else
+            {
+                EnlaceDB enlaceDB = new EnlaceDB();
+                if (enlaceDB.ValidarRespuesta(answer, password, frmLogin.userID) == true)
+                {
+                    MessageBox.Show("Respuesta correcta", "OK", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    txtAnswer.Visible = false;
+
+                    btnSend.Visible = false;
+                    btnSend.Enabled = false;
+
+                    labelQuestion.Text = "Tu contraseña temporal es: " + password;
+                    labelQuestion.Font = new Font(labelQuestion.Font, FontStyle.Regular);
+
+                    btnCancel.Text = "Regresar";
+                    btnCancel.BackColor = Color.LightGreen;
+                    btnCancel.Left -= 50;
+                    btnCancel.Top -= 30;
+
+                    picCopy.Visible = true;
+                    picCopy.Enabled = true;
+
+                    labelCopy.Visible = true;
+                    labelCopy.Enabled = true;
+                }
+            }
         }
 
         private string getRandomPassword()
@@ -80,6 +119,18 @@ namespace ProyectoMAD
         private bool IsSpecialCharacter(char c)
         {
             return !char.IsLetterOrDigit(c);
+        }
+
+        private void picCopy_Click(object sender, EventArgs e)
+        {
+            Clipboard.SetText(password);
+            MessageBox.Show("Contraseña copiada", "OK", MessageBoxButtons.OK, MessageBoxIcon.Information);
+        }
+
+        private void labelCopy_Click(object sender, EventArgs e)
+        {
+            Clipboard.SetText(password);
+            MessageBox.Show("Contraseña copiada", "OK", MessageBoxButtons.OK, MessageBoxIcon.Information);
         }
     }
 }

@@ -181,8 +181,12 @@
     <None Include="Resources\historial.png" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Procedures\InsertarUsuarioNew.sql" />
-    <Content Include="Procedures\LoginClientes.sql" />
+    <Content Include="Queries\CrearTablas.sql" />
+    <Content Include="Queries\Funciones.sql" />
+    <Content Include="Queries\InsertarUsuarioNew.sql" />
+    <Content Include="Queries\LoginClientes.sql" />
+    <Content Include="Queries\ValidarRespuesta.sql" />
+    <None Include="Resources\clipboard_icon.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
