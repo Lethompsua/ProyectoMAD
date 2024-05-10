@@ -27,5 +27,3 @@ BEGIN
 	RETURN @question;
 END
 GO
-
-SELECT dbo.GetQuestion(45);
