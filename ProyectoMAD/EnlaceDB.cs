@@ -22,6 +22,8 @@ using System.Data;
 using System.Data.SqlClient;
 using System.Configuration;
 using System.Windows.Forms;
+using ProyectoMAD;
+using static System.Windows.Forms.VisualStyles.VisualStyleElement.ListView;
 
 
 /*
@@ -275,7 +277,23 @@ namespace WindowsFormsApplication1
                 _comandosql.Parameters.AddWithValue("@Email", email);
                 _comandosql.Parameters.AddWithValue("@Password", password);
 
+                SqlParameter id = new SqlParameter("@id", SqlDbType.SmallInt);
+                id.Direction = ParameterDirection.Output;
+                _comandosql.Parameters.Add(id);
+
+                SqlParameter usuarioDesactivado = new SqlParameter("@usuarioDesactivado", SqlDbType.Bit);
+                usuarioDesactivado.Direction = ParameterDirection.Output;
+                _comandosql.Parameters.Add(usuarioDesactivado);
+
                 _comandosql.ExecuteNonQuery();
+
+                frmLogin.userID = Convert.ToInt32(id.Value);
+                bool desactivado = Convert.ToBoolean(usuarioDesactivado.Value);
+
+                if (desactivado == true)
+                {
+                    loginExitoso = 2;
+                }
             }
             catch (SqlException e)
             {
@@ -283,14 +301,7 @@ namespace WindowsFormsApplication1
                 string msg = e.Message;
                 MessageBox.Show(msg, "ATENCIÓN", MessageBoxButtons.OK, MessageBoxIcon.Warning);
 
-                if (e.State == 2)
-                {
-                    loginExitoso = 2; //El usuario ha sido desactivado
-                }
-                else
-                {
-                    loginExitoso = 0;
-                }
+                loginExitoso = 0;
             }
             finally
             {
@@ -299,5 +310,31 @@ namespace WindowsFormsApplication1
 
             return loginExitoso;
         }
+
+        public string getQuestion(int id)
+        {
+            try
+            {
+                conectar();
+                string qry = "SELECT dbo.GetQuestion(@id)";
+                _comandosql = new SqlCommand(qry, _conexion);
+                _comandosql.Parameters.AddWithValue("@id", id);
+
+                string result = _comandosql.ExecuteScalar().ToString();
+
+                return result;
+            }
+            catch (SqlException e)
+            {
+                string msg = e.Message;
+                MessageBox.Show(msg, "ERROR", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return string.Empty;
+            }
+            finally 
+            { 
+                desconectar(); 
+            }
+        }
+
     }
 }

@@ -39,7 +39,7 @@
             // 
             this.label4.AutoSize = true;
             this.label4.Font = new System.Drawing.Font("Microsoft YaHei", 18F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label4.Location = new System.Drawing.Point(28, 89);
+            this.label4.Location = new System.Drawing.Point(31, 44);
             this.label4.Name = "label4";
             this.label4.Size = new System.Drawing.Size(780, 31);
             this.label4.TabIndex = 10;
@@ -47,7 +47,7 @@
             // 
             // txtAnswer
             // 
-            this.txtAnswer.Location = new System.Drawing.Point(283, 227);
+            this.txtAnswer.Location = new System.Drawing.Point(295, 184);
             this.txtAnswer.Name = "txtAnswer";
             this.txtAnswer.Size = new System.Drawing.Size(329, 29);
             this.txtAnswer.TabIndex = 11;
@@ -55,7 +55,8 @@
             // labelQuestion
             // 
             this.labelQuestion.AutoSize = true;
-            this.labelQuestion.Location = new System.Drawing.Point(401, 164);
+            this.labelQuestion.Font = new System.Drawing.Font("Microsoft YaHei", 12F, System.Drawing.FontStyle.Italic, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.labelQuestion.Location = new System.Drawing.Point(291, 138);
             this.labelQuestion.Name = "labelQuestion";
             this.labelQuestion.Size = new System.Drawing.Size(90, 21);
             this.labelQuestion.TabIndex = 12;
@@ -70,6 +71,7 @@
             this.btnSend.TabIndex = 13;
             this.btnSend.Text = "Enviar";
             this.btnSend.UseVisualStyleBackColor = false;
+            this.btnSend.Click += new System.EventHandler(this.btnSend_Click);
             // 
             // btnCancel
             // 
@@ -80,6 +82,7 @@
             this.btnCancel.TabIndex = 14;
             this.btnCancel.Text = "Cancelar";
             this.btnCancel.UseVisualStyleBackColor = false;
+            this.btnCancel.Click += new System.EventHandler(this.btnCancel_Click);
             // 
             // ContraseñaTemporal
             // 

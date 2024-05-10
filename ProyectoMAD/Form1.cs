@@ -17,8 +17,9 @@ namespace ProyectoMAD
         public frmLogin()
         {
             InitializeComponent();
-            
         }
+
+        public static int userID {  get; set; }
         private void btnLogin_Click(object sender, EventArgs e)
         {
             EnlaceDB enlaceDB = new EnlaceDB();
@@ -42,6 +43,7 @@ namespace ProyectoMAD
             }
             else if (loginExitoso == 2)
             {
+                MessageBox.Show("Se ha equivocado 3 veces seguidas. Su usuario ha sido desactivado", "ATENCIÓN", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 ContraseñaTemporal contraseñaTemporal = new ContraseñaTemporal();
                 contraseñaTemporal.Show();
             }

@@ -7,6 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using WindowsFormsApplication1;
 
 namespace ProyectoMAD
 {
@@ -15,6 +16,21 @@ namespace ProyectoMAD
         public ContraseñaTemporal()
         {
             InitializeComponent();
+
+            EnlaceDB enlaceDB = new EnlaceDB();
+            string pregunta = enlaceDB.getQuestion(frmLogin.userID);
+
+            labelQuestion.Text = pregunta;
+        }
+
+        private void btnCancel_Click(object sender, EventArgs e)
+        {
+            this.Close();
+        }
+
+        private void btnSend_Click(object sender, EventArgs e)
+        {
+            
         }
     }
 }
