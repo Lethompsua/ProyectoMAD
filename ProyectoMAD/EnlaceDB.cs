@@ -22,6 +22,9 @@ using System.Data;
 using System.Data.SqlClient;
 using System.Configuration;
 using System.Windows.Forms;
+using ProyectoMAD;
+using static System.Windows.Forms.VisualStyles.VisualStyleElement.ListView;
+using System.Runtime.Remoting.Messaging;
 
 
 /*
@@ -213,7 +216,7 @@ namespace WindowsFormsApplication1
             return add;
         }
 
-        public bool AgregarUsuario(string email, string password, string nombreCompleto, DateTime fechaNacimiento, int idGenero, string preguntaSeguridad, string respuestaSeguridad)
+        public bool AgregarUsuario(string email, string password, string nombreCompleto, DateTime fechaNacimiento, string genero, string preguntaSeguridad, string respuestaSeguridad)
         {
             bool agregado = true;
             try
@@ -228,7 +231,7 @@ namespace WindowsFormsApplication1
                 _comandosql.Parameters.AddWithValue("@Password", password);
                 _comandosql.Parameters.AddWithValue("@nombre_completo", nombreCompleto);
                 _comandosql.Parameters.AddWithValue("@fecha_nacimiento", fechaNacimiento);
-                _comandosql.Parameters.AddWithValue("@id_genero", idGenero);
+                _comandosql.Parameters.AddWithValue("@genero", genero);
                 _comandosql.Parameters.AddWithValue("@fecha_registro", DateTime.Now);
                 _comandosql.Parameters.AddWithValue("@pregunta_seguridad", preguntaSeguridad);
                 _comandosql.Parameters.AddWithValue("@respuesta_seguridad", respuestaSeguridad);
@@ -261,9 +264,9 @@ namespace WindowsFormsApplication1
             return agregado;
         }
 
-        public bool Login (string email, string password)
+        public int Login (string email, string password)
         {
-            bool loginExitoso = false;
+            int loginExitoso = 1;
 
             try
             {
@@ -272,19 +275,34 @@ namespace WindowsFormsApplication1
                 _comandosql = new SqlCommand(qry, _conexion);
                 _comandosql.CommandType = CommandType.StoredProcedure;
 
-                // Parámetros del sp
                 _comandosql.Parameters.AddWithValue("@Email", email);
                 _comandosql.Parameters.AddWithValue("@Password", password);
 
+                SqlParameter id = new SqlParameter("@id", SqlDbType.SmallInt);
+                id.Direction = ParameterDirection.Output;
+                _comandosql.Parameters.Add(id);
+
+                SqlParameter usuarioDesactivado = new SqlParameter("@usuarioDesactivado", SqlDbType.Bit);
+                usuarioDesactivado.Direction = ParameterDirection.Output;
+                _comandosql.Parameters.Add(usuarioDesactivado);
+
                 _comandosql.ExecuteNonQuery();
-                loginExitoso = true; // Si llega aquí sin lanzar una excepción, se considera que el usuario se agregó correctamente
+
+                frmLogin.userID = Convert.ToInt32(id.Value);
+                bool desactivado = Convert.ToBoolean(usuarioDesactivado.Value);
+
+                if (desactivado == true)
+                {
+                    loginExitoso = 2;
+                }
             }
             catch (SqlException e)
             {
-                // Manejo de errores
-                string msg = "Excepción de base de datos: \n";
-                msg += e.Message;
-                MessageBox.Show(msg, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                //string msg = "Atención: \n";
+                string msg = e.Message;
+                MessageBox.Show(msg, "ATENCIÓN", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+
+                loginExitoso = 0;
             }
             finally
             {
@@ -292,6 +310,62 @@ namespace WindowsFormsApplication1
             }
 
             return loginExitoso;
+        }
+
+        public string getQuestion(int id)
+        {
+            string result = "No se encontró la pregunta";
+
+            try
+            {
+                conectar();
+                string qry = "SELECT dbo.GetQuestion(@id)";
+                _comandosql = new SqlCommand(qry, _conexion);
+                _comandosql.Parameters.AddWithValue("@id", id);
+
+                result = _comandosql.ExecuteScalar().ToString();
+            }
+            catch (SqlException e)
+            {
+                string msg = e.Message;
+                MessageBox.Show(msg, "ERROR", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+            finally 
+            { 
+                desconectar(); 
+            }
+
+            return result;
+        }
+
+        public bool ValidarRespuesta (string respuesta, string contraseña, int id)
+        {
+            bool result = false;
+            try
+            {
+                conectar();
+                string qry = "spValidarRespuesta";
+                _comandosql = new SqlCommand(qry, _conexion);
+                _comandosql.CommandType = CommandType.StoredProcedure;
+
+                _comandosql.Parameters.AddWithValue("@Respuesta", respuesta);
+                _comandosql.Parameters.AddWithValue("@Contraseña", contraseña);
+                _comandosql.Parameters.AddWithValue("@ID", id);
+
+                _comandosql.ExecuteNonQuery();
+                result = true;
+            }
+            catch (SqlException e)
+            {
+                string msg = e.Message;
+                MessageBox.Show(msg, "ERROR", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+            finally
+            {
+                desconectar();
+            }
+
+            return result;
         }
     }
 }
