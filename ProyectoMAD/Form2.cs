@@ -23,6 +23,13 @@ namespace ProyectoMAD
             cbPregunta.Items.Add("¿Cuál es el nombre de tu abuela materna?");
             cbPregunta.Items.Add("¿Cuál es tu comida favorita?");
             cbPregunta.Items.Add("¿Cuál es tu película favorita?");
+
+            //test
+            txtCorreo.Text = "danyzglez@hotmail.com";
+            txtContrasena.Text = "passworD#";
+            txtConfContrasenaña.Text = "passworD#";
+            txtNomCom.Text = "Daniel Zambrano";
+            txtRespuesta.Text = "Tierra Blanca";
         }
 
         private void btnCancelar_Click(object sender, EventArgs e)
