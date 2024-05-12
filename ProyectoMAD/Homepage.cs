@@ -15,6 +15,11 @@ namespace ProyectoMAD
         public Homepage()
         {
             InitializeComponent();
+            this.FormClosed += Homepage_FormClosed;
+        }
+        private void Homepage_FormClosed(object sender, FormClosedEventArgs e)
+        {
+            Application.Exit();
         }
     }
 }
