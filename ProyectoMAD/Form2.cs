@@ -101,21 +101,7 @@ namespace ProyectoMAD
                 }
                 else if (rbFem.Checked)
                 {
-<<<<<<< HEAD
-
                     genero = "Femenino";
-
-=======
-<<<<<<< HEAD
-
-                    idGenero = 0; // Supongamos que el ID para género femenino es 2
-
-                    idGenero = 2; // Supongamos que el ID para género femenino es 2
-
-=======
-                    genero = "Femenino";
->>>>>>> 66ab17b9873b25698497e30de9bfcf54ef60c5d5
->>>>>>> 16076f816eb5bf686a3ec44f2d4fab5ea840d8f0
                 }
                 else
                 {
@@ -129,37 +115,13 @@ namespace ProyectoMAD
                     return;
                 }
 
-<<<<<<< HEAD
-
-                // Llamar al método para agregar un nuevo usuario a la base de datos
-
-                bool registroExitoso = enlaceDB.AgregarUsuario(email, password, nombreCompleto, fechaNacimiento, genero, PreguntaSeguridad, RespuestaSeguridad);
-
-                
-
-=======
-<<<<<<< HEAD
-                // Llamar al método para agregar un nuevo usuario a la base de datos
-
-                bool registroExitoso = enlaceDB.AgregarUsuario(email, password, nombreCompleto, fechaNacimiento, idGenero, PreguntaSeguridad, RespuestaSeguridad);
-
-                
-=======
->>>>>>> 16076f816eb5bf686a3ec44f2d4fab5ea840d8f0
                 if (RespuestaSeguridad == "")
                 {
                     MessageBox.Show("Por favor, responda la pregunta de seguridad", "ATENCIÓN", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                     return;
                 }
 
-<<<<<<< HEAD
-               
-
-=======
                 bool registroExitoso = enlaceDB.AgregarUsuario(email, password, nombreCompleto, fechaNacimiento, genero, PreguntaSeguridad, RespuestaSeguridad);
->>>>>>> 66ab17b9873b25698497e30de9bfcf54ef60c5d5
->>>>>>> 16076f816eb5bf686a3ec44f2d4fab5ea840d8f0
-
                 if (registroExitoso)
                 {
                     MessageBox.Show("Usuario registrado exitosamente.", "Registro Exitoso", MessageBoxButtons.OK, MessageBoxIcon.Information);
