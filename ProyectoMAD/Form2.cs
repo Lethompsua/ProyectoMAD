@@ -118,11 +118,17 @@ namespace ProyectoMAD
                 }
 
 
+
                 // Llamar al método para agregar un nuevo usuario a la base de datos
 
-                bool registroExitoso = enlaceDB.AgregarUsuario(email, password, nombreCompleto, fechaNacimiento, genero, PreguntaSeguridad, RespuestaSeguridad);
+                
 
                 
+
+
+                // Llamar al método para agregar un nuevo usuario a la base de datos
+
+               
 
                 if (RespuestaSeguridad == "")
                 {
@@ -130,11 +136,13 @@ namespace ProyectoMAD
                     return;
                 }
 
-               
+                bool registroExitoso = enlaceDB.AgregarUsuario(email, password, nombreCompleto, fechaNacimiento, genero, PreguntaSeguridad, RespuestaSeguridad);
+
 
 
                 if (registroExitoso)
                 {
+
                     MessageBox.Show("Usuario registrado exitosamente.", "Registro Exitoso", MessageBoxButtons.OK, MessageBoxIcon.Information);
                     this.Close();
                 }

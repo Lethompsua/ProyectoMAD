@@ -37,7 +37,7 @@ namespace ProyectoMAD
 
             if (loginExitoso == 1)
             {
-                Homepage homepage = new Homepage();
+                Form3 homepage = new Form3();
                 homepage.Show();
                 this.Hide();
             }
