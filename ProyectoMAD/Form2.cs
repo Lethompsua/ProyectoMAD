@@ -5,6 +5,7 @@ using System.Data;
 using System.Drawing;
 using System.Linq;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using WindowsFormsApplication1;
@@ -16,6 +17,12 @@ namespace ProyectoMAD
         public Form2()
         {
             InitializeComponent();
+            cbPregunta.Items.Add("¿Cuál es el nombre de tu mascota?");
+            cbPregunta.Items.Add("¿En qué ciudad naciste?");
+            cbPregunta.Items.Add("¿Cuál es el nombre de tu mejor amigo de la infancia?");
+            cbPregunta.Items.Add("¿Cuál es el nombre de tu abuela materna?");
+            cbPregunta.Items.Add("¿Cuál es tu comida favorita?");
+            cbPregunta.Items.Add("¿Cuál es tu película favorita?");
         }
 
         private void btnCancelar_Click(object sender, EventArgs e)
@@ -25,64 +32,122 @@ namespace ProyectoMAD
 
         private void btnRegUsu_Click(object sender, EventArgs e)
         {
-            // Crear una instancia de la clase EnlaceDB
             EnlaceDB enlaceDB = new EnlaceDB();
 
             try
             {
-                // Obtener los datos del usuario desde los controles del formulario
-                string email = txtCorreo.Text; // Suponiendo que tienes un TextBox llamado txtEmail para ingresar el email
-                string password = txtContrasena.Text; // Suponiendo que tienes un TextBox llamado txtPassword para ingresar la contraseña
-                string nombreCompleto = txtNomCom.Text; // Suponiendo que tienes un TextBox llamado txtNombreCompleto para ingresar el nombre completo
-                DateTime fechaNacimiento = DTPFechaNac.Value; // Suponiendo que tienes un DateTimePicker llamado dateTimePickerFechaNacimiento para ingresar la fecha de nacimiento
-                
+                string genero;
+                string email = txtCorreo.Text;
+                string password = txtContrasena.Text;
+                string confirmarContraseña = txtConfContrasenaña.Text;
+                string nombreCompleto = txtNomCom.Text;
+                string PreguntaSeguridad = cbPregunta.Text;
+                string RespuestaSeguridad = txtRespuesta.Text;
+                DateTime fechaNacimiento = DTPFechaNac.Value;
 
+                //Validaciones
+                if (string.IsNullOrEmpty(email) == true || string.IsNullOrEmpty(password) == true || string.IsNullOrEmpty(confirmarContraseña) == true ||
+                    string.IsNullOrEmpty(nombreCompleto) == true || string.IsNullOrEmpty(RespuestaSeguridad) == true) {
+                    MessageBox.Show("Por favor, llene los campos faltantes", "ATENCIÓN", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    return;
+                }
 
-                int idGenero;
+                string patronNombre = @"^[\p{L}\s]+$"; //Expresión Unicode que admite todos los caracteres del español
+                if (Regex.IsMatch(nombreCompleto, patronNombre) == false)
+                {
+                    MessageBox.Show("El nombre no puede contener números ni caracteres especiales", "ATENCIÓN", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    return;
+                }
+
+                string patronEmail = @"^[\w\.-]+@[a-zA-Z\d\.-]+\.[a-zA-Z]{2,}$";
+                if (Regex.IsMatch(email, patronEmail) == false)
+                {
+                    MessageBox.Show("El formato del email no es correcto", "ATENCIÓN", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    return;
+                }
+
+                string patronContraseña = @"^(?=.*[a-z])(?=.*[A-Z])(?=.*[^a-zA-Z0-9]).{8,}$";
+                // 8 caracteres, una mayúscula, una minúscula y un caracter especial
+                if (Regex.IsMatch(password, patronContraseña) == false)
+                {
+                    MessageBox.Show("La contraseña debe tener al menos 8 caracteres, una mayúscula, una minúscula" +
+                        " y un caracter especial", "ATENCIÓN", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    return;
+                }
+                if (confirmarContraseña != password)
+                {
+                    MessageBox.Show("Las contraseñas no coinciden", "ATENCIÓN", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    return;
+                }
+
+                DateTime fechaActual = DateTime.Now;
+                int edad = fechaActual.Year - fechaNacimiento.Year; //Diferencia de años
+
+                //Diferencia de días
+                if (fechaNacimiento > fechaActual.AddYears(-edad))
+                {
+                    edad--; //Si es true, aún no ha cumplido años este año
+                }
+
+                if (edad <= 12) 
+                {
+                    MessageBox.Show("Solo pueden registrarse personas mayores de 12 años", "ATENCIÓN", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    return;
+                }
 
                 if (rbMas.Checked)
                 {
-                    idGenero = 1; // Supongamos que el ID para género masculino es 1
+                    genero = "Masculino";
                 }
                 else if (rbFem.Checked)
                 {
 
-                    idGenero = 0; // Supongamos que el ID para género femenino es 2
-
-                    idGenero = 2; // Supongamos que el ID para género femenino es 2
+                    genero = "Femenino";
 
                 }
                 else
                 {
-                    // En caso de que ningún RadioButton esté seleccionado o algo vaya mal
-                    // Puedes manejarlo de acuerdo a tu lógica, por ejemplo, mostrar un mensaje de error
-                    MessageBox.Show("Por favor, selecciona un género.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                    return; // Salir del método sin continuar con el registro
+                    MessageBox.Show("Por favor, selecciona un género.", "ATENCIÓN", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    return;
                 }
 
-                string PreguntaSeguridad = cbPregunta.Text;
-                string RespuestaSeguridad = txtRespuesta.Text;
+                if (PreguntaSeguridad == "Selecciona una pregunta")
+                {
+                    MessageBox.Show("Por favor, selecciona una pregunta.", "ATENCIÓN", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    return;
+                }
+
 
                 // Llamar al método para agregar un nuevo usuario a la base de datos
 
-                bool registroExitoso = enlaceDB.AgregarUsuario(email, password, nombreCompleto, fechaNacimiento, idGenero, PreguntaSeguridad, RespuestaSeguridad);
+                bool registroExitoso = enlaceDB.AgregarUsuario(email, password, nombreCompleto, fechaNacimiento, genero, PreguntaSeguridad, RespuestaSeguridad);
 
                 
+
+                if (RespuestaSeguridad == "")
+                {
+                    MessageBox.Show("Por favor, responda la pregunta de seguridad", "ATENCIÓN", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    return;
+                }
+
+               
+
 
                 if (registroExitoso)
                 {
                     MessageBox.Show("Usuario registrado exitosamente.", "Registro Exitoso", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    this.Close();
                 }
-                else
-                {
-                    MessageBox.Show("Error al registrar usuario. Por favor, inténtalo de nuevo.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                }
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show("Error: " + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
 
+            catch (Exception ex)
+            {
+                MessageBox.Show("Error en el formulario: " + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
+
+        private void Form2_Load(object sender, EventArgs e)
+        {
 
         }
     }
