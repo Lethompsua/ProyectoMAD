@@ -36,7 +36,7 @@
             this.btnLogin = new System.Windows.Forms.Button();
             this.btnSignUp = new System.Windows.Forms.Button();
             this.label3 = new System.Windows.Forms.Label();
-            this.checkBox1 = new System.Windows.Forms.CheckBox();
+            this.checkboxRemember = new System.Windows.Forms.CheckBox();
             this.label4 = new System.Windows.Forms.Label();
             this.SuspendLayout();
             // 
@@ -119,15 +119,15 @@
             this.label3.TabIndex = 7;
             this.label3.Text = "En caso de no tener cuenta, cree una ahora:";
             // 
-            // checkBox1
+            // checkboxRemember
             // 
-            this.checkBox1.AutoSize = true;
-            this.checkBox1.Location = new System.Drawing.Point(372, 344);
-            this.checkBox1.Name = "checkBox1";
-            this.checkBox1.Size = new System.Drawing.Size(149, 25);
-            this.checkBox1.TabIndex = 8;
-            this.checkBox1.Text = "Recordar sesión";
-            this.checkBox1.UseVisualStyleBackColor = true;
+            this.checkboxRemember.AutoSize = true;
+            this.checkboxRemember.Location = new System.Drawing.Point(372, 344);
+            this.checkboxRemember.Name = "checkboxRemember";
+            this.checkboxRemember.Size = new System.Drawing.Size(149, 25);
+            this.checkboxRemember.TabIndex = 8;
+            this.checkboxRemember.Text = "Recordar sesión";
+            this.checkboxRemember.UseVisualStyleBackColor = true;
             // 
             // label4
             // 
@@ -145,7 +145,7 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(882, 569);
             this.Controls.Add(this.label4);
-            this.Controls.Add(this.checkBox1);
+            this.Controls.Add(this.checkboxRemember);
             this.Controls.Add(this.label3);
             this.Controls.Add(this.btnSignUp);
             this.Controls.Add(this.btnLogin);
@@ -173,7 +173,7 @@
         private System.Windows.Forms.Button btnLogin;
         private System.Windows.Forms.Button btnSignUp;
         private System.Windows.Forms.Label label3;
-        private System.Windows.Forms.CheckBox checkBox1;
+        private System.Windows.Forms.CheckBox checkboxRemember;
         private System.Windows.Forms.Label label4;
     }
 }

@@ -79,7 +79,8 @@ BEGIN
 			BEGIN
 				UPDATE Usuarios
 					SET habilitado = 1, 
-						intentos = 0
+						intentos = 0,
+						contraseña_temporal = NULL
 					WHERE email = @Email;
 
 				SET @id = dbo.GetUser(@Email);

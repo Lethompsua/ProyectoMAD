@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.Configuration;
 using System.Data;
 using System.Diagnostics.Contracts;
 using System.Drawing;
@@ -14,12 +15,22 @@ namespace ProyectoMAD
 {
     public partial class frmLogin : Form
     {
+        public static int userID {  get; set; }
         public frmLogin()
         {
             InitializeComponent();
+            string lastID = ConfigurationManager.AppSettings["RememberUserId"];
+
+            if (int.TryParse(lastID, out int id) == true)
+            {
+                userID = id;
+            }
+            else
+            {
+                userID = 0;
+            }
         }
 
-        public static int userID {  get; set; }
         private void btnLogin_Click(object sender, EventArgs e)
         {
             EnlaceDB enlaceDB = new EnlaceDB();
@@ -37,6 +48,21 @@ namespace ProyectoMAD
 
             if (loginExitoso == 1)
             {
+                if (checkboxRemember.Checked == true)
+                {
+                    Configuration config = ConfigurationManager.OpenExeConfiguration(ConfigurationUserLevel.None); //Abre el archivo app.config
+                    config.AppSettings.Settings["RememberUserId"].Value = userID.ToString();
+                    config.Save(ConfigurationSaveMode.Modified);
+                    ConfigurationManager.RefreshSection("appSettings"); //Actualiza los cambios
+                }
+                else
+                {
+                    Configuration config = ConfigurationManager.OpenExeConfiguration(ConfigurationUserLevel.None); //Abre el archivo app.config
+                    config.AppSettings.Settings["RememberUserId"].Value = "0";
+                    config.Save(ConfigurationSaveMode.Modified);
+                    ConfigurationManager.RefreshSection("appSettings"); //Actualiza los cambios
+                }
+
                 Homepage homepage = new Homepage();
                 homepage.Show();
                 this.Hide();

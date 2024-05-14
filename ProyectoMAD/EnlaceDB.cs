@@ -368,5 +368,10 @@ namespace WindowsFormsApplication1
 
             return result;
         }
+
+        //public DataTable lastUser (int id)
+        //{
+
+        //}
     }
 }

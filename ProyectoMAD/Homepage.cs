@@ -21,5 +21,13 @@ namespace ProyectoMAD
         {
             Application.Exit();
         }
+
+        private void salirToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            if (MessageBox.Show("¿Está seguro que quiere salir?", "ATENCIÓN", MessageBoxButtons.YesNo, MessageBoxIcon.Exclamation) == DialogResult.Yes)
+            {
+                Application.Exit();
+            }
+        }
     }
 }

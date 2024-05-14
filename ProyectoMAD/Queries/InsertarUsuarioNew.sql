@@ -23,7 +23,7 @@ BEGIN
 		END
 		ELSE
 		BEGIN
-			INSERT INTO Usuarios (nombre_completo, email, password, fecha_nacimiento, id_genero, 
+			INSERT INTO Usuarios (nombre_completo, email, password, fecha_nacimiento, genero, 
 			fecha_registro, pregunta_seguridad, respuesta_seguridad, habilitado, estatus)
 			VALUES (@nombre_completo, @Email, @Password, @fecha_nacimiento, @id_genero, 
 			@fecha_registro, @pregunta_seguridad, @respuesta_seguridad, 1, 1);
