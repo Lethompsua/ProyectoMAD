@@ -103,14 +103,6 @@ namespace ProyectoMAD
                 {
 
 
-                    idGenero = 0; // Supongamos que el ID para género femenino es 2
-
-                    idGenero = 2; // Supongamos que el ID para género femenino es 2
-
-
-                    genero = "Femenino";
-
-
                     genero = "Femenino";
 
                 }
@@ -129,13 +121,7 @@ namespace ProyectoMAD
 
                 // Llamar al método para agregar un nuevo usuario a la base de datos
 
-                bool registroExitoso = enlaceDB.AgregarUsuario(email, password, nombreCompleto, fechaNacimiento, idGenero, PreguntaSeguridad, RespuestaSeguridad);
-
-
-
-                // Llamar al método para agregar un nuevo usuario a la base de datos
-
-                bool registroExitoso = enlaceDB.AgregarUsuario(email, password, nombreCompleto, fechaNacimiento, genero, PreguntaSeguridad, RespuestaSeguridad);
+                
 
                 
 

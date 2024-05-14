@@ -181,6 +181,7 @@
     <None Include="Resources\historial.png" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Queries\ConexionBD.sql" />
     <Content Include="Queries\CrearTablas.sql" />
     <Content Include="Queries\Funciones.sql" />
     <Content Include="Queries\InsertarUsuarioNew.sql" />
