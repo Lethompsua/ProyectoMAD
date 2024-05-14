@@ -218,18 +218,61 @@ namespace WindowsFormsApplication1
 
 
 
-
         public bool AgregarUsuario(string email, string password, string nombreCompleto, DateTime fechaNacimiento, string genero, string preguntaSeguridad, string respuestaSeguridad)
         {
+            bool agregado = true;
+            try
+            {
+                conectar();
+<<<<<<< HEAD
 
-            bool agregado = false;
+                // Crear el comando para ejecutar el procedimiento almacenado
+                SqlCommand cmd = new SqlCommand("InsertarUsuario", _conexion);
+                cmd.CommandType = CommandType.StoredProcedure;
+
+                // Agregar los parámetros necesarios para el procedimiento almacenado
+                cmd.Parameters.AddWithValue("@nombre_completo", nombreCompleto);
+                cmd.Parameters.AddWithValue("@email", email);
+                cmd.Parameters.AddWithValue("@password", password);
+                cmd.Parameters.AddWithValue("@fecha_nacimiento", fechaNacimiento);
+                cmd.Parameters.AddWithValue("@id_genero", idGenero);
+                cmd.Parameters.AddWithValue("@fecha_registro", DateTime.Now); // Otra opción es obtener la fecha actual en C#
+                cmd.Parameters.AddWithValue("@pregunta_seguridad", preguntaSeguridad);
+                cmd.Parameters.AddWithValue("@respuesta_seguridad", respuestaSeguridad);
+
+                // Ejecutar el comando
+                cmd.ExecuteNonQuery();
+
+                registroExitoso = true; // Si no ocurren excepciones, consideramos el registro exitoso
+            }
+            catch (SqlException ex)
+            {
+                // Manejar la excepción, por ejemplo, mostrando un mensaje de error
+                MessageBox.Show("Error al registrar usuario en la base de datos: " + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+            finally
+            {
+                desconectar();
+            }
+
+            return registroExitoso;
+        }
+
+
+        public bool AgregarUsuario(string email, string password, string nombreCompleto, DateTime fechaNacimiento, int idGenero, string preguntaSeguridad, string respuestaSeguridad)
+        {
+bool agregado = false;
             try
             {
                 conectar();
                 string qry = "InsertarUsuario"; // Solo el nombre del procedimiento almacenado
+<<<<<<<<< Temporary merge branch 1
+=======
+                string qry = "InsertarUsuario"; // Nombre del SP
+>>>>>>> 66ab17b9873b25698497e30de9bfcf54ef60c5d5
+=========
 
-
-
+                //string qry = "InsertarUsuario"; // Nombre del SP
 
                 _comandosql = new SqlCommand(qry, _conexion);
                 _comandosql.CommandType = CommandType.StoredProcedure;
@@ -278,14 +321,22 @@ namespace WindowsFormsApplication1
         {
             int loginExitoso = 1;
 
+<<<<<<<<< Temporary merge branch 1
+<<<<<<< HEAD
+=======
+=========
 
+>>>>>>>>> Temporary merge branch 2
             try
             {
                 conectar();
                 string qry = "VerificarLogin"; //Nombre del sp
                 _comandosql = new SqlCommand(qry, _conexion);
                 _comandosql.CommandType = CommandType.StoredProcedure;
-
+<<<<<<<<< Temporary merge branch 1
+>>>>>>> 66ab17b9873b25698497e30de9bfcf54ef60c5d5
+=========
+>>>>>>>>> Temporary merge branch 2
 
                 _comandosql.Parameters.AddWithValue("@Email", email);
                 _comandosql.Parameters.AddWithValue("@Password", password);
