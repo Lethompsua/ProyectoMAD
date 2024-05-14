@@ -369,9 +369,47 @@ namespace WindowsFormsApplication1
             return result;
         }
 
-        //public DataTable lastUser (int id)
-        //{
+        public DataTable lastUser(int id)
+        {
+            DataTable tabla = new DataTable();
 
-        //}
+            try
+            {
+                conectar();
+                string qry = "spGetEmailAndPassword";
+                _comandosql = new SqlCommand(qry, _conexion);
+                _comandosql.CommandType = CommandType.StoredProcedure;
+
+                _comandosql.Parameters.AddWithValue("@id", id);
+                SqlParameter email = new SqlParameter("@email", SqlDbType.VarChar, 50);
+                email.Direction = ParameterDirection.Output;
+                _comandosql.Parameters.Add(email);
+                SqlParameter password = new SqlParameter("@password", SqlDbType.VarChar, 50);
+                password.Direction = ParameterDirection.Output;
+                _comandosql.Parameters.Add(password);
+
+                _comandosql.ExecuteNonQuery();
+
+                tabla.Columns.Add("email", typeof(string));
+                tabla.Columns.Add("password", typeof(string));
+
+                DataRow row = tabla.NewRow();
+                row["email"] = _comandosql.Parameters["@email"].Value.ToString();
+                row["password"] = _comandosql.Parameters["@password"].Value.ToString();
+                tabla.Rows.Add(row);
+                int breakpoint = 0;
+            }
+            catch (SqlException e)
+            {
+                string msg = e.Message;
+                MessageBox.Show(msg, "ERROR", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+            finally
+            {
+                desconectar();
+            }
+
+            return tabla;
+        }
     }
 }

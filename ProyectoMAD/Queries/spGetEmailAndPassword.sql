@@ -1,14 +1,19 @@
 USE DB_Proyecto
 GO
 
-CREATE OR ALTER PROCEDURE GetEmailAndPassword
+CREATE OR ALTER PROCEDURE spGetEmailAndPassword
 	@id SMALLINT,
 	@email VARCHAR(50) OUTPUT,
 	@password VARCHAR(50) OUTPUT
 AS
 BEGIN
-	SELECT @email = COUNT(id_usuario), @password = COUNT(id_usuario)
-		FROM Usuarios
-		WHERE id_usuario = @id;
+	BEGIN TRY
+		SELECT @email = email, @password = password
+			FROM Usuarios
+			WHERE id_usuario = @id;
+	END TRY
+	BEGIN CATCH
+		THROW;
+	END CATCH
 END
 GO

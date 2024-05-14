@@ -29,6 +29,25 @@ namespace ProyectoMAD
             {
                 userID = 0;
             }
+
+            if (userID != 0)
+            {
+                EnlaceDB enlaceDB = new EnlaceDB();
+                DataTable lastUser = new DataTable();
+                lastUser = enlaceDB.lastUser(userID);
+
+                if (lastUser.Rows.Count > 0)
+                {
+                    DataRow row = lastUser.Rows[0];
+                    txtEmail.Text = row["email"].ToString();
+                    txtPassword.Text = row["password"].ToString();
+                    checkboxRemember.Checked = true;
+                }
+                else
+                {
+                    MessageBox.Show("No se encontró el usuario.", "Información", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                }
+            }
         }
 
         private void btnLogin_Click(object sender, EventArgs e)
