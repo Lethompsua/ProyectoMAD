@@ -478,5 +478,34 @@ namespace WindowsFormsApplication1
 
             return tabla;
         }
+
+        public bool deleteUser (int id)
+        {
+            bool result = false;
+            try
+            {
+                conectar();
+                string qry = "spDeleteUser";
+                _comandosql = new SqlCommand(qry, _conexion);
+                _comandosql.CommandType = CommandType.StoredProcedure;
+
+                _comandosql.Parameters.AddWithValue("@id", id);
+
+                _comandosql.ExecuteNonQuery();
+
+                result = true;
+            }
+            catch (SqlException e)
+            {
+                string msg = e.Message;
+                MessageBox.Show(msg, "ERROR", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+            finally
+            {
+                desconectar();
+            }
+
+            return result;
+        }
     }
 }

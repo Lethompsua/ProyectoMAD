@@ -41,7 +41,7 @@
             this.label6 = new System.Windows.Forms.Label();
             this.radioMasculino = new System.Windows.Forms.RadioButton();
             this.radioFemenino = new System.Windows.Forms.RadioButton();
-            this.button3 = new System.Windows.Forms.Button();
+            this.btnDelete = new System.Windows.Forms.Button();
             this.label5 = new System.Windows.Forms.Label();
             this.label7 = new System.Windows.Forms.Label();
             this.label8 = new System.Windows.Forms.Label();
@@ -172,15 +172,16 @@
             this.radioFemenino.Text = "Femenino";
             this.radioFemenino.UseVisualStyleBackColor = true;
             // 
-            // button3
+            // btnDelete
             // 
-            this.button3.BackColor = System.Drawing.Color.OrangeRed;
-            this.button3.Location = new System.Drawing.Point(12, 438);
-            this.button3.Name = "button3";
-            this.button3.Size = new System.Drawing.Size(169, 54);
-            this.button3.TabIndex = 34;
-            this.button3.Text = "Darse de baja";
-            this.button3.UseVisualStyleBackColor = false;
+            this.btnDelete.BackColor = System.Drawing.Color.OrangeRed;
+            this.btnDelete.Location = new System.Drawing.Point(12, 438);
+            this.btnDelete.Name = "btnDelete";
+            this.btnDelete.Size = new System.Drawing.Size(169, 54);
+            this.btnDelete.TabIndex = 34;
+            this.btnDelete.Text = "Darse de baja";
+            this.btnDelete.UseVisualStyleBackColor = false;
+            this.btnDelete.Click += new System.EventHandler(this.btnDelete_Click);
             // 
             // label5
             // 
@@ -273,7 +274,7 @@
             this.Controls.Add(this.label8);
             this.Controls.Add(this.label7);
             this.Controls.Add(this.label5);
-            this.Controls.Add(this.button3);
+            this.Controls.Add(this.btnDelete);
             this.Controls.Add(this.label6);
             this.Controls.Add(this.radioMasculino);
             this.Controls.Add(this.radioFemenino);
@@ -313,7 +314,7 @@
         private System.Windows.Forms.Label label6;
         private System.Windows.Forms.RadioButton radioMasculino;
         private System.Windows.Forms.RadioButton radioFemenino;
-        private System.Windows.Forms.Button button3;
+        private System.Windows.Forms.Button btnDelete;
         private System.Windows.Forms.Label label5;
         private System.Windows.Forms.Label label7;
         private System.Windows.Forms.Label label8;

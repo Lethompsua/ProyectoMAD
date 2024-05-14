@@ -1,4 +1,4 @@
-USE DB_Proyecto;
+ï»¿USE DB_Proyecto;
 GO
 
 CREATE OR ALTER PROCEDURE VerificarLogin
@@ -12,7 +12,8 @@ BEGIN
 
     DECLARE @UsuarioExiste BIT;
     DECLARE @IntentosFallidos INT;
-	DECLARE @ContraseñaCorrecta BIT;
+	DECLARE @ContraseÃ±aCorrecta BIT;
+	DECLARE @UsuarioActivo BIT;
 
 	SET @id = 0;
 	SET @usuarioDesactivado = 0;
@@ -23,17 +24,27 @@ BEGIN
 
 	IF @UsuarioExiste = 1
 	BEGIN
+		SELECT @UsuarioActivo = estatus
+			FROM Usuarios
+			WHERE email = @Email;
+
+		IF @UsuarioActivo = 0
+		BEGIN
+			RAISERROR('El usuario se encuentra dado de baja', 16, 1);
+			RETURN;
+		END
+
 		SELECT @IntentosFallidos = intentos
 	    FROM Usuarios
 		WHERE email = @email;
 
 		IF @IntentosFallidos < 3
 		BEGIN
-			SELECT @ContraseñaCorrecta = COUNT(id_usuario)
+			SELECT @ContraseÃ±aCorrecta = COUNT(id_usuario)
 			FROM Usuarios
 			WHERE email = @Email AND password = @Password;
 
-			IF @ContraseñaCorrecta = 1
+			IF @ContraseÃ±aCorrecta = 1
 			BEGIN
 				UPDATE Usuarios
 				SET intentos = 0
@@ -63,7 +74,7 @@ BEGIN
 				END
 				ELSE
 				BEGIN
-					RAISERROR('La contraseña ingresada es incorrecta', 16, 1);
+					RAISERROR('La contraseÃ±a ingresada es incorrecta', 16, 1);
 				END
 
 				RETURN
@@ -71,16 +82,15 @@ BEGIN
 		END
 		ELSE
 		BEGIN
-			SELECT @ContraseñaCorrecta = COUNT(id_usuario)
+			SELECT @ContraseÃ±aCorrecta = COUNT(id_usuario)
 				FROM Usuarios
-				WHERE email = @Email AND contraseña_temporal = @Password;
+				WHERE email = @Email AND contraseÃ±a_temporal = @Password;
 
-			IF @ContraseñaCorrecta = 1
+			IF @ContraseÃ±aCorrecta = 1
 			BEGIN
 				UPDATE Usuarios
 					SET habilitado = 1, 
-						intentos = 0,
-						contraseña_temporal = NULL
+						intentos = 0
 					WHERE email = @Email;
 
 				SET @id = dbo.GetUser(@Email);

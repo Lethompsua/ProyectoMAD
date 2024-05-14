@@ -87,5 +87,17 @@ namespace ProyectoMAD
             picShow.Visible = false;
             picHide.Visible = true;
         }
+
+        private void btnDelete_Click(object sender, EventArgs e)
+        {
+            if (MessageBox.Show("¿Seguro que quiere darse de baja?", "ATENCIÓN", MessageBoxButtons.YesNo, MessageBoxIcon.Warning) == DialogResult.Yes)
+            {
+                EnlaceDB enlaceDB = new EnlaceDB();
+                if (enlaceDB.deleteUser(frmLogin.userID) == true)
+                {
+                    MessageBox.Show("El usuario ha sido dado de baja", "ATENCIÓN", MessageBoxButtons.OK, MessageBoxIcon.Asterisk);
+                }
+            }
+        }
     }
 }
