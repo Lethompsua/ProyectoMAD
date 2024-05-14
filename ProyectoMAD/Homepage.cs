@@ -29,5 +29,11 @@ namespace ProyectoMAD
                 Application.Exit();
             }
         }
+
+        private void modificarUsuarioToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            Form4 editarUsuario = new Form4();
+            editarUsuario.Show();
+        }
     }
 }

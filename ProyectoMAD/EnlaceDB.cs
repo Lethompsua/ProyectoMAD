@@ -218,7 +218,7 @@ namespace WindowsFormsApplication1
 
         public bool AgregarUsuario(string email, string password, string nombreCompleto, DateTime fechaNacimiento, string genero, string preguntaSeguridad, string respuestaSeguridad)
         {
-            bool agregado = false;
+            bool agregado = true;
             try
             {
                 conectar();
@@ -243,9 +243,7 @@ namespace WindowsFormsApplication1
 
                 _comandosql.ExecuteNonQuery();
 
-                bool resultado = (bool)usuarioExistente.Value;
-
-                if (resultado == true)
+                if ((bool)usuarioExistente.Value == true)
                 {
                     MessageBox.Show("El usuario ingresado ya estaba registrado", "ATENCIÓN", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                     agregado = false;
@@ -381,9 +379,11 @@ namespace WindowsFormsApplication1
                 _comandosql.CommandType = CommandType.StoredProcedure;
 
                 _comandosql.Parameters.AddWithValue("@id", id);
+
                 SqlParameter email = new SqlParameter("@email", SqlDbType.VarChar, 50);
                 email.Direction = ParameterDirection.Output;
                 _comandosql.Parameters.Add(email);
+
                 SqlParameter password = new SqlParameter("@password", SqlDbType.VarChar, 50);
                 password.Direction = ParameterDirection.Output;
                 _comandosql.Parameters.Add(password);
@@ -397,7 +397,74 @@ namespace WindowsFormsApplication1
                 row["email"] = _comandosql.Parameters["@email"].Value.ToString();
                 row["password"] = _comandosql.Parameters["@password"].Value.ToString();
                 tabla.Rows.Add(row);
-                int breakpoint = 0;
+            }
+            catch (SqlException e)
+            {
+                string msg = e.Message;
+                MessageBox.Show(msg, "ERROR", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+            finally
+            {
+                desconectar();
+            }
+
+            return tabla;
+        }
+
+        public DataTable showUser(int id)
+        {
+            DataTable tabla = new DataTable();
+
+            try
+            {
+                conectar();
+                string qry = "spShowUser";
+                _comandosql = new SqlCommand(qry, _conexion);
+                _comandosql.CommandType = CommandType.StoredProcedure;
+
+                _comandosql.Parameters.AddWithValue("@id", id);
+
+                SqlParameter nombre = new SqlParameter("@nombre", SqlDbType.VarChar, 50);
+                nombre.Direction = ParameterDirection.Output;
+                _comandosql.Parameters.Add(nombre);
+
+                SqlParameter email = new SqlParameter("@email", SqlDbType.VarChar, 50);
+                email.Direction = ParameterDirection.Output;
+                _comandosql.Parameters.Add(email);
+
+                SqlParameter password = new SqlParameter("@password", SqlDbType.VarChar, 50);
+                password.Direction = ParameterDirection.Output;
+                _comandosql.Parameters.Add(password);
+
+                SqlParameter genero = new SqlParameter("@genero", SqlDbType.VarChar, 15);
+                genero.Direction = ParameterDirection.Output;
+                _comandosql.Parameters.Add(genero);
+
+                SqlParameter idioma = new SqlParameter("@idioma", SqlDbType.VarChar, 10);
+                idioma.Direction = ParameterDirection.Output;
+                _comandosql.Parameters.Add(idioma);
+
+                SqlParameter tamaño = new SqlParameter("@tamaño", SqlDbType.SmallInt);
+                tamaño.Direction = ParameterDirection.Output;
+                _comandosql.Parameters.Add(tamaño);
+
+                _comandosql.ExecuteNonQuery();
+
+                tabla.Columns.Add("nombre", typeof(string));
+                tabla.Columns.Add("email", typeof(string));
+                tabla.Columns.Add("password", typeof(string));
+                tabla.Columns.Add("genero", typeof(string));
+                tabla.Columns.Add("idioma", typeof(string));
+                tabla.Columns.Add("tamaño", typeof(string));
+
+                DataRow row = tabla.NewRow();
+                row["nombre"] = _comandosql.Parameters["@nombre"].Value.ToString();
+                row["email"] = _comandosql.Parameters["@email"].Value.ToString();
+                row["password"] = _comandosql.Parameters["@password"].Value.ToString();
+                row["genero"] = _comandosql.Parameters["@genero"].Value.ToString();
+                row["idioma"] = _comandosql.Parameters["@idioma"].Value.ToString();
+                row["tamaño"] = _comandosql.Parameters["@tamaño"].Value.ToString();
+                tabla.Rows.Add(row);
             }
             catch (SqlException e)
             {

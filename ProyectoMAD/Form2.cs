@@ -122,7 +122,7 @@ namespace ProyectoMAD
                 }
 
                 bool registroExitoso = enlaceDB.AgregarUsuario(email, password, nombreCompleto, fechaNacimiento, genero, PreguntaSeguridad, RespuestaSeguridad);
-                if (registroExitoso)
+                if (registroExitoso == true)
                 {
                     MessageBox.Show("Usuario registrado exitosamente.", "Registro Exitoso", MessageBoxButtons.OK, MessageBoxIcon.Information);
                     this.Close();
