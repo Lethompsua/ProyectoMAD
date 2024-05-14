@@ -36,6 +36,8 @@ namespace ProyectoMAD
             comboTamaño.Items.Add("48");
             comboTamaño.Items.Add("72");
 
+            picShow.Visible = false;
+
             EnlaceDB enlaceDB = new EnlaceDB();
             DataTable usuarioActual = new DataTable();
             usuarioActual = enlaceDB.showUser(frmLogin.userID);
@@ -70,6 +72,20 @@ namespace ProyectoMAD
         private void button2_Click(object sender, EventArgs e)
         {
             this.Close();
+        }
+
+        private void picHide_Click(object sender, EventArgs e)
+        {
+            txtPassword.UseSystemPasswordChar = false;
+            picShow.Visible = true;
+            picHide.Visible = false;
+        }
+
+        private void picShow_Click(object sender, EventArgs e)
+        {
+            txtPassword.UseSystemPasswordChar = true;
+            picShow.Visible = false;
+            picHide.Visible = true;
         }
     }
 }

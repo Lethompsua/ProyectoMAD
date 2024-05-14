@@ -48,6 +48,10 @@
             this.label8 = new System.Windows.Forms.Label();
             this.txtRespuesta = new System.Windows.Forms.TextBox();
             this.label9 = new System.Windows.Forms.Label();
+            this.picHide = new System.Windows.Forms.PictureBox();
+            this.picShow = new System.Windows.Forms.PictureBox();
+            ((System.ComponentModel.ISupportInitialize)(this.picHide)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.picShow)).BeginInit();
             this.SuspendLayout();
             // 
             // label1
@@ -113,9 +117,9 @@
             // 
             this.txtConfContrasenaña.Location = new System.Drawing.Point(417, 209);
             this.txtConfContrasenaña.Name = "txtConfContrasenaña";
-            this.txtConfContrasenaña.PasswordChar = '*';
             this.txtConfContrasenaña.Size = new System.Drawing.Size(300, 29);
             this.txtConfContrasenaña.TabIndex = 8;
+            this.txtConfContrasenaña.UseSystemPasswordChar = true;
             // 
             // txtContrasena
             // 
@@ -123,6 +127,7 @@
             this.txtContrasena.Name = "txtContrasena";
             this.txtContrasena.Size = new System.Drawing.Size(300, 29);
             this.txtContrasena.TabIndex = 9;
+            this.txtContrasena.UseSystemPasswordChar = true;
             // 
             // DTPFechaNac
             // 
@@ -229,11 +234,37 @@
             this.label9.TabIndex = 20;
             this.label9.Text = "Ingrese sus datos para registrarse";
             // 
+            // picHide
+            // 
+            this.picHide.BackColor = System.Drawing.Color.Transparent;
+            this.picHide.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
+            this.picHide.Image = global::ProyectoMAD.Properties.Resources.hide_icon;
+            this.picHide.InitialImage = global::ProyectoMAD.Properties.Resources.hide_icon;
+            this.picHide.Location = new System.Drawing.Point(723, 172);
+            this.picHide.Name = "picHide";
+            this.picHide.Size = new System.Drawing.Size(37, 26);
+            this.picHide.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
+            this.picHide.TabIndex = 45;
+            this.picHide.TabStop = false;
+            // 
+            // picShow
+            // 
+            this.picShow.Image = global::ProyectoMAD.Properties.Resources.show_icon;
+            this.picShow.Location = new System.Drawing.Point(723, 172);
+            this.picShow.Name = "picShow";
+            this.picShow.Size = new System.Drawing.Size(37, 26);
+            this.picShow.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
+            this.picShow.TabIndex = 46;
+            this.picShow.TabStop = false;
+            this.picShow.Click += new System.EventHandler(this.picShow_Click);
+            // 
             // Form2
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(10F, 21F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(968, 597);
+            this.Controls.Add(this.picShow);
+            this.Controls.Add(this.picHide);
             this.Controls.Add(this.label9);
             this.Controls.Add(this.txtRespuesta);
             this.Controls.Add(this.label8);
@@ -259,6 +290,8 @@
             this.Name = "Form2";
             this.Text = "Registrar Usuario";
             this.Load += new System.EventHandler(this.Form2_Load);
+            ((System.ComponentModel.ISupportInitialize)(this.picHide)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.picShow)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -286,5 +319,7 @@
         private System.Windows.Forms.Label label8;
         private System.Windows.Forms.TextBox txtRespuesta;
         private System.Windows.Forms.Label label9;
+        private System.Windows.Forms.PictureBox picHide;
+        private System.Windows.Forms.PictureBox picShow;
     }
 }

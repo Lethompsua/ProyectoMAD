@@ -23,6 +23,11 @@ namespace ProyectoMAD
             cbPregunta.Items.Add("¿Cuál es el nombre de tu abuela materna?");
             cbPregunta.Items.Add("¿Cuál es tu comida favorita?");
             cbPregunta.Items.Add("¿Cuál es tu película favorita?");
+
+            picShow.Visible = false;
+
+            picHide.Click += new EventHandler(picHide_Click);
+            picShow.Click += new EventHandler(picShow_Click);
         }
 
         private void btnCancelar_Click(object sender, EventArgs e)
@@ -138,6 +143,20 @@ namespace ProyectoMAD
         private void Form2_Load(object sender, EventArgs e)
         {
 
+        }
+
+        private void picShow_Click(object sender, EventArgs e)
+        {
+            txtContrasena.UseSystemPasswordChar = true;
+            picShow.Visible = false;
+            picHide.Visible = true;
+        }
+
+        private void picHide_Click(object sender, EventArgs e)
+        {
+            txtContrasena.UseSystemPasswordChar = false;
+            picShow.Visible = true;
+            picHide.Visible = false;
         }
     }
 }

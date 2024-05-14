@@ -48,6 +48,10 @@
             this.comboIdioma = new System.Windows.Forms.ComboBox();
             this.comboTamaño = new System.Windows.Forms.ComboBox();
             this.label9 = new System.Windows.Forms.Label();
+            this.picShow = new System.Windows.Forms.PictureBox();
+            this.picHide = new System.Windows.Forms.PictureBox();
+            ((System.ComponentModel.ISupportInitialize)(this.picShow)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.picHide)).BeginInit();
             this.SuspendLayout();
             // 
             // button2
@@ -181,7 +185,7 @@
             // label5
             // 
             this.label5.AutoSize = true;
-            this.label5.Location = new System.Drawing.Point(792, 110);
+            this.label5.Location = new System.Drawing.Point(832, 110);
             this.label5.Name = "label5";
             this.label5.Size = new System.Drawing.Size(103, 21);
             this.label5.TabIndex = 35;
@@ -190,7 +194,7 @@
             // label7
             // 
             this.label7.AutoSize = true;
-            this.label7.Location = new System.Drawing.Point(757, 150);
+            this.label7.Location = new System.Drawing.Point(797, 150);
             this.label7.Name = "label7";
             this.label7.Size = new System.Drawing.Size(63, 21);
             this.label7.TabIndex = 36;
@@ -199,7 +203,7 @@
             // label8
             // 
             this.label8.AutoSize = true;
-            this.label8.Location = new System.Drawing.Point(757, 190);
+            this.label8.Location = new System.Drawing.Point(797, 190);
             this.label8.Name = "label8";
             this.label8.Size = new System.Drawing.Size(144, 21);
             this.label8.TabIndex = 37;
@@ -208,7 +212,7 @@
             // comboIdioma
             // 
             this.comboIdioma.FormattingEnabled = true;
-            this.comboIdioma.Location = new System.Drawing.Point(826, 147);
+            this.comboIdioma.Location = new System.Drawing.Point(866, 147);
             this.comboIdioma.Name = "comboIdioma";
             this.comboIdioma.Size = new System.Drawing.Size(133, 29);
             this.comboIdioma.TabIndex = 38;
@@ -216,7 +220,7 @@
             // comboTamaño
             // 
             this.comboTamaño.FormattingEnabled = true;
-            this.comboTamaño.Location = new System.Drawing.Point(907, 187);
+            this.comboTamaño.Location = new System.Drawing.Point(947, 187);
             this.comboTamaño.Name = "comboTamaño";
             this.comboTamaño.Size = new System.Drawing.Size(52, 29);
             this.comboTamaño.TabIndex = 39;
@@ -231,11 +235,38 @@
             this.label9.TabIndex = 40;
             this.label9.Text = "Aquí puede editar su información";
             // 
+            // picShow
+            // 
+            this.picShow.Image = global::ProyectoMAD.Properties.Resources.show_icon;
+            this.picShow.Location = new System.Drawing.Point(714, 193);
+            this.picShow.Name = "picShow";
+            this.picShow.Size = new System.Drawing.Size(37, 26);
+            this.picShow.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
+            this.picShow.TabIndex = 42;
+            this.picShow.TabStop = false;
+            this.picShow.Click += new System.EventHandler(this.picShow_Click);
+            // 
+            // picHide
+            // 
+            this.picHide.BackColor = System.Drawing.Color.Transparent;
+            this.picHide.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
+            this.picHide.Image = global::ProyectoMAD.Properties.Resources.hide_icon;
+            this.picHide.InitialImage = global::ProyectoMAD.Properties.Resources.hide_icon;
+            this.picHide.Location = new System.Drawing.Point(714, 193);
+            this.picHide.Name = "picHide";
+            this.picHide.Size = new System.Drawing.Size(37, 26);
+            this.picHide.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
+            this.picHide.TabIndex = 41;
+            this.picHide.TabStop = false;
+            this.picHide.Click += new System.EventHandler(this.picHide_Click);
+            // 
             // Form4
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(10F, 21F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1069, 504);
+            this.Controls.Add(this.picShow);
+            this.Controls.Add(this.picHide);
             this.Controls.Add(this.label9);
             this.Controls.Add(this.comboTamaño);
             this.Controls.Add(this.comboIdioma);
@@ -260,6 +291,8 @@
             this.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.Name = "Form4";
             this.Text = "Editar usuario";
+            ((System.ComponentModel.ISupportInitialize)(this.picShow)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.picHide)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -287,5 +320,7 @@
         private System.Windows.Forms.ComboBox comboIdioma;
         private System.Windows.Forms.ComboBox comboTamaño;
         private System.Windows.Forms.Label label9;
+        private System.Windows.Forms.PictureBox picHide;
+        private System.Windows.Forms.PictureBox picShow;
     }
 }

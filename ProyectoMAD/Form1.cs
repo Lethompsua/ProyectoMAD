@@ -19,6 +19,8 @@ namespace ProyectoMAD
         public frmLogin()
         {
             InitializeComponent();
+            picShow.Visible = false;
+
             string lastID = ConfigurationManager.AppSettings["RememberUserId"];
 
             if (int.TryParse(lastID, out int id) == true)
@@ -103,6 +105,20 @@ namespace ProyectoMAD
         private void btnClose_Click(object sender, EventArgs e)
         {
             this.Close();
+        }
+
+        private void picHide_Click(object sender, EventArgs e)
+        {
+            txtPassword.UseSystemPasswordChar = false;
+            picShow.Visible = true;
+            picHide.Visible = false;
+        }
+
+        private void picShow_Click(object sender, EventArgs e)
+        {
+            txtPassword.UseSystemPasswordChar = true;
+            picShow.Visible = false;
+            picHide.Visible = true;
         }
     }
 }

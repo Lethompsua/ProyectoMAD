@@ -38,6 +38,10 @@
             this.label3 = new System.Windows.Forms.Label();
             this.checkboxRemember = new System.Windows.Forms.CheckBox();
             this.label4 = new System.Windows.Forms.Label();
+            this.picShow = new System.Windows.Forms.PictureBox();
+            this.picHide = new System.Windows.Forms.PictureBox();
+            ((System.ComponentModel.ISupportInitialize)(this.picShow)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.picHide)).BeginInit();
             this.SuspendLayout();
             // 
             // label1
@@ -139,11 +143,38 @@
             this.label4.TabIndex = 9;
             this.label4.Text = "Iniciar sesión";
             // 
+            // picShow
+            // 
+            this.picShow.Image = global::ProyectoMAD.Properties.Resources.show_icon;
+            this.picShow.Location = new System.Drawing.Point(603, 214);
+            this.picShow.Name = "picShow";
+            this.picShow.Size = new System.Drawing.Size(37, 26);
+            this.picShow.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
+            this.picShow.TabIndex = 43;
+            this.picShow.TabStop = false;
+            this.picShow.Click += new System.EventHandler(this.picShow_Click);
+            // 
+            // picHide
+            // 
+            this.picHide.BackColor = System.Drawing.Color.Transparent;
+            this.picHide.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
+            this.picHide.Image = global::ProyectoMAD.Properties.Resources.hide_icon;
+            this.picHide.InitialImage = global::ProyectoMAD.Properties.Resources.hide_icon;
+            this.picHide.Location = new System.Drawing.Point(603, 214);
+            this.picHide.Name = "picHide";
+            this.picHide.Size = new System.Drawing.Size(37, 26);
+            this.picHide.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
+            this.picHide.TabIndex = 44;
+            this.picHide.TabStop = false;
+            this.picHide.Click += new System.EventHandler(this.picHide_Click);
+            // 
             // frmLogin
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(10F, 21F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(882, 569);
+            this.Controls.Add(this.picHide);
+            this.Controls.Add(this.picShow);
             this.Controls.Add(this.label4);
             this.Controls.Add(this.checkboxRemember);
             this.Controls.Add(this.label3);
@@ -158,6 +189,8 @@
             this.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.Name = "frmLogin";
             this.Text = "Inicio Sesion";
+            ((System.ComponentModel.ISupportInitialize)(this.picShow)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.picHide)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -175,6 +208,8 @@
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.CheckBox checkboxRemember;
         private System.Windows.Forms.Label label4;
+        private System.Windows.Forms.PictureBox picShow;
+        private System.Windows.Forms.PictureBox picHide;
     }
 }
 
