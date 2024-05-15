@@ -253,7 +253,6 @@ namespace WindowsFormsApplication1
             }
             return agregado;
         }
-
         public int Login (string email, string password)
         {
             int loginExitoso = 1;
@@ -412,43 +411,6 @@ namespace WindowsFormsApplication1
 
             return tabla;
         }
-      
-       public void MostrarTestamentosEnComboBox(ComboBox comboBox) 
-        {
-            try
-            {
-                conectar();
-                string procedureName = "MostrarNombresTestamento"; // Nombre del procedimiento almacenado
-
-                _comandosql = new SqlCommand(procedureName, _conexion);
-                _comandosql.CommandType = CommandType.StoredProcedure;
-                _comandosql.CommandTimeout = 1200;
-
-                // Ejecutar el comando y obtener los resultados
-                using (SqlDataReader reader = _comandosql.ExecuteReader())
-                {
-                    // Limpiar el ComboBox
-                    comboBox.Items.Clear();
-
-                    // Leer los resultados y agregarlos al ComboBox
-                    while (reader.Read())
-                    {
-                        // Agregar el nombre del testamento al ComboBox
-                        comboBox.Items.Add(reader["nombre"].ToString());
-                    }
-                }
-            }
-            catch (SqlException e)
-            {
-                string msg = "Excepción de base de datos: \n";
-                msg += e.Message;
-                MessageBox.Show(msg, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-            }
-            finally
-            {
-                desconectar();
-            }
-        }
 
         public DataTable showUser(int id)
         {
@@ -517,69 +479,33 @@ namespace WindowsFormsApplication1
             return tabla;
         }
 
-        public List<string> ObtenerLibrosPorTestamento(string testamento)
+        public bool deleteUser (int id)
         {
-            List<string> libros = new List<string>();
-
+            bool result = true;
             try
             {
                 conectar();
-                string procedureName = "ObtenerLibrosPorTestamento"; // Nombre del procedimiento almacenado
-
-                _comandosql = new SqlCommand(procedureName, _conexion);
+                string qry = "spDeleteUser";
+                _comandosql = new SqlCommand(qry, _conexion);
                 _comandosql.CommandType = CommandType.StoredProcedure;
 
-                _comandosql.Parameters.AddWithValue("@Testamentoo", testamento);
+                _comandosql.Parameters.AddWithValue("@id", id);
 
-                using (SqlDataReader reader = _comandosql.ExecuteReader())
-                {
-                    while (reader.Read())
-                    {
-                        libros.Add(reader["nombre"].ToString());
-                    }
-                }
+                _comandosql.ExecuteNonQuery();
             }
             catch (SqlException e)
             {
-                string msg = "Excepción de base de datos: \n";
-                msg += e.Message;
-                MessageBox.Show(msg, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                string msg = e.Message;
+                MessageBox.Show(msg, "ERROR", MessageBoxButtons.OK, MessageBoxIcon.Error);
+
+                result = false;
             }
             finally
             {
                 desconectar();
             }
 
-            return libros;
-        }
-
-        public bool deleteUser (int id)
-        {
-          bool result = true;
-          try
-          {
-              conectar();
-              string qry = "spDeleteUser";
-              _comandosql = new SqlCommand(qry, _conexion);
-              _comandosql.CommandType = CommandType.StoredProcedure;
-
-              _comandosql.Parameters.AddWithValue("@id", id);
-
-              _comandosql.ExecuteNonQuery();
-          }
-          catch (SqlException e)
-          {
-              string msg = e.Message;
-              MessageBox.Show(msg, "ERROR", MessageBoxButtons.OK, MessageBoxIcon.Error);
-
-              result = false;
-          }
-          finally
-          {
-              desconectar();
-          }
-
-          return result;
+            return result;
         }
 
         public bool updateUser(int id, string nombre, string email, string password, string genero, string idioma, int tamaño)
@@ -618,6 +544,104 @@ namespace WindowsFormsApplication1
             return result;
         }
         
+        public bool altaUsuario (int id)
+        {
+            bool result = true;
+            try
+            {
+                conectar();
+                string qry = "spAltaUsuario";
+                _comandosql = new SqlCommand(qry, _conexion);
+                _comandosql.CommandType = CommandType.StoredProcedure;
+
+                _comandosql.Parameters.AddWithValue("@id", id);
+                _comandosql.ExecuteNonQuery();
+            }
+            catch (SqlException e)
+            {
+                string msg = e.Message;
+                MessageBox.Show(msg, "ERROR", MessageBoxButtons.OK, MessageBoxIcon.Error);
+
+                result = false;
+            }
+            finally
+            {
+                desconectar();
+            }
+
+            return result;
+        }
+        public void MostrarTestamentosEnComboBox(ComboBox comboBox) 
+        {
+            try
+            {
+                conectar();
+                string procedureName = "MostrarNombresTestamento"; // Nombre del procedimiento almacenado
+
+                _comandosql = new SqlCommand(procedureName, _conexion);
+                _comandosql.CommandType = CommandType.StoredProcedure;
+                _comandosql.CommandTimeout = 1200;
+
+                // Ejecutar el comando y obtener los resultados
+                using (SqlDataReader reader = _comandosql.ExecuteReader())
+                {
+                    // Limpiar el ComboBox
+                    comboBox.Items.Clear();
+
+                    // Leer los resultados y agregarlos al ComboBox
+                    while (reader.Read())
+                    {
+                        // Agregar el nombre del testamento al ComboBox
+                        comboBox.Items.Add(reader["nombre"].ToString());
+                    }
+                }
+            }
+            catch (SqlException e)
+            {
+                string msg = "Excepción de base de datos: \n";
+                msg += e.Message;
+                MessageBox.Show(msg, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+            finally
+            {
+                desconectar();
+            }
+        }
+        public List<string> ObtenerLibrosPorTestamento(string testamento)
+        {
+            List<string> libros = new List<string>();
+
+            try
+            {
+                conectar();
+                string procedureName = "ObtenerLibrosPorTestamento"; // Nombre del procedimiento almacenado
+
+                _comandosql = new SqlCommand(procedureName, _conexion);
+                _comandosql.CommandType = CommandType.StoredProcedure;
+
+                _comandosql.Parameters.AddWithValue("@Testamentoo", testamento);
+
+                using (SqlDataReader reader = _comandosql.ExecuteReader())
+                {
+                    while (reader.Read())
+                    {
+                        libros.Add(reader["nombre"].ToString());
+                    }
+                }
+            }
+            catch (SqlException e)
+            {
+                string msg = "Excepción de base de datos: \n";
+                msg += e.Message;
+                MessageBox.Show(msg, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+            finally
+            {
+                desconectar();
+            }
+
+            return libros;
+        }
         public DataTable get_Versiculos()
         {
             var msg = "";
@@ -651,32 +675,5 @@ namespace WindowsFormsApplication1
             return tabla;
         }
 
-        public bool altaUsuario (int id)
-        {
-            bool result = true;
-            try
-            {
-                conectar();
-                string qry = "spAltaUsuario";
-                _comandosql = new SqlCommand(qry, _conexion);
-                _comandosql.CommandType = CommandType.StoredProcedure;
-
-                _comandosql.Parameters.AddWithValue("@id", id);
-                _comandosql.ExecuteNonQuery();
-            }
-            catch (SqlException e)
-            {
-                string msg = e.Message;
-                MessageBox.Show(msg, "ERROR", MessageBoxButtons.OK, MessageBoxIcon.Error);
-
-                result = false;
-            }
-            finally
-            {
-                desconectar();
-            }
-
-            return result;
-        }
     }
 }

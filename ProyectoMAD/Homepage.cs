@@ -35,5 +35,17 @@ namespace ProyectoMAD
             Form4 editarUsuario = new Form4();
             editarUsuario.Show();
         }
+
+        private void picEdit_Click(object sender, EventArgs e)
+        {
+            Form4 editarUsuario = new Form4();
+            editarUsuario.Show();
+        }
+
+        private void picSearch_Click(object sender, EventArgs e)
+        {
+            Form3 buscar = new Form3();
+            buscar.Show();
+        }
     }
 }
