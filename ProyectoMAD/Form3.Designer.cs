@@ -44,9 +44,8 @@
             this.checkBox1 = new System.Windows.Forms.CheckBox();
             this.textBox1 = new System.Windows.Forms.TextBox();
             this.dataGridView1 = new System.Windows.Forms.DataGridView();
-            this.Column1 = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Column2 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.button1 = new System.Windows.Forms.Button();
+            this.btnMostrarLibro = new System.Windows.Forms.Button();
             this.menuStrip1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
             this.SuspendLayout();
@@ -56,7 +55,7 @@
             this.label1.AutoSize = true;
             this.label1.Location = new System.Drawing.Point(7, 37);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(121, 21);
+            this.label1.Size = new System.Drawing.Size(151, 27);
             this.label1.TabIndex = 0;
             this.label1.Text = "Palabras clave:";
             // 
@@ -65,7 +64,7 @@
             this.label2.AutoSize = true;
             this.label2.Location = new System.Drawing.Point(640, 37);
             this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(71, 21);
+            this.label2.Size = new System.Drawing.Size(89, 27);
             this.label2.TabIndex = 1;
             this.label2.Text = "Version:";
             // 
@@ -74,7 +73,7 @@
             this.label3.AutoSize = true;
             this.label3.Location = new System.Drawing.Point(964, 37);
             this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(52, 21);
+            this.label3.Size = new System.Drawing.Size(66, 27);
             this.label3.TabIndex = 2;
             this.label3.Text = "Libro:";
             // 
@@ -83,7 +82,7 @@
             this.comboBox1.FormattingEnabled = true;
             this.comboBox1.Location = new System.Drawing.Point(623, 67);
             this.comboBox1.Name = "comboBox1";
-            this.comboBox1.Size = new System.Drawing.Size(161, 29);
+            this.comboBox1.Size = new System.Drawing.Size(161, 35);
             this.comboBox1.TabIndex = 4;
             // 
             // comboBox2
@@ -91,15 +90,16 @@
             this.comboBox2.FormattingEnabled = true;
             this.comboBox2.Location = new System.Drawing.Point(969, 67);
             this.comboBox2.Name = "comboBox2";
-            this.comboBox2.Size = new System.Drawing.Size(173, 29);
+            this.comboBox2.Size = new System.Drawing.Size(173, 35);
             this.comboBox2.TabIndex = 5;
+            this.comboBox2.SelectedIndexChanged += new System.EventHandler(this.comboBox2_SelectedIndexChanged);
             // 
             // comboBox3
             // 
             this.comboBox3.FormattingEnabled = true;
             this.comboBox3.Location = new System.Drawing.Point(444, 67);
             this.comboBox3.Name = "comboBox3";
-            this.comboBox3.Size = new System.Drawing.Size(173, 29);
+            this.comboBox3.Size = new System.Drawing.Size(173, 35);
             this.comboBox3.TabIndex = 9;
             // 
             // label4
@@ -107,7 +107,7 @@
             this.label4.AutoSize = true;
             this.label4.Location = new System.Drawing.Point(440, 37);
             this.label4.Name = "label4";
-            this.label4.Size = new System.Drawing.Size(67, 21);
+            this.label4.Size = new System.Drawing.Size(84, 27);
             this.label4.TabIndex = 7;
             this.label4.Text = "Idioma:";
             // 
@@ -116,15 +116,16 @@
             this.comboBox5.FormattingEnabled = true;
             this.comboBox5.Location = new System.Drawing.Point(790, 67);
             this.comboBox5.Name = "comboBox5";
-            this.comboBox5.Size = new System.Drawing.Size(173, 29);
+            this.comboBox5.Size = new System.Drawing.Size(173, 35);
             this.comboBox5.TabIndex = 11;
+            this.comboBox5.SelectedIndexChanged += new System.EventHandler(this.comboBox5_SelectedIndexChanged);
             // 
             // label6
             // 
             this.label6.AutoSize = true;
             this.label6.Location = new System.Drawing.Point(786, 37);
             this.label6.Name = "label6";
-            this.label6.Size = new System.Drawing.Size(100, 21);
+            this.label6.Size = new System.Drawing.Size(123, 27);
             this.label6.TabIndex = 10;
             this.label6.Text = "Testamento";
             // 
@@ -136,7 +137,7 @@
             this.salirToolStripMenuItem});
             this.menuStrip1.Location = new System.Drawing.Point(0, 0);
             this.menuStrip1.Name = "menuStrip1";
-            this.menuStrip1.Size = new System.Drawing.Size(1200, 24);
+            this.menuStrip1.Size = new System.Drawing.Size(1200, 28);
             this.menuStrip1.TabIndex = 13;
             this.menuStrip1.Text = "menuStrip1";
             // 
@@ -145,27 +146,27 @@
             this.usuarioToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.modificarUsuarioToolStripMenuItem});
             this.usuarioToolStripMenuItem.Name = "usuarioToolStripMenuItem";
-            this.usuarioToolStripMenuItem.Size = new System.Drawing.Size(59, 20);
+            this.usuarioToolStripMenuItem.Size = new System.Drawing.Size(73, 24);
             this.usuarioToolStripMenuItem.Text = "Usuario";
             // 
             // modificarUsuarioToolStripMenuItem
             // 
             this.modificarUsuarioToolStripMenuItem.Name = "modificarUsuarioToolStripMenuItem";
-            this.modificarUsuarioToolStripMenuItem.Size = new System.Drawing.Size(168, 22);
+            this.modificarUsuarioToolStripMenuItem.Size = new System.Drawing.Size(210, 26);
             this.modificarUsuarioToolStripMenuItem.Text = "Modificar Usuario";
             // 
             // salirToolStripMenuItem
             // 
             this.salirToolStripMenuItem.Name = "salirToolStripMenuItem";
-            this.salirToolStripMenuItem.Size = new System.Drawing.Size(41, 20);
+            this.salirToolStripMenuItem.Size = new System.Drawing.Size(52, 24);
             this.salirToolStripMenuItem.Text = "Salir";
             // 
             // checkBox1
             // 
             this.checkBox1.AutoSize = true;
-            this.checkBox1.Location = new System.Drawing.Point(955, 157);
+            this.checkBox1.Location = new System.Drawing.Point(956, 362);
             this.checkBox1.Name = "checkBox1";
-            this.checkBox1.Size = new System.Drawing.Size(195, 25);
+            this.checkBox1.Size = new System.Drawing.Size(244, 31);
             this.checkBox1.TabIndex = 15;
             this.checkBox1.Text = "Marcar como favorito";
             this.checkBox1.UseVisualStyleBackColor = true;
@@ -174,48 +175,49 @@
             // 
             this.textBox1.Location = new System.Drawing.Point(11, 67);
             this.textBox1.Name = "textBox1";
-            this.textBox1.Size = new System.Drawing.Size(427, 29);
+            this.textBox1.Size = new System.Drawing.Size(427, 34);
             this.textBox1.TabIndex = 16;
             // 
             // dataGridView1
             // 
-            this.dataGridView1.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.dataGridView1.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
-            this.Column1,
-            this.Column2});
+            this.dataGridView1.AllowUserToAddRows = false;
+            this.dataGridView1.AllowUserToDeleteRows = false;
+            this.dataGridView1.ColumnHeadersHeight = 40;
+            this.dataGridView1.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.DisableResizing;
             this.dataGridView1.Location = new System.Drawing.Point(7, 129);
             this.dataGridView1.Name = "dataGridView1";
+            this.dataGridView1.ReadOnly = true;
             this.dataGridView1.RowHeadersWidth = 51;
             this.dataGridView1.RowTemplate.Height = 24;
             this.dataGridView1.Size = new System.Drawing.Size(942, 618);
-            this.dataGridView1.TabIndex = 12;
-            // 
-            // Column1
-            // 
-            this.Column1.HeaderText = "Cita";
-            this.Column1.Name = "Column1";
-            this.Column1.Width = 300;
-            // 
-            // Column2
-            // 
-            this.Column2.HeaderText = "Texto";
-            this.Column2.Name = "Column2";
-            this.Column2.Width = 700;
+            this.dataGridView1.TabIndex = 36;
+            this.dataGridView1.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dataGridView1_CellContentClick);
             // 
             // button1
             // 
-            this.button1.Location = new System.Drawing.Point(955, 188);
+            this.button1.Location = new System.Drawing.Point(956, 393);
             this.button1.Name = "button1";
             this.button1.Size = new System.Drawing.Size(96, 40);
             this.button1.TabIndex = 28;
             this.button1.Text = "🗒️Copiar";
             this.button1.UseVisualStyleBackColor = true;
             // 
+            // btnMostrarLibro
+            // 
+            this.btnMostrarLibro.Location = new System.Drawing.Point(969, 129);
+            this.btnMostrarLibro.Name = "btnMostrarLibro";
+            this.btnMostrarLibro.Size = new System.Drawing.Size(219, 73);
+            this.btnMostrarLibro.TabIndex = 29;
+            this.btnMostrarLibro.Text = "Mostrar Libro";
+            this.btnMostrarLibro.UseVisualStyleBackColor = true;
+            this.btnMostrarLibro.Click += new System.EventHandler(this.btnMostrarLibro_Click);
+            // 
             // Form3
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(10F, 21F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(12F, 27F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1200, 759);
+            this.Controls.Add(this.btnMostrarLibro);
             this.Controls.Add(this.button1);
             this.Controls.Add(this.textBox1);
             this.Controls.Add(this.checkBox1);
@@ -261,8 +263,7 @@
         private System.Windows.Forms.CheckBox checkBox1;
         private System.Windows.Forms.TextBox textBox1;
         private System.Windows.Forms.DataGridView dataGridView1;
-        private System.Windows.Forms.DataGridViewTextBoxColumn Column1;
-        private System.Windows.Forms.DataGridViewTextBoxColumn Column2;
         private System.Windows.Forms.Button button1;
+        private System.Windows.Forms.Button btnMostrarLibro;
     }
 }

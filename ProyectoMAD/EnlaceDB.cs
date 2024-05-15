@@ -219,11 +219,11 @@ namespace WindowsFormsApplication1
         public bool AgregarUsuario(string email, string password, string nombreCompleto, DateTime fechaNacimiento, string genero, string preguntaSeguridad, string respuestaSeguridad)
         {
             bool agregado = true;
+
             try
             {
                 conectar();
                 string qry = "InsertarUsuario"; // Solo el nombre del procedimiento almacenado
-
                 _comandosql = new SqlCommand(qry, _conexion);
                 _comandosql.CommandType = CommandType.StoredProcedure;
                 _comandosql.CommandTimeout = 1200;
@@ -247,6 +247,8 @@ namespace WindowsFormsApplication1
             }
             finally
             {
+                MessageBox.Show("Usuario registrado exitosamente.", "Registro Exitoso", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                
                 desconectar();
             }
             return agregado;
@@ -256,12 +258,14 @@ namespace WindowsFormsApplication1
         {
             int loginExitoso = 1;
 
+
             try
             {
                 conectar();
                 string qry = "VerificarLogin"; //Nombre del sp
                 _comandosql = new SqlCommand(qry, _conexion);
                 _comandosql.CommandType = CommandType.StoredProcedure;
+
 
                 _comandosql.Parameters.AddWithValue("@Email", email);
                 _comandosql.Parameters.AddWithValue("@Password", password);
@@ -408,102 +412,174 @@ namespace WindowsFormsApplication1
 
             return tabla;
         }
+      
+       public void MostrarTestamentosEnComboBox(ComboBox comboBox) 
+        {
+            try
+            {
+                conectar();
+                string procedureName = "MostrarNombresTestamento"; // Nombre del procedimiento almacenado
+
+                _comandosql = new SqlCommand(procedureName, _conexion);
+                _comandosql.CommandType = CommandType.StoredProcedure;
+                _comandosql.CommandTimeout = 1200;
+
+                // Ejecutar el comando y obtener los resultados
+                using (SqlDataReader reader = _comandosql.ExecuteReader())
+                {
+                    // Limpiar el ComboBox
+                    comboBox.Items.Clear();
+
+                    // Leer los resultados y agregarlos al ComboBox
+                    while (reader.Read())
+                    {
+                        // Agregar el nombre del testamento al ComboBox
+                        comboBox.Items.Add(reader["nombre"].ToString());
+                    }
+                }
+            }
+            catch (SqlException e)
+            {
+                string msg = "Excepción de base de datos: \n";
+                msg += e.Message;
+                MessageBox.Show(msg, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+            finally
+            {
+                desconectar();
+            }
+        }
 
         public DataTable showUser(int id)
         {
-            DataTable tabla = new DataTable();
+          DataTable tabla = new DataTable();
+
+          try
+          {
+              conectar();
+              string qry = "spShowUser";
+              _comandosql = new SqlCommand(qry, _conexion);
+              _comandosql.CommandType = CommandType.StoredProcedure;
+
+              _comandosql.Parameters.AddWithValue("@id", id);
+
+              SqlParameter nombre = new SqlParameter("@nombre", SqlDbType.VarChar, 50);
+              nombre.Direction = ParameterDirection.Output;
+              _comandosql.Parameters.Add(nombre);
+
+              SqlParameter email = new SqlParameter("@email", SqlDbType.VarChar, 50);
+              email.Direction = ParameterDirection.Output;
+              _comandosql.Parameters.Add(email);
+
+              SqlParameter password = new SqlParameter("@password", SqlDbType.VarChar, 50);
+              password.Direction = ParameterDirection.Output;
+              _comandosql.Parameters.Add(password);
+
+              SqlParameter genero = new SqlParameter("@genero", SqlDbType.VarChar, 15);
+              genero.Direction = ParameterDirection.Output;
+              _comandosql.Parameters.Add(genero);
+
+              SqlParameter idioma = new SqlParameter("@idioma", SqlDbType.VarChar, 10);
+              idioma.Direction = ParameterDirection.Output;
+              _comandosql.Parameters.Add(idioma);
+
+              SqlParameter tamaño = new SqlParameter("@tamaño", SqlDbType.SmallInt);
+              tamaño.Direction = ParameterDirection.Output;
+              _comandosql.Parameters.Add(tamaño);
+
+              _comandosql.ExecuteNonQuery();
+
+              tabla.Columns.Add("nombre", typeof(string));
+              tabla.Columns.Add("email", typeof(string));
+              tabla.Columns.Add("password", typeof(string));
+              tabla.Columns.Add("genero", typeof(string));
+              tabla.Columns.Add("idioma", typeof(string));
+              tabla.Columns.Add("tamaño", typeof(string));
+
+              DataRow row = tabla.NewRow();
+              row["nombre"] = _comandosql.Parameters["@nombre"].Value.ToString();
+              row["email"] = _comandosql.Parameters["@email"].Value.ToString();
+              row["password"] = _comandosql.Parameters["@password"].Value.ToString();
+              row["genero"] = _comandosql.Parameters["@genero"].Value.ToString();
+              row["idioma"] = _comandosql.Parameters["@idioma"].Value.ToString();
+              row["tamaño"] = _comandosql.Parameters["@tamaño"].Value.ToString();
+              tabla.Rows.Add(row);
+          }
+          catch (SqlException e)
+          {
+              string msg = e.Message;
+              MessageBox.Show(msg, "ERROR", MessageBoxButtons.OK, MessageBoxIcon.Error);
+          }
+          finally
+          {
+              desconectar();
+          }
+            return tabla;
+        }
+
+        public List<string> ObtenerLibrosPorTestamento(string testamento)
+        {
+            List<string> libros = new List<string>();
 
             try
             {
                 conectar();
-                string qry = "spShowUser";
-                _comandosql = new SqlCommand(qry, _conexion);
+                string procedureName = "ObtenerLibrosPorTestamento"; // Nombre del procedimiento almacenado
+
+                _comandosql = new SqlCommand(procedureName, _conexion);
                 _comandosql.CommandType = CommandType.StoredProcedure;
 
-                _comandosql.Parameters.AddWithValue("@id", id);
+                _comandosql.Parameters.AddWithValue("@Testamentoo", testamento);
 
-                SqlParameter nombre = new SqlParameter("@nombre", SqlDbType.VarChar, 50);
-                nombre.Direction = ParameterDirection.Output;
-                _comandosql.Parameters.Add(nombre);
-
-                SqlParameter email = new SqlParameter("@email", SqlDbType.VarChar, 50);
-                email.Direction = ParameterDirection.Output;
-                _comandosql.Parameters.Add(email);
-
-                SqlParameter password = new SqlParameter("@password", SqlDbType.VarChar, 50);
-                password.Direction = ParameterDirection.Output;
-                _comandosql.Parameters.Add(password);
-
-                SqlParameter genero = new SqlParameter("@genero", SqlDbType.VarChar, 15);
-                genero.Direction = ParameterDirection.Output;
-                _comandosql.Parameters.Add(genero);
-
-                SqlParameter idioma = new SqlParameter("@idioma", SqlDbType.VarChar, 10);
-                idioma.Direction = ParameterDirection.Output;
-                _comandosql.Parameters.Add(idioma);
-
-                SqlParameter tamaño = new SqlParameter("@tamaño", SqlDbType.SmallInt);
-                tamaño.Direction = ParameterDirection.Output;
-                _comandosql.Parameters.Add(tamaño);
-
-                _comandosql.ExecuteNonQuery();
-
-                tabla.Columns.Add("nombre", typeof(string));
-                tabla.Columns.Add("email", typeof(string));
-                tabla.Columns.Add("password", typeof(string));
-                tabla.Columns.Add("genero", typeof(string));
-                tabla.Columns.Add("idioma", typeof(string));
-                tabla.Columns.Add("tamaño", typeof(string));
-
-                DataRow row = tabla.NewRow();
-                row["nombre"] = _comandosql.Parameters["@nombre"].Value.ToString();
-                row["email"] = _comandosql.Parameters["@email"].Value.ToString();
-                row["password"] = _comandosql.Parameters["@password"].Value.ToString();
-                row["genero"] = _comandosql.Parameters["@genero"].Value.ToString();
-                row["idioma"] = _comandosql.Parameters["@idioma"].Value.ToString();
-                row["tamaño"] = _comandosql.Parameters["@tamaño"].Value.ToString();
-                tabla.Rows.Add(row);
+                using (SqlDataReader reader = _comandosql.ExecuteReader())
+                {
+                    while (reader.Read())
+                    {
+                        libros.Add(reader["nombre"].ToString());
+                    }
+                }
             }
             catch (SqlException e)
             {
-                string msg = e.Message;
-                MessageBox.Show(msg, "ERROR", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                string msg = "Excepción de base de datos: \n";
+                msg += e.Message;
+                MessageBox.Show(msg, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
             finally
             {
                 desconectar();
             }
 
-            return tabla;
+            return libros;
         }
 
         public bool deleteUser (int id)
         {
-            bool result = true;
-            try
-            {
-                conectar();
-                string qry = "spDeleteUser";
-                _comandosql = new SqlCommand(qry, _conexion);
-                _comandosql.CommandType = CommandType.StoredProcedure;
+          bool result = true;
+          try
+          {
+              conectar();
+              string qry = "spDeleteUser";
+              _comandosql = new SqlCommand(qry, _conexion);
+              _comandosql.CommandType = CommandType.StoredProcedure;
 
-                _comandosql.Parameters.AddWithValue("@id", id);
+              _comandosql.Parameters.AddWithValue("@id", id);
 
-                _comandosql.ExecuteNonQuery();
-            }
-            catch (SqlException e)
-            {
-                string msg = e.Message;
-                MessageBox.Show(msg, "ERROR", MessageBoxButtons.OK, MessageBoxIcon.Error);
+              _comandosql.ExecuteNonQuery();
+          }
+          catch (SqlException e)
+          {
+              string msg = e.Message;
+              MessageBox.Show(msg, "ERROR", MessageBoxButtons.OK, MessageBoxIcon.Error);
 
-                result = false;
-            }
-            finally
-            {
-                desconectar();
-            }
+              result = false;
+          }
+          finally
+          {
+              desconectar();
+          }
 
-            return result;
+          return result;
         }
 
         public bool updateUser(int id, string nombre, string email, string password, string genero, string idioma, int tamaño)
@@ -540,6 +616,39 @@ namespace WindowsFormsApplication1
             }
 
             return result;
+        }
+        
+        public DataTable get_Versiculos()
+        {
+            var msg = "";
+            DataTable tabla = new DataTable();
+            try
+            {
+                conectar();
+                // Ejemplo de cómo ejecutar un query, 
+                // PERO lo correcto es siempre usar SP para cualquier consulta a la base de datos
+                string qry = "Select * from VistaVersiculos;";
+                _comandosql = new SqlCommand(qry, _conexion);
+                _comandosql.CommandType = CommandType.Text;
+                // Esta opción solo la podrían utilizar si hacen un EXEC al SP concatenando los parámetros.
+                _comandosql.CommandTimeout = 1200;
+
+                _adaptador.SelectCommand = _comandosql;
+                _adaptador.Fill(tabla);
+
+            }
+            catch (SqlException e)
+            {
+                msg = "Excepción de base de datos: \n";
+                msg += e.Message;
+                MessageBox.Show(msg, "Warning!", MessageBoxButtons.OK, MessageBoxIcon.Stop);
+            }
+            finally
+            {
+                desconectar();
+            }
+
+            return tabla;
         }
 
         public bool altaUsuario (int id)
