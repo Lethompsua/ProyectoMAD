@@ -44,31 +44,3 @@ BEGIN
 	END CATCH
 END
 GO
-
-CREATE OR ALTER PROCEDURE spUpdateUser
-	@id SMALLINT,
-	@nombre VARCHAR(50),
-	@email VARCHAR(50),
-	@password VARCHAR(50),
-	@genero VARCHAR(15),
-	@idioma VARCHAR(10),
-	@tamaño SMALLINT
-AS
-BEGIN
-	BEGIN TRY
-		UPDATE editUserView
-			SET nombre_completo = @nombre,
-				email = @email,
-				password = @password,
-				genero = @genero,
-				idioma = @idioma,
-				tamaño_texto = @tamaño
-			WHERE id_usuario = @id;
-	END TRY
-	BEGIN CATCH
-		THROW;
-	END CATCH
-END
-
-SELECT * FROM Usuarios;
-UPDATE Usuarios SET estatus = 1 WHERE id_usuario = 2;

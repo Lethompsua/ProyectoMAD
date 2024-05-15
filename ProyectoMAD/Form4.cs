@@ -5,6 +5,7 @@ using System.Data;
 using System.Drawing;
 using System.Linq;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using WindowsFormsApplication1;
@@ -96,7 +97,85 @@ namespace ProyectoMAD
                 if (enlaceDB.deleteUser(frmLogin.userID) == true)
                 {
                     MessageBox.Show("El usuario ha sido dado de baja", "ATENCIÓN", MessageBoxButtons.OK, MessageBoxIcon.Asterisk);
+                    Application.Exit();
                 }
+            }
+        }
+
+        private void btnUpdate_Click(object sender, EventArgs e)
+        {
+            EnlaceDB enlaceDB = new EnlaceDB();
+
+            try
+            {
+                string genero;
+                string email = txtEmail.Text;
+                string password = txtPassword.Text;
+                string confirmarContraseña = txtConfirmar.Text;
+                string nombreCompleto = txtName.Text;
+                string idioma = comboIdioma.Text;
+                string tamaño = comboTamaño.Text;
+
+                //Validaciones
+                if (string.IsNullOrEmpty(email) == true || string.IsNullOrEmpty(password) == true || string.IsNullOrEmpty(confirmarContraseña) == true ||
+                    string.IsNullOrEmpty(nombreCompleto) == true)
+                {
+                    MessageBox.Show("Por favor, llene los campos faltantes", "ATENCIÓN", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    return;
+                }
+
+                string patronNombre = @"^[\p{L}\s]+$"; //Expresión Unicode que admite todos los caracteres del español
+                if (Regex.IsMatch(nombreCompleto, patronNombre) == false)
+                {
+                    MessageBox.Show("El nombre no puede contener números ni caracteres especiales", "ATENCIÓN", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    return;
+                }
+
+                string patronEmail = @"^[\w\.-]+@[a-zA-Z\d\.-]+\.[a-zA-Z]{2,}$";
+                if (Regex.IsMatch(email, patronEmail) == false)
+                {
+                    MessageBox.Show("El formato del email no es correcto", "ATENCIÓN", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    return;
+                }
+
+                string patronContraseña = @"^(?=.*[a-z])(?=.*[A-Z])(?=.*[^a-zA-Z0-9]).{8,}$";
+                // 8 caracteres, una mayúscula, una minúscula y un caracter especial
+                if (Regex.IsMatch(password, patronContraseña) == false)
+                {
+                    MessageBox.Show("La contraseña debe tener al menos 8 caracteres, una mayúscula, una minúscula" +
+                        " y un caracter especial", "ATENCIÓN", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    return;
+                }
+                if (confirmarContraseña != password)
+                {
+                    MessageBox.Show("Las contraseñas no coinciden", "ATENCIÓN", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    return;
+                }
+
+                if (radioMasculino.Checked)
+                {
+                    genero = "Masculino";
+                }
+                else if (radioFemenino.Checked)
+                {
+                    genero = "Femenino";
+                }
+                else
+                {
+                    MessageBox.Show("Por favor, selecciona un género.", "ATENCIÓN", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    return;
+                }
+
+                if (enlaceDB.updateUser(frmLogin.userID, nombreCompleto, email, password, genero, idioma, Convert.ToInt32(tamaño)) == true)
+                {
+                    MessageBox.Show("El usuario ha sido actualizado", "Actualización Exitosa", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    this.Close();
+                }
+            }
+
+            catch (Exception ex)
+            {
+                MessageBox.Show("Error en el formulario: " + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
     }

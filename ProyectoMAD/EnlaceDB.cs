@@ -481,7 +481,7 @@ namespace WindowsFormsApplication1
 
         public bool deleteUser (int id)
         {
-            bool result = false;
+            bool result = true;
             try
             {
                 conectar();
@@ -492,13 +492,49 @@ namespace WindowsFormsApplication1
                 _comandosql.Parameters.AddWithValue("@id", id);
 
                 _comandosql.ExecuteNonQuery();
-
-                result = true;
             }
             catch (SqlException e)
             {
                 string msg = e.Message;
                 MessageBox.Show(msg, "ERROR", MessageBoxButtons.OK, MessageBoxIcon.Error);
+
+                result = false;
+            }
+            finally
+            {
+                desconectar();
+            }
+
+            return result;
+        }
+
+        public bool updateUser(int id, string nombre, string email, string password, string genero, string idioma, int tamaño)
+        {
+            bool result = true;
+
+            try
+            {
+                conectar();
+                string qry = "spUpdateUser";
+                _comandosql = new SqlCommand(qry, _conexion);
+                _comandosql.CommandType = CommandType.StoredProcedure;
+
+                _comandosql.Parameters.AddWithValue("@id", id);
+                _comandosql.Parameters.AddWithValue("@nombre", nombre);
+                _comandosql.Parameters.AddWithValue("@email", email);
+                _comandosql.Parameters.AddWithValue("@password", password);
+                _comandosql.Parameters.AddWithValue("@genero", genero);
+                _comandosql.Parameters.AddWithValue("@idioma", idioma);
+                _comandosql.Parameters.AddWithValue("@tamaño", tamaño);
+
+                _comandosql.ExecuteNonQuery();
+            }
+            catch (SqlException e)
+            {
+                string msg = e.Message;
+                MessageBox.Show(msg, "ERROR", MessageBoxButtons.OK, MessageBoxIcon.Error);
+
+                result = false;
             }
             finally
             {
