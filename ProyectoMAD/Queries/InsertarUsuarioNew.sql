@@ -9,8 +9,7 @@ CREATE OR ALTER PROCEDURE [dbo].[InsertarUsuario]
     @genero VARCHAR(15),
     @fecha_registro DATETIME,
     @pregunta_seguridad VARCHAR(100),
-    @respuesta_seguridad TEXT,
-	@usuarioExistente BIT OUTPUT
+    @respuesta_seguridad VARCHAR(100)
 AS
 BEGIN
 	SET NOCOUNT ON;
@@ -18,8 +17,8 @@ BEGIN
 	BEGIN TRY
 		IF EXISTS (SELECT 1 FROM Usuarios WHERE email = @email)
 		BEGIN
-			PRINT 'El usuario ya existe';
-			SET @usuarioExistente = 1;
+			RAISERROR('El usuario ya existe', 16, 1);
+			RETURN;
 		END
 		ELSE
 		BEGIN
@@ -29,7 +28,6 @@ BEGIN
 			@fecha_registro, @pregunta_seguridad, @respuesta_seguridad, 1, 1);
 
 			PRINT 'Usuario registrado';
-			SET @usuarioExistente = 0;
 		END
 	END TRY
 	BEGIN CATCH

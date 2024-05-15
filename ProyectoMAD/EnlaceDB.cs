@@ -237,24 +237,13 @@ namespace WindowsFormsApplication1
                 _comandosql.Parameters.AddWithValue("@pregunta_seguridad", preguntaSeguridad);
                 _comandosql.Parameters.AddWithValue("@respuesta_seguridad", respuestaSeguridad);
 
-                SqlParameter usuarioExistente = new SqlParameter("@usuarioExistente", SqlDbType.Bit);
-                usuarioExistente.Direction = ParameterDirection.Output;
-                _comandosql.Parameters.Add(usuarioExistente);
-
                 _comandosql.ExecuteNonQuery();
-
-                if ((bool)usuarioExistente.Value == true)
-                {
-                    MessageBox.Show("El usuario ingresado ya estaba registrado", "ATENCIÓN", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                    agregado = false;
-                }
             }
             catch (SqlException e)
             {
-                agregado = false;
-                string msg = "Excepción de base de datos: \n";
-                msg += e.Message;
+                string msg = e.Message;
                 MessageBox.Show(msg, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                agregado = false;
             }
             finally
             {
@@ -285,14 +274,23 @@ namespace WindowsFormsApplication1
                 usuarioDesactivado.Direction = ParameterDirection.Output;
                 _comandosql.Parameters.Add(usuarioDesactivado);
 
+                SqlParameter estatus = new SqlParameter("@usuarioActivo", SqlDbType.Bit);
+                estatus.Direction = ParameterDirection.Output;
+                _comandosql.Parameters.Add(estatus);
+
                 _comandosql.ExecuteNonQuery();
 
                 frmLogin.userID = Convert.ToInt32(id.Value);
                 bool desactivado = Convert.ToBoolean(usuarioDesactivado.Value);
+                bool usuarioActivo = Convert.ToBoolean(estatus.Value);
 
                 if (desactivado == true)
                 {
                     loginExitoso = 2;
+                }
+                else if (usuarioActivo == false)
+                {
+                    loginExitoso = 3;
                 }
             }
             catch (SqlException e)
@@ -527,6 +525,34 @@ namespace WindowsFormsApplication1
                 _comandosql.Parameters.AddWithValue("@idioma", idioma);
                 _comandosql.Parameters.AddWithValue("@tamaño", tamaño);
 
+                _comandosql.ExecuteNonQuery();
+            }
+            catch (SqlException e)
+            {
+                string msg = e.Message;
+                MessageBox.Show(msg, "ERROR", MessageBoxButtons.OK, MessageBoxIcon.Error);
+
+                result = false;
+            }
+            finally
+            {
+                desconectar();
+            }
+
+            return result;
+        }
+
+        public bool altaUsuario (int id)
+        {
+            bool result = true;
+            try
+            {
+                conectar();
+                string qry = "spAltaUsuario";
+                _comandosql = new SqlCommand(qry, _conexion);
+                _comandosql.CommandType = CommandType.StoredProcedure;
+
+                _comandosql.Parameters.AddWithValue("@id", id);
                 _comandosql.ExecuteNonQuery();
             }
             catch (SqlException e)

@@ -5,7 +5,8 @@ CREATE OR ALTER PROCEDURE VerificarLogin
     @Email VARCHAR(50),
     @Password VARCHAR(50),
 	@id SMALLINT OUTPUT,
-	@usuarioDesactivado BIT OUTPUT
+	@usuarioDesactivado BIT OUTPUT,
+	@usuarioActivo BIT OUTPUT
 AS
 BEGIN
     SET NOCOUNT ON;
@@ -13,7 +14,6 @@ BEGIN
     DECLARE @UsuarioExiste BIT;
     DECLARE @IntentosFallidos INT;
 	DECLARE @ContraseñaCorrecta BIT;
-	DECLARE @UsuarioActivo BIT;
 
 	SET @id = 0;
 	SET @usuarioDesactivado = 0;
@@ -24,16 +24,6 @@ BEGIN
 
 	IF @UsuarioExiste = 1
 	BEGIN
-		SELECT @UsuarioActivo = estatus
-			FROM Usuarios
-			WHERE email = @Email;
-
-		IF @UsuarioActivo = 0
-		BEGIN
-			RAISERROR('El usuario se encuentra dado de baja', 16, 1);
-			RETURN;
-		END
-
 		SELECT @IntentosFallidos = intentos
 	    FROM Usuarios
 		WHERE email = @email;
@@ -50,8 +40,19 @@ BEGIN
 				SET intentos = 0
 				WHERE email = @Email;
 
-				PRINT('Login exitoso');
+				SELECT @UsuarioActivo = estatus
+					FROM Usuarios
+					WHERE email = @Email;
+
 				SET @id = dbo.GetUser(@Email);
+
+				IF @UsuarioActivo = 0
+				BEGIN
+					PRINT('El usuario se encuentra dado de baja');
+					RETURN;
+				END
+
+				PRINT('Login exitoso');
 				RETURN;
 			END
 			ELSE
@@ -116,3 +117,21 @@ BEGIN
 	END
 END;
 GO
+
+CREATE OR ALTER PROCEDURE spAltaUsuario
+	@id SMALLINT
+AS
+BEGIN
+	SET NOCOUNT ON
+	BEGIN TRY
+		UPDATE Usuarios
+			SET estatus = 1
+			WHERE id_usuario = @id;
+	END TRY
+	BEGIN CATCH
+		THROW;
+	END CATCH
+END
+GO
+
+--SELECT * FROM Usuarios;
