@@ -23,6 +23,11 @@ namespace ProyectoMAD
             cbPregunta.Items.Add("¿Cuál es el nombre de tu abuela materna?");
             cbPregunta.Items.Add("¿Cuál es tu comida favorita?");
             cbPregunta.Items.Add("¿Cuál es tu película favorita?");
+
+            picShow.Visible = false;
+
+            picHide.Click += new EventHandler(picHide_Click);
+            picShow.Click += new EventHandler(picShow_Click);
         }
 
         private void btnCancelar_Click(object sender, EventArgs e)
@@ -101,10 +106,7 @@ namespace ProyectoMAD
                 }
                 else if (rbFem.Checked)
                 {
-
-
                     genero = "Femenino";
-
                 }
                 else
                 {
@@ -118,14 +120,6 @@ namespace ProyectoMAD
                     return;
                 }
 
-
-                // Llamar al método para agregar un nuevo usuario a la base de datos
-
-                
-
-                
-
-
                 if (RespuestaSeguridad == "")
                 {
                     MessageBox.Show("Por favor, responda la pregunta de seguridad", "ATENCIÓN", MessageBoxButtons.OK, MessageBoxIcon.Warning);
@@ -133,13 +127,8 @@ namespace ProyectoMAD
                 }
 
                 bool registroExitoso = enlaceDB.AgregarUsuario(email, password, nombreCompleto, fechaNacimiento, genero, PreguntaSeguridad, RespuestaSeguridad);
-
-               
-
-
-
-                if (registroExitoso)
-                { 
+                if (registroExitoso == true)
+                {
                     MessageBox.Show("Usuario registrado exitosamente.", "Registro Exitoso", MessageBoxButtons.OK, MessageBoxIcon.Information);
                     this.Close();
                 }
@@ -154,6 +143,20 @@ namespace ProyectoMAD
         private void Form2_Load(object sender, EventArgs e)
         {
 
+        }
+
+        private void picShow_Click(object sender, EventArgs e)
+        {
+            txtContrasena.UseSystemPasswordChar = true;
+            picShow.Visible = false;
+            picHide.Visible = true;
+        }
+
+        private void picHide_Click(object sender, EventArgs e)
+        {
+            txtContrasena.UseSystemPasswordChar = false;
+            picShow.Visible = true;
+            picHide.Visible = false;
         }
     }
 }
