@@ -15,6 +15,9 @@ namespace ProyectoMAD
 {
     public partial class Form4 : Form
     {
+        public static bool userWasDisabled {  get; set; } //Si el usuario ha ingresado con una contraseña temporal, debe cambiarla obligatoriamente
+        private string oldPassword {  get; set; }
+
         public Form4()
         {
             InitializeComponent();
@@ -55,6 +58,7 @@ namespace ProyectoMAD
                 txtName.Text = row["nombre"].ToString();
                 txtEmail.Text = row["email"].ToString();
                 txtPassword.Text = row["password"].ToString();
+                oldPassword = txtPassword.Text;
 
                 string genero = row["genero"].ToString();
 
@@ -73,6 +77,11 @@ namespace ProyectoMAD
             else
             {
                 MessageBox.Show("No se encontró el usuario.", "Información", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            }
+
+            if (userWasDisabled == true)
+            {
+                MessageBox.Show("Por favor, cambie su contraseña", "ATENCIÓN", MessageBoxButtons.OK, MessageBoxIcon.Warning);
             }
         }
 
@@ -156,6 +165,19 @@ namespace ProyectoMAD
                 {
                     MessageBox.Show("Las contraseñas no coinciden", "ATENCIÓN", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                     return;
+                }
+
+                if (userWasDisabled == true) 
+                { 
+                    if (password == oldPassword)
+                    {
+                        MessageBox.Show("Su contraseña no ha cambiado. Por favor, cambie su contraseña para continuar", "ATENCIÓN", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                        return;
+                    }
+                    else
+                    {
+                        userWasDisabled = false;
+                    }
                 }
 
                 if (radioMasculino.Checked)

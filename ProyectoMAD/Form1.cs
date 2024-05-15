@@ -95,6 +95,12 @@ namespace ProyectoMAD
                 Homepage homepage = new Homepage();
                 homepage.Show();
                 this.Hide();
+
+                if (Form4.userWasDisabled == true) //Si el usuario estaba deshabilitado, tiene que cambiar su contraseña
+                {
+                    Form4 editUser = new Form4();
+                    editUser.Show();
+                }
             }
             else if (loginExitoso == 2)
             {

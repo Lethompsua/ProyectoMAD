@@ -17,6 +17,7 @@ BEGIN
 
 	SET @id = 0;
 	SET @usuarioDesactivado = 0;
+	SET @usuarioActivo = 1;
 
 	SELECT @UsuarioExiste = COUNT(id_usuario)
 	FROM Usuarios
@@ -71,13 +72,13 @@ BEGIN
 					SET @id = dbo.GetUser(@Email);
 					SET @usuarioDesactivado = 1;
 					PRINT(CONCAT('El usuario ha sido desactivado', @usuarioDesactivado));
-					RETURN
 				END
 				ELSE
 				BEGIN
 					RAISERROR('La contraseña ingresada es incorrecta', 16, 1);
 				END
 
+				SET @usuarioActivo = 1;
 				RETURN
 			END
 		END
@@ -97,16 +98,15 @@ BEGIN
 
 				SET @id = dbo.GetUser(@Email);
 				SET @usuarioDesactivado = 0;
-				RETURN;
 			END
 			ELSE
 			BEGIN
 				SET @id = dbo.GetUser(@Email);
 				SET @usuarioDesactivado = 1;
 				PRINT(CONCAT('El usuario se encuentra desactivado', @usuarioDesactivado));
-				RETURN;
 			END
 
+			SET @usuarioActivo = 1;
 			RETURN;
 		END
 	END
@@ -117,6 +117,7 @@ BEGIN
 	END
 END;
 GO
+
 
 CREATE OR ALTER PROCEDURE spAltaUsuario
 	@id SMALLINT
@@ -133,5 +134,3 @@ BEGIN
 	END CATCH
 END
 GO
-
---SELECT * FROM Usuarios;

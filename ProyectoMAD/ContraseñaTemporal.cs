@@ -69,6 +69,8 @@ namespace ProyectoMAD
 
                     labelCopy.Visible = true;
                     labelCopy.Enabled = true;
+
+                    Form4.userWasDisabled = true;
                 }
             }
         }
