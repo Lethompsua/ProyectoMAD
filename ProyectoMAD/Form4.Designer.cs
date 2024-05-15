@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            this.components = new System.ComponentModel.Container();
             this.button2 = new System.Windows.Forms.Button();
             this.btnUpdate = new System.Windows.Forms.Button();
             this.txtPassword = new System.Windows.Forms.TextBox();
@@ -50,6 +51,7 @@
             this.label9 = new System.Windows.Forms.Label();
             this.picShow = new System.Windows.Forms.PictureBox();
             this.picHide = new System.Windows.Forms.PictureBox();
+            this.tipPassword = new System.Windows.Forms.ToolTip(this.components);
             ((System.ComponentModel.ISupportInitialize)(this.picShow)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.picHide)).BeginInit();
             this.SuspendLayout();
@@ -109,11 +111,11 @@
             // label4
             // 
             this.label4.AutoSize = true;
-            this.label4.Location = new System.Drawing.Point(216, 233);
+            this.label4.Location = new System.Drawing.Point(242, 233);
             this.label4.Name = "label4";
-            this.label4.Size = new System.Drawing.Size(206, 21);
+            this.label4.Size = new System.Drawing.Size(180, 21);
             this.label4.TabIndex = 19;
-            this.label4.Text = "Confirmacion contraseña:";
+            this.label4.Text = "Confirmar contraseña:";
             // 
             // label3
             // 
@@ -263,6 +265,11 @@
             this.picHide.TabStop = false;
             this.picHide.Click += new System.EventHandler(this.picHide_Click);
             // 
+            // tipPassword
+            // 
+            this.tipPassword.Tag = "txtPassword";
+            this.tipPassword.ToolTipIcon = System.Windows.Forms.ToolTipIcon.Info;
+            // 
             // Form4
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(10F, 21F);
@@ -325,5 +332,6 @@
         private System.Windows.Forms.Label label9;
         private System.Windows.Forms.PictureBox picHide;
         private System.Windows.Forms.PictureBox picShow;
+        private System.Windows.Forms.ToolTip tipPassword;
     }
 }

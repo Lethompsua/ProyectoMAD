@@ -9,6 +9,7 @@ using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using WindowsFormsApplication1;
+using static System.Windows.Forms.VisualStyles.VisualStyleElement;
 
 namespace ProyectoMAD
 {
@@ -38,6 +39,11 @@ namespace ProyectoMAD
             comboTamaño.Items.Add("72");
 
             picShow.Visible = false;
+
+            tipPassword.SetToolTip(txtPassword, "Si no quieres cambiar tu contraseña, solo vuélvela a escribir en \"Confirmar contraseña\" " +
+                "para guardar los cambios");
+            tipPassword.InitialDelay = 100;
+            tipPassword.ReshowDelay = 100;
 
             EnlaceDB enlaceDB = new EnlaceDB();
             DataTable usuarioActual = new DataTable();

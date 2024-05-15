@@ -520,7 +520,7 @@ namespace WindowsFormsApplication1
                 _comandosql.Parameters.AddWithValue("@id", id);
                 _comandosql.Parameters.AddWithValue("@nombre", nombre);
                 _comandosql.Parameters.AddWithValue("@email", email);
-                _comandosql.Parameters.AddWithValue("@password", password);
+                _comandosql.Parameters.AddWithValue("@newPassword", password);
                 _comandosql.Parameters.AddWithValue("@genero", genero);
                 _comandosql.Parameters.AddWithValue("@idioma", idioma);
                 _comandosql.Parameters.AddWithValue("@tamaño", tamaño);
