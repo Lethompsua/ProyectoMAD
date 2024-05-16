@@ -1,4 +1,4 @@
-CREATE PROCEDURE ObtenerLibrosPorTestamento
+CREATE OR ALTER PROCEDURE ObtenerLibrosPorTestamento
     @Testamentoo NVARCHAR(50)
 AS
 BEGIN
