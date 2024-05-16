@@ -36,8 +36,12 @@
             this.btnLogin = new System.Windows.Forms.Button();
             this.btnSignUp = new System.Windows.Forms.Button();
             this.label3 = new System.Windows.Forms.Label();
-            this.checkBox1 = new System.Windows.Forms.CheckBox();
+            this.checkboxRemember = new System.Windows.Forms.CheckBox();
             this.label4 = new System.Windows.Forms.Label();
+            this.picShow = new System.Windows.Forms.PictureBox();
+            this.picHide = new System.Windows.Forms.PictureBox();
+            ((System.ComponentModel.ISupportInitialize)(this.picShow)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.picHide)).BeginInit();
             this.SuspendLayout();
             // 
             // label1
@@ -73,9 +77,9 @@
             // 
             this.txtPassword.Location = new System.Drawing.Point(345, 211);
             this.txtPassword.Name = "txtPassword";
-            this.txtPassword.PasswordChar = '*';
             this.txtPassword.Size = new System.Drawing.Size(252, 29);
             this.txtPassword.TabIndex = 3;
+            this.txtPassword.UseSystemPasswordChar = true;
             // 
             // btnClose
             // 
@@ -119,15 +123,15 @@
             this.label3.TabIndex = 7;
             this.label3.Text = "En caso de no tener cuenta, cree una ahora:";
             // 
-            // checkBox1
+            // checkboxRemember
             // 
-            this.checkBox1.AutoSize = true;
-            this.checkBox1.Location = new System.Drawing.Point(372, 344);
-            this.checkBox1.Name = "checkBox1";
-            this.checkBox1.Size = new System.Drawing.Size(149, 25);
-            this.checkBox1.TabIndex = 8;
-            this.checkBox1.Text = "Recordar sesión";
-            this.checkBox1.UseVisualStyleBackColor = true;
+            this.checkboxRemember.AutoSize = true;
+            this.checkboxRemember.Location = new System.Drawing.Point(372, 344);
+            this.checkboxRemember.Name = "checkboxRemember";
+            this.checkboxRemember.Size = new System.Drawing.Size(149, 25);
+            this.checkboxRemember.TabIndex = 8;
+            this.checkboxRemember.Text = "Recordar sesión";
+            this.checkboxRemember.UseVisualStyleBackColor = true;
             // 
             // label4
             // 
@@ -139,13 +143,40 @@
             this.label4.TabIndex = 9;
             this.label4.Text = "Iniciar sesión";
             // 
+            // picShow
+            // 
+            this.picShow.Image = global::ProyectoMAD.Properties.Resources.show_icon;
+            this.picShow.Location = new System.Drawing.Point(603, 214);
+            this.picShow.Name = "picShow";
+            this.picShow.Size = new System.Drawing.Size(37, 26);
+            this.picShow.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
+            this.picShow.TabIndex = 43;
+            this.picShow.TabStop = false;
+            this.picShow.Click += new System.EventHandler(this.picShow_Click);
+            // 
+            // picHide
+            // 
+            this.picHide.BackColor = System.Drawing.Color.Transparent;
+            this.picHide.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
+            this.picHide.Image = global::ProyectoMAD.Properties.Resources.hide_icon;
+            this.picHide.InitialImage = global::ProyectoMAD.Properties.Resources.hide_icon;
+            this.picHide.Location = new System.Drawing.Point(603, 214);
+            this.picHide.Name = "picHide";
+            this.picHide.Size = new System.Drawing.Size(37, 26);
+            this.picHide.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
+            this.picHide.TabIndex = 44;
+            this.picHide.TabStop = false;
+            this.picHide.Click += new System.EventHandler(this.picHide_Click);
+            // 
             // frmLogin
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(10F, 21F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(882, 569);
+            this.Controls.Add(this.picHide);
+            this.Controls.Add(this.picShow);
             this.Controls.Add(this.label4);
-            this.Controls.Add(this.checkBox1);
+            this.Controls.Add(this.checkboxRemember);
             this.Controls.Add(this.label3);
             this.Controls.Add(this.btnSignUp);
             this.Controls.Add(this.btnLogin);
@@ -158,6 +189,8 @@
             this.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.Name = "frmLogin";
             this.Text = "Inicio Sesion";
+            ((System.ComponentModel.ISupportInitialize)(this.picShow)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.picHide)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -173,8 +206,10 @@
         private System.Windows.Forms.Button btnLogin;
         private System.Windows.Forms.Button btnSignUp;
         private System.Windows.Forms.Label label3;
-        private System.Windows.Forms.CheckBox checkBox1;
+        private System.Windows.Forms.CheckBox checkboxRemember;
         private System.Windows.Forms.Label label4;
+        private System.Windows.Forms.PictureBox picShow;
+        private System.Windows.Forms.PictureBox picHide;
     }
 }
 

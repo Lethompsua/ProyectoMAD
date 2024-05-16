@@ -187,6 +187,8 @@
     <Content Include="Queries\InsertarUsuarioNew.sql" />
     <Content Include="Queries\LoginClientes.sql" />
     <Content Include="Queries\ValidarRespuesta.sql" />
+    <None Include="Resources\show_icon.png" />
+    <None Include="Resources\hide_icon.png" />
     <None Include="Resources\clipboard_icon.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

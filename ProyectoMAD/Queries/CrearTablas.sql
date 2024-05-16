@@ -35,14 +35,14 @@ CREATE TABLE Usuarios (
 
 	fecha_login DATETIME,
 	intentos SMALLINT DEFAULT 0,
-	habilitado BIT NOT NULL,
+	habilitado BIT DEFAULT 1,
 	contraseña_temporal VARCHAR(50),
 
-	estatus BIT NOT NULL,
+	estatus BIT DEFAULT 1, --1 = Activado, 0 = Desactivado
 	fecha_baja DATE,
 
-	tamaño_texto SMALLINT,
-	idioma VARCHAR(10),
+	tamaño_texto SMALLINT DEFAULT 12,
+	idioma VARCHAR(10) DEFAULT 'Español',
 
 	pregunta_seguridad VARCHAR(100) NOT NULL,
 	respuesta_seguridad VARCHAR(100) NOT NULL

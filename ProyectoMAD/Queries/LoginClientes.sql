@@ -1,21 +1,23 @@
-USE DB_Proyecto;
+﻿USE DB_Proyecto;
 GO
 
 CREATE OR ALTER PROCEDURE VerificarLogin
     @Email VARCHAR(50),
     @Password VARCHAR(50),
 	@id SMALLINT OUTPUT,
-	@usuarioDesactivado BIT OUTPUT
+	@usuarioDesactivado BIT OUTPUT,
+	@usuarioActivo BIT OUTPUT
 AS
 BEGIN
     SET NOCOUNT ON;
 
     DECLARE @UsuarioExiste BIT;
     DECLARE @IntentosFallidos INT;
-	DECLARE @Contrase�aCorrecta BIT;
+	DECLARE @ContraseñaCorrecta BIT;
 
 	SET @id = 0;
 	SET @usuarioDesactivado = 0;
+	SET @usuarioActivo = 1;
 
 	SELECT @UsuarioExiste = COUNT(id_usuario)
 	FROM Usuarios
@@ -29,18 +31,29 @@ BEGIN
 
 		IF @IntentosFallidos < 3
 		BEGIN
-			SELECT @Contrase�aCorrecta = COUNT(id_usuario)
+			SELECT @ContraseñaCorrecta = COUNT(id_usuario)
 			FROM Usuarios
 			WHERE email = @Email AND password = @Password;
 
-			IF @Contrase�aCorrecta = 1
+			IF @ContraseñaCorrecta = 1
 			BEGIN
 				UPDATE Usuarios
 				SET intentos = 0
 				WHERE email = @Email;
 
-				PRINT('Login exitoso');
+				SELECT @UsuarioActivo = estatus
+					FROM Usuarios
+					WHERE email = @Email;
+
 				SET @id = dbo.GetUser(@Email);
+
+				IF @UsuarioActivo = 0
+				BEGIN
+					PRINT('El usuario se encuentra dado de baja');
+					RETURN;
+				END
+
+				PRINT('Login exitoso');
 				RETURN;
 			END
 			ELSE
@@ -59,41 +72,41 @@ BEGIN
 					SET @id = dbo.GetUser(@Email);
 					SET @usuarioDesactivado = 1;
 					PRINT(CONCAT('El usuario ha sido desactivado', @usuarioDesactivado));
-					RETURN
 				END
 				ELSE
 				BEGIN
-					RAISERROR('La contrase�a ingresada es incorrecta', 16, 1);
+					RAISERROR('La contraseña ingresada es incorrecta', 16, 1);
 				END
 
+				SET @usuarioActivo = 1;
 				RETURN
 			END
 		END
 		ELSE
 		BEGIN
-			SELECT @Contrase�aCorrecta = COUNT(id_usuario)
+			SELECT @ContraseñaCorrecta = COUNT(id_usuario)
 				FROM Usuarios
-				WHERE email = @Email AND contrase�a_temporal = @Password;
+				WHERE email = @Email AND contraseña_temporal = @Password;
 
-			IF @Contrase�aCorrecta = 1
+			IF @ContraseñaCorrecta = 1
 			BEGIN
 				UPDATE Usuarios
 					SET habilitado = 1, 
-						intentos = 0
+						intentos = 0,
+						contraseña_temporal = NULL
 					WHERE email = @Email;
 
 				SET @id = dbo.GetUser(@Email);
 				SET @usuarioDesactivado = 0;
-				RETURN;
 			END
 			ELSE
 			BEGIN
 				SET @id = dbo.GetUser(@Email);
 				SET @usuarioDesactivado = 1;
 				PRINT(CONCAT('El usuario se encuentra desactivado', @usuarioDesactivado));
-				RETURN;
 			END
 
+			SET @usuarioActivo = 1;
 			RETURN;
 		END
 	END
@@ -103,4 +116,21 @@ BEGIN
 		RETURN;
 	END
 END;
+GO
+
+
+CREATE OR ALTER PROCEDURE spAltaUsuario
+	@id SMALLINT
+AS
+BEGIN
+	SET NOCOUNT ON
+	BEGIN TRY
+		UPDATE Usuarios
+			SET estatus = 1
+			WHERE id_usuario = @id;
+	END TRY
+	BEGIN CATCH
+		THROW;
+	END CATCH
+END
 GO
