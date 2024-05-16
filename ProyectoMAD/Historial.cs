@@ -12,9 +12,33 @@ namespace ProyectoMAD
 {
     public partial class Historial : Form
     {
+        private static Historial instance;
         public Historial()
         {
             InitializeComponent();
         }
+
+        public static Historial GetInstance() //Singleton
+        {
+            if (instance == null || instance.IsDisposed)
+            {
+                instance = new Historial();
+            }
+            return instance;
+        }
+
+        #region Métodos para el manejo de ventanas
+        public static bool InstanceExists()
+        {
+            return (instance != null && !instance.IsDisposed);
+        }
+        public static void CloseInstance()
+        {
+            if (instance != null && !instance.IsDisposed)
+            {
+                instance.Close();
+            }
+        }
+        #endregion
     }
 }

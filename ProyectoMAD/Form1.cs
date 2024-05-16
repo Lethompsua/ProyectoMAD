@@ -15,6 +15,7 @@ namespace ProyectoMAD
 {
     public partial class frmLogin : Form
     {
+        private static frmLogin instance;
         public static int userID {  get; set; }
         public frmLogin()
         {
@@ -60,6 +61,15 @@ namespace ProyectoMAD
             }
         }
 
+        public static frmLogin GetInstance () //Clase Singleton para que solo pueda haber una ventana
+        {
+            if (instance == null || instance.IsDisposed)
+            {
+                instance = new frmLogin();
+            }
+            return instance;
+        }
+
         private void btnLogin_Click(object sender, EventArgs e)
         {
             EnlaceDB enlaceDB = new EnlaceDB();
@@ -92,7 +102,7 @@ namespace ProyectoMAD
                     ConfigurationManager.RefreshSection("appSettings"); //Actualiza los cambios
                 }
 
-                Homepage homepage = new Homepage();
+                Homepage homepage = Homepage.GetInstance();
                 homepage.Show();
                 this.Hide();
 
@@ -131,7 +141,7 @@ namespace ProyectoMAD
                         }
 
                         MessageBox.Show("Su usuario se ha dado de alta nuevamente", "ATENCIÓN", MessageBoxButtons.OK, MessageBoxIcon.Asterisk);
-                        Homepage homepage = new Homepage();
+                        Homepage homepage = Homepage.GetInstance();
                         homepage.Show();
                         this.Hide();
                     }
@@ -147,7 +157,7 @@ namespace ProyectoMAD
 
         private void btnClose_Click(object sender, EventArgs e)
         {
-            this.Close();
+            Application.Exit();
         }
 
         private void picHide_Click(object sender, EventArgs e)

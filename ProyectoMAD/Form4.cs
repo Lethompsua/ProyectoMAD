@@ -15,6 +15,7 @@ namespace ProyectoMAD
 {
     public partial class Form4 : Form
     {
+        private static Form4 instance;
         public static bool userWasDisabled {  get; set; } //Si el usuario ha ingresado con una contraseña temporal, debe cambiarla obligatoriamente
         private string oldPassword {  get; set; }
 
@@ -84,6 +85,29 @@ namespace ProyectoMAD
                 MessageBox.Show("Por favor, cambie su contraseña", "ATENCIÓN", MessageBoxButtons.OK, MessageBoxIcon.Warning);
             }
         }
+
+        public static Form4 GetInstance() //Singleton
+        {
+            if (instance == null || instance.IsDisposed)
+            {
+                instance = new Form4();
+            }
+            return instance;
+        }
+
+        #region Métodos para el manejo de ventanas
+        public static bool InstanceExists()
+        {
+            return (instance != null && !instance.IsDisposed);
+        }
+        public static void CloseInstance()
+        {
+            if (instance != null && !instance.IsDisposed)
+            {
+                instance.Close();
+            }
+        }
+        #endregion
 
         private void button2_Click(object sender, EventArgs e)
         {
