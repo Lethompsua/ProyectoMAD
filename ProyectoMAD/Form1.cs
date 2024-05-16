@@ -69,6 +69,13 @@ namespace ProyectoMAD
             }
             return instance;
         }
+        private void frmLogin_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            if (e.CloseReason == CloseReason.UserClosing) //Cuando le da a la 'X'
+            {
+                Application.Exit();
+            }
+        }
 
         private void btnLogin_Click(object sender, EventArgs e)
         {
@@ -173,5 +180,6 @@ namespace ProyectoMAD
             picShow.Visible = false;
             picHide.Visible = true;
         }
+
     }
 }

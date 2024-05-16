@@ -190,6 +190,7 @@
             this.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.Name = "frmLogin";
             this.Text = "Inicio Sesion";
+            this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.frmLogin_FormClosing);
             ((System.ComponentModel.ISupportInitialize)(this.picShow)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.picHide)).EndInit();
             this.ResumeLayout(false);
