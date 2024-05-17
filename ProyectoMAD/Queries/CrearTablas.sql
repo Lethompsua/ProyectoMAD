@@ -66,10 +66,10 @@ CREATE TABLE Favoritos (
 
 CREATE TABLE Historiales (
 	id_historial SMALLINT IDENTITY(1,1) NOT NULL,
-	palabra TEXT NOT NULL,
-	filtro_testamento VARCHAR(15),
-	filtro_libro VARCHAR(20),
-	filtro_version VARCHAR(15),
+	palabra VARCHAR(MAX) NOT NULL,
+	filtro_testamento VARCHAR(50),
+	filtro_libro VARCHAR(50),
+	filtro_version VARCHAR(50),
 	fecha DATETIME NOT NULL,
 	id_usuario SMALLINT NOT NULL,
 
@@ -86,5 +86,5 @@ CREATE TABLE ContraseñasAntiguas (
 	CONSTRAINT fk_usuarios_contraseñas FOREIGN KEY (id_usuario) REFERENCES Usuarios(id_usuario)
 );
 
-SELECT * FROM Usuarios;
-SELECT * FROM Historiales;
+--SELECT * FROM Usuarios;
+--SELECT * FROM Historiales;
