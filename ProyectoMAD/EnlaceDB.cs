@@ -251,8 +251,6 @@ namespace WindowsFormsApplication1
             }
             finally
             {
-                MessageBox.Show("Usuario registrado exitosamente.", "Registro Exitoso", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                
                 desconectar();
             }
             return agregado;

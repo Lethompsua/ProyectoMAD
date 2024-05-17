@@ -85,3 +85,6 @@ CREATE TABLE ContraseñasAntiguas (
 	CONSTRAINT pk_contraseñas PRIMARY KEY (id_contraseña),
 	CONSTRAINT fk_usuarios_contraseñas FOREIGN KEY (id_usuario) REFERENCES Usuarios(id_usuario)
 );
+
+SELECT * FROM Usuarios;
+SELECT * FROM Historiales;
