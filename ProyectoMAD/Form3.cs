@@ -9,12 +9,11 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using WindowsFormsApplication1;
 
-
-
 namespace ProyectoMAD
 {
     public partial class Form3 : Form
     {
+        private static Form3 instance;
         public Form3()
         {
             EnlaceDB enlacedb = new EnlaceDB();
@@ -29,6 +28,30 @@ namespace ProyectoMAD
             dataGridView1.AutoResizeColumns(DataGridViewAutoSizeColumnsMode.AllCells);
             dataGridView1.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
         }
+
+        public static Form3 GetInstance() //Singleton
+        {
+            if (instance == null || instance.IsDisposed)
+            {
+                instance = new Form3();
+            }
+            return instance;
+        }
+
+        #region Métodos para el manejo de ventanas
+        public static bool InstanceExists()
+        {
+            return (instance != null && !instance.IsDisposed);
+        }
+        public static void CloseInstance()
+        {
+            if (instance != null && !instance.IsDisposed)
+            {
+                instance.Close();
+            }
+        }
+        #endregion
+
 
         private void comboBox5_SelectedIndexChanged(object sender, EventArgs e)
         {
@@ -51,7 +74,6 @@ namespace ProyectoMAD
 
         }
 
-
         public void CargarVersiculosEnDataGridView(DataTable dataTable)
         {
             dataGridView1.DataSource = dataTable;
@@ -72,6 +94,11 @@ namespace ProyectoMAD
         {
 
 
+        }
+
+        private void salirToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            this.Close();
         }
     }
 }
