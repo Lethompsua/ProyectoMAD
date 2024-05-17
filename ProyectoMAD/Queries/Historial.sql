@@ -18,60 +18,34 @@ AS
 GO
 
 CREATE OR ALTER PROCEDURE spGetHistory
-	@id_user SMALLINT,
-	@id_historial SMALLINT OUTPUT,
-	@Palabra VARCHAR(MAX) OUTPUT,
-	@Idioma VARCHAR(20) OUTPUT,
-	@Version VARCHAR(50) OUTPUT,
-	@Testamento VARCHAR(50) OUTPUT,
-	@Libro VARCHAR(50) OUTPUT,
-	@Fecha DATETIME OUTPUT
-AS BEGIN
-	SET NOCOUNT ON
+    @id_user SMALLINT
+AS
+BEGIN
+    SET NOCOUNT ON;
 
-	BEGIN TRY
-		SELECT @id_historial = id_historial,
-			@Palabra = Palabra,
-			@Idioma = Idioma,
-			@Version = Version,
-			@Testamento = Testamento,
-			@Libro = Libro,
-			@Fecha = Fecha
-				FROM historyView
-				WHERE id_usuario = @id_user;
-	END TRY
-	BEGIN CATCH
-		THROW
-	END CATCH
+    BEGIN TRY
+        SELECT id_historial,
+            Palabra,
+            Idioma,
+            Version,
+            Testamento,
+            Libro,
+            Fecha
+		FROM historyView
+		WHERE id_usuario = @id_user;
+    END TRY
+    BEGIN CATCH
+        THROW;
+    END CATCH
 END
 GO
 
+
 /*
-DECLARE @id_historial SMALLINT;
-DECLARE @Palabra VARCHAR(MAX);
-DECLARE @Idioma VARCHAR(20);
-DECLARE @Version VARCHAR(50);
-DECLARE @Testamento VARCHAR(50);
-DECLARE @Libro VARCHAR(50);
-DECLARE @Fecha DATETIME;
+DECLARE @UserId SMALLINT;
+SET @UserId = 1;  -- Reemplaza 1 con el ID de usuario que deseas consultar
 
-EXEC spGetHistory 
-    @id_user = 1,
-	@id_historial = @id_historial OUTPUT,
-    @Palabra = @Palabra OUTPUT,
-    @Idioma = @Idioma OUTPUT,
-    @Version = @Version OUTPUT,
-    @Testamento = @Testamento OUTPUT,
-    @Libro = @Libro OUTPUT,
-    @Fecha = @Fecha OUTPUT;
-
-SELECT @id_historial AS id,
-       @Palabra AS Palabra, 
-       @Idioma AS Idioma, 
-       @Version AS Version, 
-       @Testamento AS Testamento, 
-       @Libro AS Libro, 
-       @Fecha AS Fecha;
+EXEC spGetHistory @id_user = @UserId;
 */
 --SELECT * FROM historyView;
 --SELECT * FROM DB_Bible.dbo.Libros;

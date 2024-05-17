@@ -33,18 +33,12 @@
             this.label2 = new System.Windows.Forms.Label();
             this.comboAños = new System.Windows.Forms.ComboBox();
             this.label1 = new System.Windows.Forms.Label();
-            this.dataGridView1 = new System.Windows.Forms.DataGridView();
-            this.Column1 = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Column6 = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Column4 = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Column2 = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Column3 = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Column5 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.gridHistory = new System.Windows.Forms.DataGridView();
             this.button1 = new System.Windows.Forms.Button();
             this.button2 = new System.Windows.Forms.Button();
             this.menuStrip1 = new System.Windows.Forms.MenuStrip();
             this.salirToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.gridHistory)).BeginInit();
             this.menuStrip1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -92,56 +86,13 @@
             this.label1.TabIndex = 20;
             this.label1.Text = "Año";
             // 
-            // dataGridView1
+            // gridHistory
             // 
-            this.dataGridView1.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.dataGridView1.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
-            this.Column1,
-            this.Column6,
-            this.Column4,
-            this.Column2,
-            this.Column3,
-            this.Column5});
-            this.dataGridView1.Location = new System.Drawing.Point(12, 127);
-            this.dataGridView1.Name = "dataGridView1";
-            this.dataGridView1.Size = new System.Drawing.Size(1208, 415);
-            this.dataGridView1.TabIndex = 22;
-            // 
-            // Column1
-            // 
-            this.Column1.HeaderText = "Palabras";
-            this.Column1.Name = "Column1";
-            this.Column1.Width = 250;
-            // 
-            // Column6
-            // 
-            this.Column6.HeaderText = "Idioma";
-            this.Column6.Name = "Column6";
-            this.Column6.Width = 200;
-            // 
-            // Column4
-            // 
-            this.Column4.HeaderText = "Versión";
-            this.Column4.Name = "Column4";
-            this.Column4.Width = 200;
-            // 
-            // Column2
-            // 
-            this.Column2.HeaderText = "Testamento";
-            this.Column2.Name = "Column2";
-            this.Column2.Width = 200;
-            // 
-            // Column3
-            // 
-            this.Column3.HeaderText = "Libro";
-            this.Column3.Name = "Column3";
-            this.Column3.Width = 200;
-            // 
-            // Column5
-            // 
-            this.Column5.HeaderText = "Fecha";
-            this.Column5.Name = "Column5";
-            this.Column5.Width = 200;
+            this.gridHistory.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.gridHistory.Location = new System.Drawing.Point(12, 127);
+            this.gridHistory.Name = "gridHistory";
+            this.gridHistory.Size = new System.Drawing.Size(1208, 415);
+            this.gridHistory.TabIndex = 22;
             // 
             // button1
             // 
@@ -188,7 +139,7 @@
             this.Controls.Add(this.menuStrip1);
             this.Controls.Add(this.button2);
             this.Controls.Add(this.button1);
-            this.Controls.Add(this.dataGridView1);
+            this.Controls.Add(this.gridHistory);
             this.Controls.Add(this.comboAños);
             this.Controls.Add(this.label1);
             this.Controls.Add(this.comboMeses);
@@ -198,7 +149,7 @@
             this.Margin = new System.Windows.Forms.Padding(5);
             this.Name = "Historial";
             this.Text = "Historial";
-            ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.gridHistory)).EndInit();
             this.menuStrip1.ResumeLayout(false);
             this.menuStrip1.PerformLayout();
             this.ResumeLayout(false);
@@ -213,13 +164,7 @@
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.ComboBox comboAños;
         private System.Windows.Forms.Label label1;
-        private System.Windows.Forms.DataGridView dataGridView1;
-        private System.Windows.Forms.DataGridViewTextBoxColumn Column1;
-        private System.Windows.Forms.DataGridViewTextBoxColumn Column6;
-        private System.Windows.Forms.DataGridViewTextBoxColumn Column4;
-        private System.Windows.Forms.DataGridViewTextBoxColumn Column2;
-        private System.Windows.Forms.DataGridViewTextBoxColumn Column3;
-        private System.Windows.Forms.DataGridViewTextBoxColumn Column5;
+        private System.Windows.Forms.DataGridView gridHistory;
         private System.Windows.Forms.Button button1;
         private System.Windows.Forms.Button button2;
         private System.Windows.Forms.MenuStrip menuStrip1;

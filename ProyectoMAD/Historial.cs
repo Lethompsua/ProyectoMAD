@@ -7,6 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using WindowsFormsApplication1;
 
 namespace ProyectoMAD
 {
@@ -44,6 +45,13 @@ namespace ProyectoMAD
             comboAños.Items.Add("2029");
             comboAños.Items.Add("2030");
             comboAños.SelectedIndex = 0;
+
+            EnlaceDB enlaceDB = new EnlaceDB();
+
+            DataTable history = enlaceDB.getHistory(frmLogin.userID);
+            gridHistory.DataSource = history;
+            gridHistory.AutoResizeColumns(DataGridViewAutoSizeColumnsMode.AllCells);
+            gridHistory.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
         }
 
         public static Historial GetInstance() //Singleton
