@@ -16,6 +16,34 @@ namespace ProyectoMAD
         public Historial()
         {
             InitializeComponent();
+            checkAll.Checked = true;
+            
+            comboMeses.Items.Add("Sin filtro");
+            comboMeses.Items.Add("Enero");
+            comboMeses.Items.Add("Febrero");
+            comboMeses.Items.Add("Marzo");
+            comboMeses.Items.Add("Abril");
+            comboMeses.Items.Add("Mayo");
+            comboMeses.Items.Add("Junio");
+            comboMeses.Items.Add("Agosto");
+            comboMeses.Items.Add("Septiembre");
+            comboMeses.Items.Add("Octubre");
+            comboMeses.Items.Add("Noviembre");
+            comboMeses.Items.Add("Diciembre");
+            comboMeses.SelectedIndex = 0;
+
+            comboAños.Items.Add("Sin filtro");
+            comboAños.Items.Add("2021");
+            comboAños.Items.Add("2022");
+            comboAños.Items.Add("2023");
+            comboAños.Items.Add("2024");
+            comboAños.Items.Add("2025");
+            comboAños.Items.Add("2026");
+            comboAños.Items.Add("2027");
+            comboAños.Items.Add("2028");
+            comboAños.Items.Add("2029");
+            comboAños.Items.Add("2030");
+            comboAños.SelectedIndex = 0;
         }
 
         public static Historial GetInstance() //Singleton

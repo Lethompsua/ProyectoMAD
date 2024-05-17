@@ -4,6 +4,7 @@ GO
 CREATE OR ALTER VIEW historyView
 AS
 	SELECT h.id_usuario,
+		h.id_historial,
 		h.palabra AS Palabra, 
 		i.Nombre AS Idioma, 
 		v.NombreVersion AS Version, 
@@ -18,6 +19,7 @@ GO
 
 CREATE OR ALTER PROCEDURE spGetHistory
 	@id_user SMALLINT,
+	@id_historial SMALLINT OUTPUT,
 	@Palabra VARCHAR(MAX) OUTPUT,
 	@Idioma VARCHAR(20) OUTPUT,
 	@Version VARCHAR(50) OUTPUT,
@@ -28,7 +30,8 @@ AS BEGIN
 	SET NOCOUNT ON
 
 	BEGIN TRY
-		SELECT @Palabra = Palabra,
+		SELECT @id_historial = id_historial,
+			@Palabra = Palabra,
 			@Idioma = Idioma,
 			@Version = Version,
 			@Testamento = Testamento,
@@ -43,29 +46,33 @@ AS BEGIN
 END
 GO
 
---DECLARE @Palabra VARCHAR(MAX);
---DECLARE @Idioma VARCHAR(20);
---DECLARE @Version VARCHAR(50);
---DECLARE @Testamento VARCHAR(50);
---DECLARE @Libro VARCHAR(50);
---DECLARE @Fecha DATETIME;
+/*
+DECLARE @id_historial SMALLINT;
+DECLARE @Palabra VARCHAR(MAX);
+DECLARE @Idioma VARCHAR(20);
+DECLARE @Version VARCHAR(50);
+DECLARE @Testamento VARCHAR(50);
+DECLARE @Libro VARCHAR(50);
+DECLARE @Fecha DATETIME;
 
---EXEC spGetHistory 
---    @id_user = 1,
---    @Palabra = @Palabra OUTPUT,
---    @Idioma = @Idioma OUTPUT,
---    @Version = @Version OUTPUT,
---    @Testamento = @Testamento OUTPUT,
---    @Libro = @Libro OUTPUT,
---    @Fecha = @Fecha OUTPUT;
+EXEC spGetHistory 
+    @id_user = 1,
+	@id_historial = @id_historial OUTPUT,
+    @Palabra = @Palabra OUTPUT,
+    @Idioma = @Idioma OUTPUT,
+    @Version = @Version OUTPUT,
+    @Testamento = @Testamento OUTPUT,
+    @Libro = @Libro OUTPUT,
+    @Fecha = @Fecha OUTPUT;
 
---SELECT @Palabra AS Palabra, 
---       @Idioma AS Idioma, 
---       @Version AS Version, 
---       @Testamento AS Testamento, 
---       @Libro AS Libro, 
---       @Fecha AS Fecha;
-
+SELECT @id_historial AS id,
+       @Palabra AS Palabra, 
+       @Idioma AS Idioma, 
+       @Version AS Version, 
+       @Testamento AS Testamento, 
+       @Libro AS Libro, 
+       @Fecha AS Fecha;
+*/
 --SELECT * FROM historyView;
 --SELECT * FROM DB_Bible.dbo.Libros;
 --SELECT * FROM DB_Bible.dbo.Idiomas;

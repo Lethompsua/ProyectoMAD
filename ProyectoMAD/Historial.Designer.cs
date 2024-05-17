@@ -28,10 +28,10 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.checkBox1 = new System.Windows.Forms.CheckBox();
-            this.comboBox1 = new System.Windows.Forms.ComboBox();
+            this.checkAll = new System.Windows.Forms.CheckBox();
+            this.comboMeses = new System.Windows.Forms.ComboBox();
             this.label2 = new System.Windows.Forms.Label();
-            this.comboBox2 = new System.Windows.Forms.ComboBox();
+            this.comboAños = new System.Windows.Forms.ComboBox();
             this.label1 = new System.Windows.Forms.Label();
             this.dataGridView1 = new System.Windows.Forms.DataGridView();
             this.Column1 = new System.Windows.Forms.DataGridViewTextBoxColumn();
@@ -48,23 +48,23 @@
             this.menuStrip1.SuspendLayout();
             this.SuspendLayout();
             // 
-            // checkBox1
+            // checkAll
             // 
-            this.checkBox1.AutoSize = true;
-            this.checkBox1.Location = new System.Drawing.Point(449, 61);
-            this.checkBox1.Name = "checkBox1";
-            this.checkBox1.Size = new System.Drawing.Size(146, 25);
-            this.checkBox1.TabIndex = 0;
-            this.checkBox1.Text = "Toda la historia";
-            this.checkBox1.UseVisualStyleBackColor = true;
+            this.checkAll.AutoSize = true;
+            this.checkAll.Location = new System.Drawing.Point(449, 61);
+            this.checkAll.Name = "checkAll";
+            this.checkAll.Size = new System.Drawing.Size(146, 25);
+            this.checkAll.TabIndex = 0;
+            this.checkAll.Text = "Toda la historia";
+            this.checkAll.UseVisualStyleBackColor = true;
             // 
-            // comboBox1
+            // comboMeses
             // 
-            this.comboBox1.FormattingEnabled = true;
-            this.comboBox1.Location = new System.Drawing.Point(659, 61);
-            this.comboBox1.Name = "comboBox1";
-            this.comboBox1.Size = new System.Drawing.Size(92, 29);
-            this.comboBox1.TabIndex = 19;
+            this.comboMeses.FormattingEnabled = true;
+            this.comboMeses.Location = new System.Drawing.Point(659, 61);
+            this.comboMeses.Name = "comboMeses";
+            this.comboMeses.Size = new System.Drawing.Size(92, 29);
+            this.comboMeses.TabIndex = 19;
             // 
             // label2
             // 
@@ -75,13 +75,13 @@
             this.label2.TabIndex = 18;
             this.label2.Text = "Mes";
             // 
-            // comboBox2
+            // comboAños
             // 
-            this.comboBox2.FormattingEnabled = true;
-            this.comboBox2.Location = new System.Drawing.Point(777, 61);
-            this.comboBox2.Name = "comboBox2";
-            this.comboBox2.Size = new System.Drawing.Size(92, 29);
-            this.comboBox2.TabIndex = 21;
+            this.comboAños.FormattingEnabled = true;
+            this.comboAños.Location = new System.Drawing.Point(777, 61);
+            this.comboAños.Name = "comboAños";
+            this.comboAños.Size = new System.Drawing.Size(92, 29);
+            this.comboAños.TabIndex = 21;
             // 
             // label1
             // 
@@ -189,11 +189,11 @@
             this.Controls.Add(this.button2);
             this.Controls.Add(this.button1);
             this.Controls.Add(this.dataGridView1);
-            this.Controls.Add(this.comboBox2);
+            this.Controls.Add(this.comboAños);
             this.Controls.Add(this.label1);
-            this.Controls.Add(this.comboBox1);
+            this.Controls.Add(this.comboMeses);
             this.Controls.Add(this.label2);
-            this.Controls.Add(this.checkBox1);
+            this.Controls.Add(this.checkAll);
             this.Font = new System.Drawing.Font("Microsoft YaHei", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.Margin = new System.Windows.Forms.Padding(5);
             this.Name = "Historial";
@@ -208,10 +208,10 @@
 
         #endregion
 
-        private System.Windows.Forms.CheckBox checkBox1;
-        private System.Windows.Forms.ComboBox comboBox1;
+        private System.Windows.Forms.CheckBox checkAll;
+        private System.Windows.Forms.ComboBox comboMeses;
         private System.Windows.Forms.Label label2;
-        private System.Windows.Forms.ComboBox comboBox2;
+        private System.Windows.Forms.ComboBox comboAños;
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.DataGridView dataGridView1;
         private System.Windows.Forms.DataGridViewTextBoxColumn Column1;
