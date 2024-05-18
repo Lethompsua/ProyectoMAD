@@ -52,14 +52,16 @@
             this.checkAll.TabIndex = 0;
             this.checkAll.Text = "Toda la historia";
             this.checkAll.UseVisualStyleBackColor = true;
+            this.checkAll.CheckedChanged += new System.EventHandler(this.checkAll_CheckedChanged);
             // 
             // comboMeses
             // 
             this.comboMeses.FormattingEnabled = true;
             this.comboMeses.Location = new System.Drawing.Point(659, 136);
             this.comboMeses.Name = "comboMeses";
-            this.comboMeses.Size = new System.Drawing.Size(92, 29);
+            this.comboMeses.Size = new System.Drawing.Size(124, 29);
             this.comboMeses.TabIndex = 19;
+            this.comboMeses.SelectedIndexChanged += new System.EventHandler(this.comboMeses_SelectedIndexChanged);
             // 
             // label2
             // 
@@ -73,15 +75,16 @@
             // comboAños
             // 
             this.comboAños.FormattingEnabled = true;
-            this.comboAños.Location = new System.Drawing.Point(777, 136);
+            this.comboAños.Location = new System.Drawing.Point(820, 136);
             this.comboAños.Name = "comboAños";
             this.comboAños.Size = new System.Drawing.Size(92, 29);
             this.comboAños.TabIndex = 21;
+            this.comboAños.SelectedIndexChanged += new System.EventHandler(this.comboAños_SelectedIndexChanged);
             // 
             // label1
             // 
             this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(773, 112);
+            this.label1.Location = new System.Drawing.Point(816, 112);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(41, 21);
             this.label1.TabIndex = 20;

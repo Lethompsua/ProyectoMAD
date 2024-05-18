@@ -15,12 +15,16 @@ namespace ProyectoMAD
     public partial class Historial : Form
     {
         private static Historial instance;
-        private int id_historial;
+        private int id_historial { get; set; }
+        private int mes { get; set; }
+        private int año {  get; set; }
+        private bool methodDisabled {  get; set; }
         public Historial()
         {
             InitializeComponent();
-            checkAll.Checked = true;
-            
+
+            methodDisabled = false;
+
             comboMeses.Items.Add("Sin filtro");
             comboMeses.Items.Add("Enero");
             comboMeses.Items.Add("Febrero");
@@ -28,6 +32,7 @@ namespace ProyectoMAD
             comboMeses.Items.Add("Abril");
             comboMeses.Items.Add("Mayo");
             comboMeses.Items.Add("Junio");
+            comboMeses.Items.Add("Julio");
             comboMeses.Items.Add("Agosto");
             comboMeses.Items.Add("Septiembre");
             comboMeses.Items.Add("Octubre");
@@ -47,6 +52,8 @@ namespace ProyectoMAD
             comboAños.Items.Add("2029");
             comboAños.Items.Add("2030");
             comboAños.SelectedIndex = 0;
+
+            checkAll.Checked = true;
 
             EnlaceDB enlaceDB = new EnlaceDB();
 
@@ -110,7 +117,7 @@ namespace ProyectoMAD
                         == DialogResult.Yes)
                     {
                         EnlaceDB enlaceDB = new EnlaceDB();
-                        if (enlaceDB.deleteRecord(id_historial) == true )
+                        if (enlaceDB.deleteRecord(id_historial) == true)
                         {
                             gridHistory.Rows.RemoveAt(gridHistory.CurrentRow.Index);
                             MessageBox.Show("Se ha eliminado la búsqueda", "ATENCIÓN", MessageBoxButtons.OK, MessageBoxIcon.Information);
@@ -127,7 +134,7 @@ namespace ProyectoMAD
                     == DialogResult.Yes)
                 {
                     EnlaceDB enlaceDB = new EnlaceDB();
-                    if (enlaceDB.deleteAll() == true )
+                    if (enlaceDB.deleteAll() == true)
                     {
                         MessageBox.Show("Se ha eliminado todo su historial", "ATENCIÓN", MessageBoxButtons.OK, MessageBoxIcon.Information);
                         this.Close();
@@ -139,5 +146,93 @@ namespace ProyectoMAD
                 MessageBox.Show("Su historial ya se encuentra vacío", "ATENCIÓN", MessageBoxButtons.OK, MessageBoxIcon.Warning);
             }
         }
+
+        #region Filtros
+        private void comboMeses_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            if (methodDisabled == false) //Esta variable controla que el evento se active solo cuando el usuario cambia los filtros
+            {
+                methodDisabled = true;
+
+                mes = comboMeses.SelectedIndex;
+
+                if (mes == 0 && año == 0)
+                {
+                    checkAll.Checked = true;
+                }
+                else
+                {
+                    checkAll.Checked = false;
+                }
+
+                methodDisabled = false;
+
+                filtrarGrid();
+            }
+        }
+        private void comboAños_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            if (methodDisabled == false)
+            {
+                methodDisabled = true;
+
+                if (comboAños.SelectedIndex > 0)
+                {
+                    año = Convert.ToInt32(comboAños.SelectedItem);
+                }
+                else
+                {
+                    año = 0;
+                }
+
+                if (mes == 0 && año == 0)
+                {
+                    checkAll.Checked = true;
+                }
+                else
+                {
+                    checkAll.Checked = false;
+                }
+
+                methodDisabled = false;
+
+                filtrarGrid();
+            }
+        }
+        private void checkAll_CheckedChanged(object sender, EventArgs e)
+        {
+            if (methodDisabled == false)
+            {
+                methodDisabled = true;
+
+                if (checkAll.Checked == true)
+                {
+                    comboAños.SelectedIndex = 0;
+                    comboMeses.SelectedIndex = 0;
+                }
+
+                methodDisabled = false;
+
+                filtrarGrid();
+            }
+        }
+        private void filtrarGrid ()
+        {
+            EnlaceDB enlaceDB = new EnlaceDB();
+            DataTable history;
+
+            if (checkAll.Checked == true)
+            {
+                enlaceDB = new EnlaceDB();
+                history = enlaceDB.getHistory(frmLogin.userID);
+                gridHistory.DataSource = history;
+            }
+            else
+            {
+                history = enlaceDB.getHistoryFiltered(frmLogin.userID, mes, año);
+                gridHistory.DataSource = history;
+            }
+        }
+        #endregion
     }
 }

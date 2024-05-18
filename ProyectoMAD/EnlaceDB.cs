@@ -757,6 +757,35 @@ namespace WindowsFormsApplication1
 
             return result;
         }
+        public DataTable getHistoryFiltered(int id, int month, int year)
+        {
+            DataTable tabla = new DataTable();
+
+            try
+            {
+                conectar();
+                string qry = "spFilterHistory";
+                _comandosql = new SqlCommand(qry, _conexion);
+                _comandosql.CommandType = CommandType.StoredProcedure;
+
+                _comandosql.Parameters.AddWithValue("@id_user", id);
+                _comandosql.Parameters.AddWithValue("@month", month);
+                _comandosql.Parameters.AddWithValue("@year", year);
+
+                SqlDataAdapter adapter = new SqlDataAdapter(_comandosql);
+                adapter.Fill(tabla);
+            }
+            catch (SqlException e)
+            {
+                string msg = e.Message;
+                MessageBox.Show(msg, "ERROR", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+            finally
+            {
+                desconectar();
+            }
+            return tabla;
+        }
         #endregion
     }
 }
