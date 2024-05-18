@@ -46,6 +46,8 @@
             this.dataGridView1 = new System.Windows.Forms.DataGridView();
             this.button1 = new System.Windows.Forms.Button();
             this.btnMostrarLibro = new System.Windows.Forms.Button();
+            this.Versiculo = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Favorito = new System.Windows.Forms.DataGridViewCheckBoxColumn();
             this.menuStrip1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
             this.SuspendLayout();
@@ -184,6 +186,9 @@
             this.dataGridView1.AllowUserToDeleteRows = false;
             this.dataGridView1.ColumnHeadersHeight = 40;
             this.dataGridView1.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.DisableResizing;
+            this.dataGridView1.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
+            this.Versiculo,
+            this.Favorito});
             this.dataGridView1.Location = new System.Drawing.Point(7, 129);
             this.dataGridView1.Name = "dataGridView1";
             this.dataGridView1.ReadOnly = true;
@@ -211,6 +216,22 @@
             this.btnMostrarLibro.Text = "Mostrar Libro";
             this.btnMostrarLibro.UseVisualStyleBackColor = true;
             this.btnMostrarLibro.Click += new System.EventHandler(this.btnMostrarLibro_Click);
+            // 
+            // Versiculo
+            // 
+            this.Versiculo.HeaderText = "Versiculo";
+            this.Versiculo.MinimumWidth = 6;
+            this.Versiculo.Name = "Versiculo";
+            this.Versiculo.ReadOnly = true;
+            this.Versiculo.Width = 125;
+            // 
+            // Favorito
+            // 
+            this.Favorito.HeaderText = "Marcar como favorito:";
+            this.Favorito.MinimumWidth = 6;
+            this.Favorito.Name = "Favorito";
+            this.Favorito.ReadOnly = true;
+            this.Favorito.Width = 125;
             // 
             // Form3
             // 
@@ -265,5 +286,7 @@
         private System.Windows.Forms.DataGridView dataGridView1;
         private System.Windows.Forms.Button button1;
         private System.Windows.Forms.Button btnMostrarLibro;
+        private System.Windows.Forms.DataGridViewTextBoxColumn Versiculo;
+        private System.Windows.Forms.DataGridViewCheckBoxColumn Favorito;
     }
 }
