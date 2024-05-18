@@ -159,7 +159,7 @@ namespace ProyectoMAD
         private void button3_Click(object sender, EventArgs e)
         {
             Form2 IngresarUsu = new Form2();
-            IngresarUsu.Show();
+            IngresarUsu.ShowDialog();
         }
 
         private void btnClose_Click(object sender, EventArgs e)

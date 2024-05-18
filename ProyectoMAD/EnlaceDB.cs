@@ -69,7 +69,7 @@ namespace WindowsFormsApplication1
             _conexion.Close();
         }
 
-        #region Métodos de ejemplo
+        #region Procedures de ejemplo
         public bool Autentificar(string us, string ps)
         {
             bool isValid = false;
@@ -218,7 +218,7 @@ namespace WindowsFormsApplication1
         }
         #endregion
 
-        #region Métodos para usuarios
+        #region Procedurese para usuarios
         public bool AgregarUsuario(string email, string password, string nombreCompleto, DateTime fechaNacimiento, string genero, string preguntaSeguridad, string respuestaSeguridad)
         {
             bool agregado = true;
@@ -251,8 +251,6 @@ namespace WindowsFormsApplication1
             }
             finally
             {
-                MessageBox.Show("Usuario registrado exitosamente.", "Registro Exitoso", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                
                 desconectar();
             }
             return agregado;
@@ -644,6 +642,8 @@ namespace WindowsFormsApplication1
 
             return libros;
         }
+
+        #region Procedures para Historial
         public DataTable get_Versiculos()
         {
             var msg = "";
@@ -676,5 +676,116 @@ namespace WindowsFormsApplication1
 
             return tabla;
         }
+        public DataTable getHistory(int id)
+        {
+            DataTable tabla = new DataTable();
+
+            try
+            {
+                conectar();
+                string qry = "spGetHistory";
+                _comandosql = new SqlCommand(qry, _conexion);
+                _comandosql.CommandType = CommandType.StoredProcedure;
+
+                _comandosql.Parameters.AddWithValue("@id_user", id);
+
+                SqlDataAdapter adapter = new SqlDataAdapter(_comandosql);
+                adapter.Fill(tabla);
+            }
+            catch (SqlException e)
+            {
+                string msg = e.Message;
+                MessageBox.Show(msg, "ERROR", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+            finally
+            {
+                desconectar();
+            }
+            return tabla;
+        }
+        public bool deleteRecord(int id)
+        {
+            bool result = true;
+            try
+            {
+                conectar();
+                string qry = "spDeleteRecord";
+                _comandosql = new SqlCommand(qry, _conexion);
+                _comandosql.CommandType = CommandType.StoredProcedure;
+
+                _comandosql.Parameters.AddWithValue("@id", id);
+
+                _comandosql.ExecuteNonQuery();
+            }
+            catch (SqlException e)
+            {
+                string msg = e.Message;
+                MessageBox.Show(msg, "ERROR", MessageBoxButtons.OK, MessageBoxIcon.Error);
+
+                result = false;
+            }
+            finally
+            {
+                desconectar();
+            }
+
+            return result;
+        }
+        public bool deleteAll()
+        {
+            bool result = true;
+            try
+            {
+                conectar();
+                string qry = "spDeleteAllHistory";
+                _comandosql = new SqlCommand(qry, _conexion);
+                _comandosql.CommandType = CommandType.StoredProcedure;
+
+                _comandosql.ExecuteNonQuery();
+            }
+            catch (SqlException e)
+            {
+                string msg = e.Message;
+                MessageBox.Show(msg, "ERROR", MessageBoxButtons.OK, MessageBoxIcon.Error);
+
+                result = false;
+            }
+            finally
+            {
+                desconectar();
+            }
+
+            return result;
+        }
+        public DataTable getHistoryFiltered(int id, int month, int year)
+        {
+            DataTable tabla = new DataTable();
+
+            try
+            {
+                conectar();
+                string qry = "spFilterHistory";
+                _comandosql = new SqlCommand(qry, _conexion);
+                _comandosql.CommandType = CommandType.StoredProcedure;
+
+                _comandosql.Parameters.AddWithValue("@id_user", id);
+                _comandosql.Parameters.AddWithValue("@month", month);
+                _comandosql.Parameters.AddWithValue("@year", year);
+
+                SqlDataAdapter adapter = new SqlDataAdapter(_comandosql);
+                adapter.Fill(tabla);
+            }
+            catch (SqlException e)
+            {
+                string msg = e.Message;
+                MessageBox.Show(msg, "ERROR", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+            finally
+            {
+                desconectar();
+            }
+            return tabla;
+        }
+        #endregion
     }
 }
