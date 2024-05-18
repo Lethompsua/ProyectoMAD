@@ -1,4 +1,4 @@
-CREATE PROCEDURE MostrarNombresTestamento
+CREATE OR ALTER PROCEDURE MostrarNombresTestamento
 AS
 BEGIN
     -- Seleccionar solo el nombre de la tabla testamento

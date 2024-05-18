@@ -38,16 +38,17 @@
             this.label4 = new System.Windows.Forms.Label();
             this.label5 = new System.Windows.Forms.Label();
             this.label7 = new System.Windows.Forms.Label();
-            this.pictureBox6 = new System.Windows.Forms.PictureBox();
-            this.pictureBox4 = new System.Windows.Forms.PictureBox();
+            this.picHistorial = new System.Windows.Forms.PictureBox();
+            this.picFavoritos = new System.Windows.Forms.PictureBox();
             this.picSearch = new System.Windows.Forms.PictureBox();
-            this.pictureBox2 = new System.Windows.Forms.PictureBox();
+            this.picConsultas = new System.Windows.Forms.PictureBox();
             this.picEdit = new System.Windows.Forms.PictureBox();
+            this.cerrarSesiónToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.menuStrip1.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox6)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox4)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.picHistorial)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.picFavoritos)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.picSearch)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox2)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.picConsultas)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.picEdit)).BeginInit();
             this.SuspendLayout();
             // 
@@ -76,7 +77,8 @@
             // usuarioToolStripMenuItem
             // 
             this.usuarioToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.modificarUsuarioToolStripMenuItem});
+            this.modificarUsuarioToolStripMenuItem,
+            this.cerrarSesiónToolStripMenuItem});
             this.usuarioToolStripMenuItem.Name = "usuarioToolStripMenuItem";
             this.usuarioToolStripMenuItem.Size = new System.Drawing.Size(59, 20);
             this.usuarioToolStripMenuItem.Text = "Usuario";
@@ -140,25 +142,27 @@
             this.label7.TabIndex = 26;
             this.label7.Text = "Historial";
             // 
-            // pictureBox6
+            // picHistorial
             // 
-            this.pictureBox6.Image = global::ProyectoMAD.Properties.Resources.historial;
-            this.pictureBox6.Location = new System.Drawing.Point(969, 190);
-            this.pictureBox6.Name = "pictureBox6";
-            this.pictureBox6.Size = new System.Drawing.Size(92, 79);
-            this.pictureBox6.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
-            this.pictureBox6.TabIndex = 25;
-            this.pictureBox6.TabStop = false;
+            this.picHistorial.Image = global::ProyectoMAD.Properties.Resources.historial;
+            this.picHistorial.Location = new System.Drawing.Point(969, 190);
+            this.picHistorial.Name = "picHistorial";
+            this.picHistorial.Size = new System.Drawing.Size(92, 79);
+            this.picHistorial.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
+            this.picHistorial.TabIndex = 25;
+            this.picHistorial.TabStop = false;
+            this.picHistorial.Click += new System.EventHandler(this.picHistorial_Click);
             // 
-            // pictureBox4
+            // picFavoritos
             // 
-            this.pictureBox4.Image = global::ProyectoMAD.Properties.Resources.favs;
-            this.pictureBox4.Location = new System.Drawing.Point(795, 190);
-            this.pictureBox4.Name = "pictureBox4";
-            this.pictureBox4.Size = new System.Drawing.Size(92, 79);
-            this.pictureBox4.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
-            this.pictureBox4.TabIndex = 21;
-            this.pictureBox4.TabStop = false;
+            this.picFavoritos.Image = global::ProyectoMAD.Properties.Resources.favs;
+            this.picFavoritos.Location = new System.Drawing.Point(795, 190);
+            this.picFavoritos.Name = "picFavoritos";
+            this.picFavoritos.Size = new System.Drawing.Size(92, 79);
+            this.picFavoritos.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
+            this.picFavoritos.TabIndex = 21;
+            this.picFavoritos.TabStop = false;
+            this.picFavoritos.Click += new System.EventHandler(this.picFavoritos_Click);
             // 
             // picSearch
             // 
@@ -171,15 +175,16 @@
             this.picSearch.TabStop = false;
             this.picSearch.Click += new System.EventHandler(this.picSearch_Click);
             // 
-            // pictureBox2
+            // picConsultas
             // 
-            this.pictureBox2.Image = global::ProyectoMAD.Properties.Resources.consultas;
-            this.pictureBox2.Location = new System.Drawing.Point(422, 190);
-            this.pictureBox2.Name = "pictureBox2";
-            this.pictureBox2.Size = new System.Drawing.Size(92, 79);
-            this.pictureBox2.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
-            this.pictureBox2.TabIndex = 17;
-            this.pictureBox2.TabStop = false;
+            this.picConsultas.Image = global::ProyectoMAD.Properties.Resources.consultas;
+            this.picConsultas.Location = new System.Drawing.Point(422, 190);
+            this.picConsultas.Name = "picConsultas";
+            this.picConsultas.Size = new System.Drawing.Size(92, 79);
+            this.picConsultas.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
+            this.picConsultas.TabIndex = 17;
+            this.picConsultas.TabStop = false;
+            this.picConsultas.Click += new System.EventHandler(this.picConsultas_Click);
             // 
             // picEdit
             // 
@@ -192,19 +197,26 @@
             this.picEdit.TabStop = false;
             this.picEdit.Click += new System.EventHandler(this.picEdit_Click);
             // 
+            // cerrarSesiónToolStripMenuItem
+            // 
+            this.cerrarSesiónToolStripMenuItem.Name = "cerrarSesiónToolStripMenuItem";
+            this.cerrarSesiónToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.cerrarSesiónToolStripMenuItem.Text = "Cerrar sesión";
+            this.cerrarSesiónToolStripMenuItem.Click += new System.EventHandler(this.cerrarSesiónToolStripMenuItem_Click);
+            // 
             // Homepage
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(10F, 21F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1333, 481);
             this.Controls.Add(this.label7);
-            this.Controls.Add(this.pictureBox6);
+            this.Controls.Add(this.picHistorial);
             this.Controls.Add(this.label5);
-            this.Controls.Add(this.pictureBox4);
+            this.Controls.Add(this.picFavoritos);
             this.Controls.Add(this.label4);
             this.Controls.Add(this.picSearch);
             this.Controls.Add(this.label3);
-            this.Controls.Add(this.pictureBox2);
+            this.Controls.Add(this.picConsultas);
             this.Controls.Add(this.label2);
             this.Controls.Add(this.menuStrip1);
             this.Controls.Add(this.picEdit);
@@ -215,10 +227,10 @@
             this.Text = "Homepage";
             this.menuStrip1.ResumeLayout(false);
             this.menuStrip1.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox6)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox4)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.picHistorial)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.picFavoritos)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.picSearch)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox2)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.picConsultas)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.picEdit)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
@@ -234,13 +246,14 @@
         private System.Windows.Forms.ToolStripMenuItem modificarUsuarioToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem salirToolStripMenuItem;
         private System.Windows.Forms.Label label2;
-        private System.Windows.Forms.PictureBox pictureBox2;
+        private System.Windows.Forms.PictureBox picConsultas;
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.PictureBox picSearch;
         private System.Windows.Forms.Label label4;
         private System.Windows.Forms.Label label5;
-        private System.Windows.Forms.PictureBox pictureBox4;
+        private System.Windows.Forms.PictureBox picFavoritos;
         private System.Windows.Forms.Label label7;
-        private System.Windows.Forms.PictureBox pictureBox6;
+        private System.Windows.Forms.PictureBox picHistorial;
+        private System.Windows.Forms.ToolStripMenuItem cerrarSesiónToolStripMenuItem;
     }
 }

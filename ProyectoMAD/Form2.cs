@@ -106,15 +106,7 @@ namespace ProyectoMAD
                 }
                 else if (rbFem.Checked)
                 {
-
-
-             
-
-
                     genero = "Femenino";
-
-
-                   
                 }
                 else
                 {
@@ -127,12 +119,6 @@ namespace ProyectoMAD
                     MessageBox.Show("Por favor, selecciona una pregunta.", "ATENCIÓN", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                     return;
                 }
-
-
-               
-                
-
-
                 if (RespuestaSeguridad == "")
                 {
                     MessageBox.Show("Por favor, responda la pregunta de seguridad", "ATENCIÓN", MessageBoxButtons.OK, MessageBoxIcon.Warning);
