@@ -40,20 +40,41 @@ BEGIN
 END
 GO
 
+CREATE OR ALTER PROCEDURE spDeleteRecord
+	@id SMALLINT
+AS
+BEGIN
+	SET NOCOUNT ON
+
+	BEGIN TRY
+		DELETE FROM Historiales
+			WHERE id_historial = @id;
+	END TRY
+	BEGIN CATCH
+		THROW
+	END CATCH
+END
+
 
 /*
 DECLARE @UserId SMALLINT;
 SET @UserId = 1;  -- Reemplaza 1 con el ID de usuario que deseas consultar
 
 EXEC spGetHistory @id_user = @UserId;
+
+EXEC spDeleteRecord 1;
 */
 --SELECT * FROM historyView;
 --SELECT * FROM DB_Bible.dbo.Libros;
 --SELECT * FROM DB_Bible.dbo.Idiomas;
 --SELECT * FROM DB_Bible.dbo.Versiones;
 
---INSERT INTO Historiales (palabra, filtro_testamento, filtro_libro, filtro_version, fecha, id_usuario)
---VALUES ('Génesis', 'ANTIGUO TESTAMENTO', 'Exodo', 'REINA VALERA 1960', GETDATE(), 1)
+/*
+INSERT INTO Historiales (palabra, filtro_testamento, filtro_libro, filtro_version, fecha, id_usuario)
+VALUES ('Génesis', 'ANTIGUO TESTAMENTO', 'Exodo', 'REINA VALERA 1960', GETDATE(), 1)
+
+TRUNCATE TABLE Historiales;
+*/
 
 --SELECT * FROM Historiales;
 

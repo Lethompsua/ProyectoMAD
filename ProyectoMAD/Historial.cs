@@ -4,6 +4,7 @@ using System.ComponentModel;
 using System.Data;
 using System.Drawing;
 using System.Linq;
+using System.Security.Permissions;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
@@ -14,6 +15,7 @@ namespace ProyectoMAD
     public partial class Historial : Form
     {
         private static Historial instance;
+        private int id_historial;
         public Historial()
         {
             InitializeComponent();
@@ -52,6 +54,8 @@ namespace ProyectoMAD
             gridHistory.DataSource = history;
             gridHistory.AutoResizeColumns(DataGridViewAutoSizeColumnsMode.AllCells);
             gridHistory.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
+
+            gridHistory.SelectionChanged += GridHistory_SelectionChanged;
         }
 
         public static Historial GetInstance() //Singleton
@@ -80,6 +84,40 @@ namespace ProyectoMAD
         private void salirToolStripMenuItem_Click(object sender, EventArgs e)
         {
             this.Close();
+        }
+        private void GridHistory_SelectionChanged(object sender, EventArgs e)
+        {
+            if (gridHistory.CurrentRow != null)
+            {
+                id_historial = Convert.ToInt32(gridHistory.CurrentRow.Cells["id_historial"].Value);
+            }
+        }
+        private void btnDelete_Click(object sender, EventArgs e)
+        {
+            if (gridHistory.Rows.Count == 0)
+            {
+                MessageBox.Show("Su historial se encuentra vacío", "ATENCIÓN", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+            }
+            else
+            {
+                if (id_historial == 0)
+                {
+                    MessageBox.Show("No ha seleccionado ningún registro", "ATENCIÓN", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                }
+                else
+                {
+                    if (MessageBox.Show("¿Está seguro de que desea eliminar este registro?", "ATENCIÓN", MessageBoxButtons.YesNo, MessageBoxIcon.Information)
+                        == DialogResult.Yes)
+                    {
+                        EnlaceDB enlaceDB = new EnlaceDB();
+                        if (enlaceDB.deleteRecord(id_historial) == true )
+                        {
+                            gridHistory.Rows.RemoveAt(gridHistory.CurrentRow.Index);
+                            MessageBox.Show("Se ha eliminado la búsqueda", "ATENCIÓN", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                        }
+                    }
+                }
+            }
         }
     }
 }
