@@ -69,7 +69,7 @@ namespace WindowsFormsApplication1
             _conexion.Close();
         }
 
-        #region Métodos de ejemplo
+        #region Procedures de ejemplo
         public bool Autentificar(string us, string ps)
         {
             bool isValid = false;
@@ -218,7 +218,7 @@ namespace WindowsFormsApplication1
         }
         #endregion
 
-        #region Métodos para usuarios
+        #region Procedurese para usuarios
         public bool AgregarUsuario(string email, string password, string nombreCompleto, DateTime fechaNacimiento, string genero, string preguntaSeguridad, string respuestaSeguridad)
         {
             bool agregado = true;
@@ -714,6 +714,32 @@ namespace WindowsFormsApplication1
                 _comandosql.CommandType = CommandType.StoredProcedure;
 
                 _comandosql.Parameters.AddWithValue("@id", id);
+
+                _comandosql.ExecuteNonQuery();
+            }
+            catch (SqlException e)
+            {
+                string msg = e.Message;
+                MessageBox.Show(msg, "ERROR", MessageBoxButtons.OK, MessageBoxIcon.Error);
+
+                result = false;
+            }
+            finally
+            {
+                desconectar();
+            }
+
+            return result;
+        }
+        public bool deleteAll()
+        {
+            bool result = true;
+            try
+            {
+                conectar();
+                string qry = "spDeleteAllHistory";
+                _comandosql = new SqlCommand(qry, _conexion);
+                _comandosql.CommandType = CommandType.StoredProcedure;
 
                 _comandosql.ExecuteNonQuery();
             }

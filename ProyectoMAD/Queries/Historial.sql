@@ -54,15 +54,27 @@ BEGIN
 		THROW
 	END CATCH
 END
+GO
+
+CREATE OR ALTER PROCEDURE spDeleteAllHistory
+AS
+BEGIN
+	SET NOCOUNT ON
+
+	BEGIN TRY
+		TRUNCATE TABLE Historiales;
+	END TRY
+	BEGIN CATCH
+		THROW
+	END CATCH
+END
+GO
 
 
 /*
-DECLARE @UserId SMALLINT;
-SET @UserId = 1;  -- Reemplaza 1 con el ID de usuario que deseas consultar
-
-EXEC spGetHistory @id_user = @UserId;
-
+EXEC spGetHistory 1;
 EXEC spDeleteRecord 1;
+EXEC spDeleteAllHistory;
 */
 --SELECT * FROM historyView;
 --SELECT * FROM DB_Bible.dbo.Libros;

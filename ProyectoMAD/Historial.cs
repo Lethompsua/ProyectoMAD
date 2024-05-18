@@ -119,5 +119,25 @@ namespace ProyectoMAD
                 }
             }
         }
+        private void btnDeleteAll_Click(object sender, EventArgs e)
+        {
+            if (gridHistory.Rows.Count != 0)
+            {
+                if (MessageBox.Show("Está a punto de borrar todo su historial. ¿Está seguro?", "ATENCIÓN", MessageBoxButtons.YesNo, MessageBoxIcon.Warning)
+                    == DialogResult.Yes)
+                {
+                    EnlaceDB enlaceDB = new EnlaceDB();
+                    if (enlaceDB.deleteAll() == true )
+                    {
+                        MessageBox.Show("Se ha eliminado todo su historial", "ATENCIÓN", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                        this.Close();
+                    }
+                }
+            }
+            else
+            {
+                MessageBox.Show("Su historial ya se encuentra vacío", "ATENCIÓN", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+            }
+        }
     }
 }
