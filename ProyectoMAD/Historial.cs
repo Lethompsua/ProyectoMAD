@@ -96,7 +96,7 @@ namespace ProyectoMAD
         {
             if (gridHistory.CurrentRow != null)
             {
-                id_historial = Convert.ToInt32(gridHistory.CurrentRow.Cells["id_historial"].Value);
+                id_historial = Convert.ToInt32(gridHistory.CurrentRow.Cells["#"].Value);
             }
         }
         private void btnDelete_Click(object sender, EventArgs e)

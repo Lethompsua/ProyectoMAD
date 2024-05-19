@@ -34,8 +34,10 @@
             this.menuStrip1 = new System.Windows.Forms.MenuStrip();
             this.salirToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.label3 = new System.Windows.Forms.Label();
+            this.picReturn = new System.Windows.Forms.PictureBox();
             ((System.ComponentModel.ISupportInitialize)(this.gridFavoritos)).BeginInit();
             this.menuStrip1.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.picReturn)).BeginInit();
             this.SuspendLayout();
             // 
             // gridFavoritos
@@ -43,17 +45,19 @@
             this.gridFavoritos.AllowUserToAddRows = false;
             this.gridFavoritos.AllowUserToDeleteRows = false;
             this.gridFavoritos.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.gridFavoritos.Location = new System.Drawing.Point(233, 107);
+            this.gridFavoritos.Location = new System.Drawing.Point(12, 107);
             this.gridFavoritos.MultiSelect = false;
             this.gridFavoritos.Name = "gridFavoritos";
             this.gridFavoritos.ReadOnly = true;
             this.gridFavoritos.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-            this.gridFavoritos.Size = new System.Drawing.Size(844, 467);
+            this.gridFavoritos.Size = new System.Drawing.Size(1208, 467);
             this.gridFavoritos.TabIndex = 0;
+            this.gridFavoritos.CellDoubleClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.gridFavoritos_CellDoubleClick);
+            this.gridFavoritos.SelectionChanged += new System.EventHandler(this.gridFavoritos_SelectionChanged);
             // 
             // btnDelete
             // 
-            this.btnDelete.Location = new System.Drawing.Point(1083, 107);
+            this.btnDelete.Location = new System.Drawing.Point(1226, 107);
             this.btnDelete.Name = "btnDelete";
             this.btnDelete.Size = new System.Drawing.Size(95, 35);
             this.btnDelete.TabIndex = 1;
@@ -99,11 +103,23 @@
             this.label3.TabIndex = 27;
             this.label3.Text = "Favoritos";
             // 
+            // picReturn
+            // 
+            this.picReturn.Image = global::ProyectoMAD.Properties.Resources.icon_return;
+            this.picReturn.Location = new System.Drawing.Point(12, 69);
+            this.picReturn.Name = "picReturn";
+            this.picReturn.Size = new System.Drawing.Size(29, 32);
+            this.picReturn.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
+            this.picReturn.TabIndex = 28;
+            this.picReturn.TabStop = false;
+            this.picReturn.Click += new System.EventHandler(this.picReturn_Click);
+            // 
             // Favoritos
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(10F, 21F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1333, 640);
+            this.Controls.Add(this.picReturn);
             this.Controls.Add(this.label3);
             this.Controls.Add(this.menuStrip1);
             this.Controls.Add(this.btnAgregar);
@@ -116,6 +132,7 @@
             ((System.ComponentModel.ISupportInitialize)(this.gridFavoritos)).EndInit();
             this.menuStrip1.ResumeLayout(false);
             this.menuStrip1.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.picReturn)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -129,5 +146,6 @@
         private System.Windows.Forms.MenuStrip menuStrip1;
         private System.Windows.Forms.ToolStripMenuItem salirToolStripMenuItem;
         private System.Windows.Forms.Label label3;
+        private System.Windows.Forms.PictureBox picReturn;
     }
 }

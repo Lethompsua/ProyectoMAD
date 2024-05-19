@@ -4,7 +4,7 @@ GO
 CREATE OR ALTER VIEW historyView
 AS
 	SELECT h.id_usuario,
-		h.id_historial,
+		h.id_historial AS #,
 		h.palabra AS Palabra, 
 		i.Nombre AS Idioma, 
 		v.NombreVersion AS Version, 
@@ -24,7 +24,7 @@ BEGIN
     SET NOCOUNT ON;
 
     BEGIN TRY
-        SELECT id_historial,
+        SELECT #,
             Palabra,
             Idioma,
             Version,
@@ -81,7 +81,7 @@ BEGIN
     BEGIN TRY
 		IF @month = 0
 		BEGIN
-			SELECT id_historial,
+			SELECT #,
 				Palabra,
 				Idioma,
 				Version,
@@ -95,7 +95,7 @@ BEGIN
 		END
 		ELSE IF @year = 0
 		BEGIN
-			SELECT id_historial,
+			SELECT #,
 				Palabra,
 				Idioma,
 				Version,
@@ -109,7 +109,7 @@ BEGIN
 		END
 		ELSE IF @month <> 0 AND @year <> 0
 		BEGIN
-			SELECT id_historial,
+			SELECT #,
 				Palabra,
 				Idioma,
 				Version,
@@ -146,7 +146,7 @@ VALUES ('Génesis', 'ANTIGUO TESTAMENTO', 'Exodo', 'REINA VALERA 1960', GETDATE()
 INSERT INTO Historiales (palabra, filtro_testamento, filtro_libro, filtro_version, fecha, id_usuario)
 VALUES ('Génesis', 'NUEVO TESTAMENTO', 'Números', 'REINA VALERA 1960', '2024-12-17 18:14:21.897', 1)
 INSERT INTO Historiales (palabra, filtro_testamento, filtro_libro, filtro_version, fecha, id_usuario)
-VALUES ('Génesis', 'OLD TESTAMENT', 'Jueces', 'REINA VALERA 1960', GETDATE(), 2)
+VALUES ('Génesis', 'OLD TESTAMENT', 'Jueces', 'REINA VALERA 1960', GETDATE(), 1)
 
 TRUNCATE TABLE Historiales;
 

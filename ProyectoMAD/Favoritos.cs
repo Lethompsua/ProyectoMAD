@@ -15,6 +15,8 @@ namespace ProyectoMAD
     {
         private static Favoritos instance;
         private int id_fav {  get; set; }
+        private bool gridChapterOn { get; set; }
+
         public Favoritos()
         {
             InitializeComponent();
@@ -24,7 +26,12 @@ namespace ProyectoMAD
             DataTable favs = enlaceDB.getFavs(frmLogin.userID);
             gridFavoritos.DataSource = favs;
             gridFavoritos.AutoResizeColumns(DataGridViewAutoSizeColumnsMode.AllCells);
-            gridFavoritos.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
+            gridFavoritos.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.AllCells;
+
+            picReturn.Visible = false;
+            picReturn.Enabled = false;
+
+            gridChapterOn = false;
         }
 
         public static Favoritos GetInstance()
@@ -58,36 +65,80 @@ namespace ProyectoMAD
 
         private void btnDelete_Click(object sender, EventArgs e)
         {
-            if (gridFavoritos.Rows.Count == 0)
+            if (gridChapterOn == false)
             {
-                MessageBox.Show("Su lista de favoritos se encuentra vacía", "ATENCIÓN", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-            }
-            else
-            {
-                if (gridFavoritos.SelectedRows.Count == 0)
+                if (gridFavoritos.Rows.Count == 0)
                 {
-                    MessageBox.Show("No ha seleccionado ningún favorito", "ATENCIÓN", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    MessageBox.Show("Su lista de favoritos se encuentra vacía", "ATENCIÓN", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 }
                 else
                 {
-                    if (MessageBox.Show("¿Está seguro de que desea eliminar este favorito?", "ATENCIÓN", MessageBoxButtons.YesNo, MessageBoxIcon.Information)
-                        == DialogResult.Yes)
+                    if (gridFavoritos.SelectedRows.Count == 0)
                     {
-                        EnlaceDB enlaceDB = new EnlaceDB();
-                        if (enlaceDB.deleteFav(id_fav) == true)
+                        MessageBox.Show("No ha seleccionado ningún favorito", "ATENCIÓN", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    }
+                    else
+                    {
+                        if (MessageBox.Show("¿Está seguro de que desea eliminar este favorito?", "ATENCIÓN", MessageBoxButtons.YesNo, MessageBoxIcon.Information)
+                            == DialogResult.Yes)
                         {
-                            gridFavoritos.Rows.RemoveAt(gridFavoritos.CurrentRow.Index);
-                            MessageBox.Show("Se ha eliminado el favorito", "ATENCIÓN", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                            EnlaceDB enlaceDB = new EnlaceDB();
+                            if (enlaceDB.deleteFav(id_fav) == true)
+                            {
+                                gridFavoritos.Rows.RemoveAt(gridFavoritos.CurrentRow.Index);
+                                MessageBox.Show("Se ha eliminado el favorito", "ATENCIÓN", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                            }
                         }
                     }
                 }
             }
         }
-
         private void btnAgregar_Click(object sender, EventArgs e)
         {
             Consultas consultas = Consultas.GetInstance();
             consultas.Show();
+        }
+        private void gridFavoritos_CellDoubleClick(object sender, DataGridViewCellEventArgs e)
+        {
+            if (gridChapterOn == false)
+            {
+                gridChapterOn = true;
+
+                EnlaceDB enlaceDB = new EnlaceDB();
+                int capitulo = Convert.ToInt32(gridFavoritos.CurrentRow.Cells["Capitulo"].Value);
+                string libro = gridFavoritos.CurrentRow.Cells["Libro"].Value.ToString();
+
+                DataTable chapter = enlaceDB.getChapter(libro, capitulo);
+                gridFavoritos.DataSource = chapter;
+                gridFavoritos.AutoResizeColumns(DataGridViewAutoSizeColumnsMode.AllCells);
+                gridFavoritos.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.AllCells;
+
+                picReturn.Visible = true;
+                picReturn.Enabled = true;
+            }
+
+        }
+        private void gridFavoritos_SelectionChanged(object sender, EventArgs e)
+        {
+            if (gridFavoritos.CurrentRow != null && gridChapterOn == false)
+            {
+                id_fav = Convert.ToInt32(gridFavoritos.CurrentRow.Cells["#"].Value);
+            }
+        }
+        private void picReturn_Click(object sender, EventArgs e)
+        {
+            EnlaceDB enlaceDB = new EnlaceDB();
+            DataTable favs = enlaceDB.getFavs(frmLogin.userID);
+
+            gridFavoritos.DataSource = null; //Primero vacío el datagrid para que se acomode bien
+            gridFavoritos.DataSource = favs;
+            gridFavoritos.AutoResizeColumns(DataGridViewAutoSizeColumnsMode.AllCells);
+            gridFavoritos.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.AllCells;
+
+            picReturn.Visible = false;
+            picReturn.Enabled = false;
+
+            gridChapterOn = false;
         }
     }
 }

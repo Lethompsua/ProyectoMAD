@@ -55,8 +55,8 @@ CREATE TABLE Favoritos (
 	nombre VARCHAR(20) NOT NULL,
 	fecha_registro DATETIME NOT NULL,
 	libro VARCHAR(20) NOT NULL,
-	capitulo VARCHAR(20) NOT NULL,
-	version VARCHAR(20) NOT NULL,
+	capitulo TINYINT NOT NULL,
+	version VARCHAR(50) NOT NULL,
 	id_versiculo SMALLINT,
 	id_usuario SMALLINT NOT NULL,
 

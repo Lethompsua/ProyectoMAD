@@ -844,6 +844,34 @@ namespace WindowsFormsApplication1
 
             return result;
         }
+        public DataTable getChapter (string libro, int capitulo)
+        {
+            DataTable tabla = new DataTable();
+
+            try
+            {
+                conectar();
+                string qry = "spGetChapter";
+                _comandosql = new SqlCommand(qry, _conexion);
+                _comandosql.CommandType = CommandType.StoredProcedure;
+
+                _comandosql.Parameters.AddWithValue("@Libro", libro);
+                _comandosql.Parameters.AddWithValue("@NumeroCap", capitulo);
+
+                SqlDataAdapter adapter = new SqlDataAdapter(_comandosql);
+                adapter.Fill(tabla);
+            }
+            catch (SqlException e)
+            {
+                string msg = e.Message;
+                MessageBox.Show(msg, "ERROR", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+            finally
+            {
+                desconectar();
+            }
+            return tabla;
+        }
         #endregion
     }
 }

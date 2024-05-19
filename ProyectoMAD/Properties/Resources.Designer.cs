@@ -123,6 +123,16 @@ namespace ProyectoMAD.Properties {
         /// <summary>
         ///   Busca un recurso adaptado de tipo System.Drawing.Bitmap.
         /// </summary>
+        internal static System.Drawing.Bitmap icon_return {
+            get {
+                object obj = ResourceManager.GetObject("icon_return", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Busca un recurso adaptado de tipo System.Drawing.Bitmap.
+        /// </summary>
         internal static System.Drawing.Bitmap show_icon {
             get {
                 object obj = ResourceManager.GetObject("show_icon", resourceCulture);
