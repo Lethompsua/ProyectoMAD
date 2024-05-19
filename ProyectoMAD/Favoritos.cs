@@ -83,5 +83,11 @@ namespace ProyectoMAD
                 }
             }
         }
+
+        private void btnAgregar_Click(object sender, EventArgs e)
+        {
+            Consultas consultas = Consultas.GetInstance();
+            consultas.Show();
+        }
     }
 }
