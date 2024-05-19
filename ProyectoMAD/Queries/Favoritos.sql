@@ -23,6 +23,23 @@ BEGIN
 		THROW
 	END CATCH
 END
+GO
+
+CREATE OR ALTER PROCEDURE spDeleteFav
+	@id SMALLINT
+AS
+BEGIN
+	SET NOCOUNT ON
+
+	BEGIN TRY
+		DELETE FROM Favoritos
+			WHERE id_favorito = @id;
+	END TRY
+	BEGIN CATCH
+		THROW
+	END CATCH
+END
+GO
 
 /*
 SELECT * FROM DB_Bible.dbo.Versiculos

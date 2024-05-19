@@ -816,6 +816,34 @@ namespace WindowsFormsApplication1
             }
             return tabla;
         }
+        public bool deleteFav(int id)
+        {
+            bool result = true;
+            try
+            {
+                conectar();
+                string qry = "spDeleteFav";
+                _comandosql = new SqlCommand(qry, _conexion);
+                _comandosql.CommandType = CommandType.StoredProcedure;
+
+                _comandosql.Parameters.AddWithValue("@id", id);
+
+                _comandosql.ExecuteNonQuery();
+            }
+            catch (SqlException e)
+            {
+                string msg = e.Message;
+                MessageBox.Show(msg, "ERROR", MessageBoxButtons.OK, MessageBoxIcon.Error);
+
+                result = false;
+            }
+            finally
+            {
+                desconectar();
+            }
+
+            return result;
+        }
         #endregion
     }
 }

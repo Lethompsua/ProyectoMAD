@@ -14,6 +14,7 @@ namespace ProyectoMAD
     public partial class Favoritos : Form
     {
         private static Favoritos instance;
+        private int id_fav {  get; set; }
         public Favoritos()
         {
             InitializeComponent();
@@ -55,6 +56,32 @@ namespace ProyectoMAD
             this.Close();
         }
 
-
+        private void btnDelete_Click(object sender, EventArgs e)
+        {
+            if (gridFavoritos.Rows.Count == 0)
+            {
+                MessageBox.Show("Su lista de favoritos se encuentra vacía", "ATENCIÓN", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+            }
+            else
+            {
+                if (gridFavoritos.SelectedRows.Count == 0)
+                {
+                    MessageBox.Show("No ha seleccionado ningún favorito", "ATENCIÓN", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                }
+                else
+                {
+                    if (MessageBox.Show("¿Está seguro de que desea eliminar este favorito?", "ATENCIÓN", MessageBoxButtons.YesNo, MessageBoxIcon.Information)
+                        == DialogResult.Yes)
+                    {
+                        EnlaceDB enlaceDB = new EnlaceDB();
+                        if (enlaceDB.deleteFav(id_fav) == true)
+                        {
+                            gridFavoritos.Rows.RemoveAt(gridFavoritos.CurrentRow.Index);
+                            MessageBox.Show("Se ha eliminado el favorito", "ATENCIÓN", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                        }
+                    }
+                }
+            }
+        }
     }
 }

@@ -107,7 +107,7 @@ namespace ProyectoMAD
             }
             else
             {
-                if (id_historial == 0)
+                if (gridHistory.SelectedRows.Count == 0)
                 {
                     MessageBox.Show("No ha seleccionado ningún registro", "ATENCIÓN", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 }
