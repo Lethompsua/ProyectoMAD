@@ -7,6 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using WindowsFormsApplication1;
 
 namespace ProyectoMAD
 {
@@ -16,6 +17,13 @@ namespace ProyectoMAD
         public Favoritos()
         {
             InitializeComponent();
+
+            EnlaceDB enlaceDB = new EnlaceDB();
+
+            DataTable favs = enlaceDB.getFavs(frmLogin.userID);
+            gridFavoritos.DataSource = favs;
+            gridFavoritos.AutoResizeColumns(DataGridViewAutoSizeColumnsMode.AllCells);
+            gridFavoritos.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
         }
 
         public static Favoritos GetInstance()
@@ -46,5 +54,7 @@ namespace ProyectoMAD
         {
             this.Close();
         }
+
+
     }
 }

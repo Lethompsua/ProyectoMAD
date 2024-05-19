@@ -642,8 +642,6 @@ namespace WindowsFormsApplication1
 
             return libros;
         }
-
-        #region Procedures para Historial
         public DataTable get_Versiculos()
         {
             var msg = "";
@@ -676,6 +674,8 @@ namespace WindowsFormsApplication1
 
             return tabla;
         }
+
+        #region Procedures para Historial
         public DataTable getHistory(int id)
         {
             DataTable tabla = new DataTable();
@@ -771,6 +771,36 @@ namespace WindowsFormsApplication1
                 _comandosql.Parameters.AddWithValue("@id_user", id);
                 _comandosql.Parameters.AddWithValue("@month", month);
                 _comandosql.Parameters.AddWithValue("@year", year);
+
+                SqlDataAdapter adapter = new SqlDataAdapter(_comandosql);
+                adapter.Fill(tabla);
+            }
+            catch (SqlException e)
+            {
+                string msg = e.Message;
+                MessageBox.Show(msg, "ERROR", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+            finally
+            {
+                desconectar();
+            }
+            return tabla;
+        }
+        #endregion
+
+        #region Procedures para Favoritos
+        public DataTable getFavs (int id)
+        {
+            DataTable tabla = new DataTable();
+
+            try
+            {
+                conectar();
+                string qry = "spShowFavs";
+                _comandosql = new SqlCommand(qry, _conexion);
+                _comandosql.CommandType = CommandType.StoredProcedure;
+
+                _comandosql.Parameters.AddWithValue("@id_user", id);
 
                 SqlDataAdapter adapter = new SqlDataAdapter(_comandosql);
                 adapter.Fill(tabla);
