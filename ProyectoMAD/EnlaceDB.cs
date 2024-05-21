@@ -873,5 +873,162 @@ namespace WindowsFormsApplication1
             return tabla;
         }
         #endregion
+
+        #region Consultas libro
+        public DataTable ObtenerIdiomas()
+        {
+            var msg = "";
+            DataTable tabla = new DataTable();
+            try
+            {
+                conectar();
+                string qry = "EXEC ObtenerIdiomas";
+                _comandosql = new SqlCommand(qry, _conexion);
+                _comandosql.CommandType = CommandType.Text;
+                _comandosql.CommandTimeout = 1200;
+
+                _adaptador.SelectCommand = _comandosql;
+                _adaptador.Fill(tabla);
+            }
+            catch (SqlException e)
+            {
+                msg = "Excepción de base de datos: \n";
+                msg += e.Message;
+                MessageBox.Show(msg, "Warning!", MessageBoxButtons.OK, MessageBoxIcon.Stop);
+            }
+            finally
+            {
+                desconectar();
+            }
+
+            return tabla;
+        }
+
+        public DataTable ObtenerVersionesPorNombreIdioma(string nombreIdioma)
+        {
+            DataTable tabla = new DataTable();
+            try
+            {
+                conectar();
+                using (SqlCommand comando = new SqlCommand("ObtenerVersionesPorNombreIdioma", _conexion))
+                {
+                    comando.CommandType = CommandType.StoredProcedure;
+                    comando.Parameters.AddWithValue("@NombreIdioma", nombreIdioma);
+                    SqlDataAdapter adaptador = new SqlDataAdapter(comando);
+                    adaptador.Fill(tabla);
+                }
+            }
+            catch (SqlException ex)
+            {
+                MessageBox.Show("Error al obtener versiones: " + ex.Message);
+            }
+            finally
+            {
+                desconectar();
+            }
+            return tabla;
+        }
+
+        public DataTable ObtenerTestamentosPorNombreVersion(string nombreIdioma, string nombreVersion)
+        {
+            DataTable tabla = new DataTable();
+            try
+            {
+                conectar();
+                using (SqlCommand comando = new SqlCommand("ObtenerTestamentosPorNombreVersion", _conexion))
+                {
+                    comando.CommandType = CommandType.StoredProcedure;
+                    comando.Parameters.AddWithValue("@NombreIdioma", nombreIdioma);
+                    comando.Parameters.AddWithValue("@NombreVersion", nombreVersion);
+                    SqlDataAdapter adaptador = new SqlDataAdapter(comando);
+                    adaptador.Fill(tabla);
+                }
+            }
+            catch (SqlException ex)
+            {
+                MessageBox.Show("Error al obtener testamentos: " + ex.Message);
+            }
+            finally
+            {
+                desconectar();
+            }
+            return tabla;
+        }
+
+        public DataTable ObtenerLibrosPorNombreTestamento(string nombreTestamento)
+        {
+            DataTable tabla = new DataTable();
+            try
+            {
+                conectar();
+                using (SqlCommand comando = new SqlCommand("ObtenerLibrosPorNombreTestamento", _conexion))
+                {
+                    comando.CommandType = CommandType.StoredProcedure;
+                    comando.Parameters.AddWithValue("@NombreTestamento", nombreTestamento);
+                    SqlDataAdapter adaptador = new SqlDataAdapter(comando);
+                    adaptador.Fill(tabla);
+                }
+            }
+            catch (SqlException ex)
+            {
+                MessageBox.Show("Error al obtener libros: " + ex.Message);
+            }
+            finally
+            {
+                desconectar();
+            }
+            return tabla;
+        }
+
+        public DataTable ObtenerVersiculosPorNombreLibro(string nombreLibro)
+        {
+            DataTable tabla = new DataTable();
+            try
+            {
+                conectar();
+                string qry = "sp_ObtenerVersiculosPorNombreLibro";
+                _comandosql = new SqlCommand(qry, _conexion);
+                _comandosql.CommandType = CommandType.StoredProcedure;
+                _comandosql.Parameters.AddWithValue("@nombre_libro", nombreLibro);
+                _adaptador.SelectCommand = _comandosql;
+                _adaptador.Fill(tabla);
+            }
+            catch (SqlException e)
+            {
+                string msg = "Excepción de base de datos: \n" + e.Message;
+                MessageBox.Show(msg, "Warning!", MessageBoxButtons.OK, MessageBoxIcon.Stop);
+            }
+            finally
+            {
+                desconectar();
+            }
+
+            return tabla;
+        }
+
+        public DataTable BuscarVersiculos(string busqueda)
+        {
+            DataTable tabla = new DataTable();
+            try
+            {
+                conectar();
+                string qry = "EXEC BuscarVersiculosPorPalabraOFrase @Busqueda";
+                SqlCommand cmd = new SqlCommand(qry, _conexion);
+                cmd.Parameters.AddWithValue("@Busqueda", busqueda);
+                SqlDataAdapter adaptador = new SqlDataAdapter(cmd);
+                adaptador.Fill(tabla);
+            }
+            catch (SqlException e)
+            {
+                MessageBox.Show("Excepción de base de datos: \n" + e.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+            finally
+            {
+                desconectar();
+            }
+            return tabla;
+        }
+
+        #endregion
     }
 }
