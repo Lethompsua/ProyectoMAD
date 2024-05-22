@@ -135,7 +135,9 @@ namespace ProyectoMAD
         {
             if (cbLibro.SelectedValue != null)
             {
-                int idLibro = Convert.ToInt32(cbLibro.SelectedValue);
+                DataRowView selectedRow = (DataRowView)cbLibro.SelectedItem;
+                int idLibro = Convert.ToInt32(selectedRow["Id_Libro"]);
+
                 try
                 {
                     CargarCapitulos(idLibro);
@@ -162,8 +164,7 @@ namespace ProyectoMAD
                 List<int> capitulos = new List<int>();
                 foreach (DataRow fila in tablaCapitulos.Rows)
                 {
-                    // Suponiendo que la columna que contiene el número de capítulos se llama "NumeroCapitulos"
-                    int numeroCapitulo = Convert.ToInt32(fila["NumeroCapitulos"]);
+                    int numeroCapitulo = Convert.ToInt32(fila["NumeroCap"]);
                     capitulos.Add(numeroCapitulo);
                 }
 

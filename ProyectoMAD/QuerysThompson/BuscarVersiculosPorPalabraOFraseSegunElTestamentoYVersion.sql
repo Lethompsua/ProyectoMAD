@@ -1,9 +1,9 @@
 CREATE OR ALTER PROCEDURE [dbo].[BuscarVersiculosPorPalabraOFraseSegunElTestamentoYVersion]
     @Busqueda NVARCHAR(100),
 	@Testamento NVARCHAR(20),
-	@Version NVARCHAR(30),
-	@Libro NVARCHAR(25),
-	@NumCap INT
+	@Version NVARCHAR(30)
+	--@Libro NVARCHAR(25),
+	--@NumCap INT
 AS
 BEGIN
     SELECT DISTINCT 
@@ -21,3 +21,5 @@ BEGIN
         AND Testamentos.Nombre = @Testamento
         AND Versiones.NombreVersion = @Version;
 END;
+
+--EXEC BuscarVersiculosPorPalabraOFraseSegunElTestamentoYVersion 'Jehova', 'ANTIGUO TESTAMENTO', 'REINA VALERA 1960'
