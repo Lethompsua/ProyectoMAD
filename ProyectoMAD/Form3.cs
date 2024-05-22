@@ -64,14 +64,6 @@ namespace ProyectoMAD
             dataGridView1.CellPainting += DataGridView1_CellPainting;
         }
 
-
-
-
-
-
-
-
-
         private void DataGridView1_CellClick(object sender, DataGridViewCellEventArgs e)
         {
             // Asegurarse de que el índice de columna es el de la columna de botón y no es un encabezado
@@ -190,12 +182,13 @@ namespace ProyectoMAD
             }
 
             // Obtener el nombre del libro seleccionado
-            string nombreLibro = cbLibro.SelectedItem.ToString();
+            string nombreLibro = cbLibro.Text;
+            string version = cbVersion.Text;
 
             try
             {
                 EnlaceDB enlaceDB = new EnlaceDB();
-                DataTable versiculos = enlaceDB.ObtenerVersiculosPorNombreLibro(nombreLibro);
+                DataTable versiculos = enlaceDB.ObtenerVersiculosPorNombreLibro(nombreLibro, version);
 
                 // Limpiar ComboBoxes antes de asignar datos al DataGridView
                 LimpiarComboBoxes();
@@ -306,7 +299,6 @@ namespace ProyectoMAD
             cbLibro.DataSource = libros;
             cbLibro.DisplayMember = "Nombre";
             cbLibro.ValueMember = "Id_Libro";
-
         }
 
         private void btnBuscar_Click(object sender, EventArgs e)
@@ -383,9 +375,7 @@ namespace ProyectoMAD
             }
         }
 
-
-
-        private void btnGuardarFav_Click(object sender, EventArgs e)
+        private void btnShowCap_Click(object sender, EventArgs e)
         {
             // Verificar que los ComboBoxes no estén vacíos
             if (cbLibro.SelectedItem == null || cb_Cap.SelectedItem == null)
@@ -394,14 +384,17 @@ namespace ProyectoMAD
                 return;
             }
 
-            // Obtener el nombre del libro seleccionado y el número del capítulo
-            string nombreLibro = cbLibro.SelectedItem.ToString();
+            DataRowView libroSeleccionado = (DataRowView)cbLibro.SelectedItem;
+            DataRowView versionSeleccionada = (DataRowView)cbVersion.SelectedItem;
+
+            string nombreLibro = libroSeleccionado["Nombre"].ToString();
             int numeroCapitulo = Convert.ToInt32(cb_Cap.SelectedItem);
+            int version = Convert.ToInt32(versionSeleccionada["id_version"]);
 
             try
             {
                 EnlaceDB enlaceDB = new EnlaceDB();
-                DataTable versiculos = enlaceDB.ObtenerVersiculosPorNombreLibroYNumeroCap(nombreLibro, numeroCapitulo);
+                DataTable versiculos = enlaceDB.ObtenerVersiculosPorNombreLibroYNumeroCap(nombreLibro, numeroCapitulo, version);
 
                 // Limpiar ComboBoxes antes de asignar datos al DataGridView
                 LimpiarComboBoxes();
@@ -468,29 +461,23 @@ namespace ProyectoMAD
 
             // Obtener la palabra o frase a buscar
             string palabraBuscar = textBox1.Text;
+            string libro = cbLibro.Text;
+            string testamento = cbTestamento.Text;
+            string version = cbVersion.Text;
+
             if (string.IsNullOrEmpty(palabraBuscar))
             {
                 MessageBox.Show("Por favor, ingresa una palabra o frase para buscar.", "Advertencia", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 return;
             }
-
-            // Obtener el testamento seleccionado
-            string testamento = cbTestamento.SelectedItem?.ToString();
-
-            // Obtener la versión seleccionada
-            string version = cbVersion.SelectedItem?.ToString();
-
-            string Libro = cbLibro.SelectedItem?.ToString();
-
-            // Verificar si el testamento o la versión son NULL
-            if (string.IsNullOrEmpty(testamento) || string.IsNullOrEmpty(version) || string.IsNullOrEmpty(Libro))
+            if (string.IsNullOrEmpty(testamento) || string.IsNullOrEmpty(version) || string.IsNullOrEmpty(libro))
             {
-                MessageBox.Show("Por favor, selecciona un testamento y una versión.", "Advertencia", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                MessageBox.Show("Por favor, selecciona un testamento, una versión y un capítulo.", "Advertencia", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 return;
             }
 
             EnlaceDB enlaceDB = new EnlaceDB();
-            DataTable versiculos = enlaceDB.BuscarVersiculosPorTestamentoYLibro(palabraBuscar, testamento, version, Libro);
+            DataTable versiculos = enlaceDB.BuscarVersiculosPorTestamentoYLibro(palabraBuscar, testamento, version, libro);
 
             // Configurar el DataGridView
             ConfigurarDataGridView();
@@ -498,7 +485,6 @@ namespace ProyectoMAD
             // Asignar datos a la columna "Versiculos"
             dataGridView1.DataSource = versiculos;
             dataGridView1.Columns["Versiculo"].DataPropertyName = "Versiculo";
-
         }
     }
 }

@@ -980,7 +980,7 @@ namespace WindowsFormsApplication1
             return tabla;
         }
 
-        public DataTable ObtenerVersiculosPorNombreLibro(string nombreLibro)
+        public DataTable ObtenerVersiculosPorNombreLibro(string nombreLibro, string version)
         {
             DataTable tabla = new DataTable();
             try
@@ -990,6 +990,7 @@ namespace WindowsFormsApplication1
                 _comandosql = new SqlCommand(qry, _conexion);
                 _comandosql.CommandType = CommandType.StoredProcedure;
                 _comandosql.Parameters.AddWithValue("@nombre_libro", nombreLibro);
+                _comandosql.Parameters.AddWithValue("@version", version);
                 _adaptador.SelectCommand = _comandosql;
                 _adaptador.Fill(tabla);
             }
@@ -1057,7 +1058,7 @@ namespace WindowsFormsApplication1
         }
 
 
-        public DataTable ObtenerVersiculosPorNombreLibroYNumeroCap(string nombreLibro, int NumCapitulo)
+        public DataTable ObtenerVersiculosPorNombreLibroYNumeroCap(string nombreLibro, int NumCapitulo, int version)
         {
             DataTable tabla = new DataTable();
             try
@@ -1068,6 +1069,7 @@ namespace WindowsFormsApplication1
                 _comandosql.CommandType = CommandType.StoredProcedure;
                 _comandosql.Parameters.AddWithValue("@nombre_libro", nombreLibro);
                 _comandosql.Parameters.AddWithValue("@numero_capitulo", NumCapitulo);
+                _comandosql.Parameters.AddWithValue("@version", version);
                 _adaptador.SelectCommand = _comandosql;
                 _adaptador.Fill(tabla);
             }

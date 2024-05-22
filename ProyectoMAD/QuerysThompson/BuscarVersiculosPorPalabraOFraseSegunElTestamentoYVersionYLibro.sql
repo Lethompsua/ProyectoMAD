@@ -21,3 +21,7 @@ BEGIN
         AND Versiones.NombreVersion = @Version
         AND Libros.Nombre = @Libro;
 END;
+/*
+EXEC BuscarVersiculosPorPalabraOFraseSegunElTestamentoYVersionYLibro 'Dios', 'ANTIGUO TESTAMENTO', 'REINA VALERA 1960', 'Génesis'
+SELECT * FROM DB_Bible.dbo.Versiculos
+/*
