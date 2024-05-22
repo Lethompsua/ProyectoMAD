@@ -133,31 +133,85 @@ namespace ProyectoMAD
 
         private void comboBox2_SelectedIndexChanged(object sender, EventArgs e)
         {
-
+            if (cbLibro.SelectedValue != null)
+            {
+                int idLibro = Convert.ToInt32(cbLibro.SelectedValue);
+                try
+                {
+                    CargarCapitulos(idLibro);
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show("Error al cargar los capítulos: " + ex.Message);
+                }
+            }
         }
+
+        private void CargarCapitulos(int idLibro)
+        {
+            EnlaceDB enlaceDB = new EnlaceDB();
+            DataTable tablaCapitulos = enlaceDB.ObtenerCapitulosPorLibro(idLibro);
+
+            // Verificar si se obtuvo algún dato
+            if (tablaCapitulos != null && tablaCapitulos.Rows.Count > 0)
+            {
+                // Limpiar el ComboBox
+                cb_Cap.DataSource = null;
+
+                // Crear lista de capítulos
+                List<int> capitulos = new List<int>();
+                foreach (DataRow fila in tablaCapitulos.Rows)
+                {
+                    // Suponiendo que la columna que contiene el número de capítulos se llama "NumeroCapitulos"
+                    int numeroCapitulo = Convert.ToInt32(fila["NumeroCapitulos"]);
+                    capitulos.Add(numeroCapitulo);
+                }
+
+                // Establecer la lista de capítulos como origen de datos y refrescar el ComboBox
+                cb_Cap.DataSource = capitulos;
+                cb_Cap.Refresh(); // o cb_Cap.Invalidate();
+            }
+            else
+            {
+                MessageBox.Show("No se encontraron capítulos para este libro.");
+            }
+        }
+
+
 
         private void btnMostrarLibro_Click(object sender, EventArgs e)
         {
             // Verificar que los ComboBoxes no estén vacíos
-            if (string.IsNullOrEmpty(cbLibro.Text) || string.IsNullOrEmpty(cbIdioma.Text) || string.IsNullOrEmpty(cbVersion.Text))
+            if (cbLibro.SelectedItem == null || cbIdioma.SelectedItem == null || cbVersion.SelectedItem == null)
             {
                 MessageBox.Show("Por favor, selecciona todos los campos requeridos.", "Advertencia", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 return;
             }
 
             // Obtener el nombre del libro seleccionado
-            string nombreLibro = cbLibro.Text;
-            EnlaceDB enlaceDB = new EnlaceDB();
-            DataTable versiculos = enlaceDB.ObtenerVersiculosPorNombreLibro(nombreLibro);
+            string nombreLibro = cbLibro.SelectedItem.ToString();
 
-            // Configurar el DataGridView y limpiar ComboBoxes
-            ConfigurarDataGridView();
-            LimpiarComboBoxes();
+            try
+            {
+                EnlaceDB enlaceDB = new EnlaceDB();
+                DataTable versiculos = enlaceDB.ObtenerVersiculosPorNombreLibro(nombreLibro);
 
-            // Asignar datos a la columna "Versiculo"
-            dataGridView1.DataSource = versiculos;
-            dataGridView1.Columns["Versiculo"].DataPropertyName = "Versiculo"; // Asegurar que se asigne a la columna correcta
+                // Limpiar ComboBoxes antes de asignar datos al DataGridView
+                LimpiarComboBoxes();
+
+                // Configurar el DataGridView
+                ConfigurarDataGridView();
+
+                // Asignar datos a la columna "Versiculo"
+                dataGridView1.DataSource = versiculos;
+                dataGridView1.Columns["Versiculo"].DataPropertyName = "Versiculo"; // Asegurar que se asigne a la columna correcta
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Error al mostrar el libro: " + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
         }
+
 
 
         private void LimpiarComboBoxes()
@@ -332,6 +386,117 @@ namespace ProyectoMAD
 
         private void btnGuardarFav_Click(object sender, EventArgs e)
         {
+            // Verificar que los ComboBoxes no estén vacíos
+            if (cbLibro.SelectedItem == null || cb_Cap.SelectedItem == null)
+            {
+                MessageBox.Show("Por favor, selecciona todos los campos requeridos.", "Advertencia", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return;
+            }
+
+            // Obtener el nombre del libro seleccionado y el número del capítulo
+            string nombreLibro = cbLibro.SelectedItem.ToString();
+            int numeroCapitulo = Convert.ToInt32(cb_Cap.SelectedItem);
+
+            try
+            {
+                EnlaceDB enlaceDB = new EnlaceDB();
+                DataTable versiculos = enlaceDB.ObtenerVersiculosPorNombreLibroYNumeroCap(nombreLibro, numeroCapitulo);
+
+                // Limpiar ComboBoxes antes de asignar datos al DataGridView
+                LimpiarComboBoxes();
+
+                // Configurar el DataGridView
+                ConfigurarDataGridView();
+
+                // Asignar datos a la columna "Versiculo"
+                dataGridView1.DataSource = versiculos;
+                dataGridView1.Columns["Versiculo"].DataPropertyName = "Versiculo"; // Asegurar que se asigne a la columna correcta
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Error al mostrar el capítulo: " + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
+
+        private void cb_Cap_SelectedIndexChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void Form3_Load(object sender, EventArgs e)
+        {
+
+        }
+
+        private void btnBuscarEnUnTestemento_Click(object sender, EventArgs e)
+        {
+            // Obtener la palabra o frase a buscar
+            string palabraBuscar = textBox1.Text;
+            if (string.IsNullOrEmpty(palabraBuscar))
+            {
+                MessageBox.Show("Por favor, ingresa una palabra o frase para buscar.", "Advertencia", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return;
+            }
+
+            // Obtener el testamento seleccionado
+            string testamento = cbTestamento.SelectedItem?.ToString();
+
+            // Obtener la versión seleccionada
+            string version = cbVersion.SelectedItem?.ToString();
+
+            // Verificar si el testamento o la versión son NULL
+            if (string.IsNullOrEmpty(testamento) || string.IsNullOrEmpty(version))
+            {
+                MessageBox.Show("Por favor, selecciona un testamento y una versión.", "Advertencia", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return;
+            }
+
+            EnlaceDB enlaceDB = new EnlaceDB();
+            DataTable versiculos = enlaceDB.BuscarVersiculosPorTestamento(palabraBuscar, testamento, version);
+
+            // Configurar el DataGridView
+            ConfigurarDataGridView();
+
+            // Asignar datos a la columna "Versiculos"
+            dataGridView1.DataSource = versiculos;
+            dataGridView1.Columns["Versiculo"].DataPropertyName = "Versiculo";
+        }
+
+        private void BtnBuscarEnUnLibro_Click(object sender, EventArgs e)
+        {
+
+            // Obtener la palabra o frase a buscar
+            string palabraBuscar = textBox1.Text;
+            if (string.IsNullOrEmpty(palabraBuscar))
+            {
+                MessageBox.Show("Por favor, ingresa una palabra o frase para buscar.", "Advertencia", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return;
+            }
+
+            // Obtener el testamento seleccionado
+            string testamento = cbTestamento.SelectedItem?.ToString();
+
+            // Obtener la versión seleccionada
+            string version = cbVersion.SelectedItem?.ToString();
+
+            string Libro = cbLibro.SelectedItem?.ToString();
+
+            // Verificar si el testamento o la versión son NULL
+            if (string.IsNullOrEmpty(testamento) || string.IsNullOrEmpty(version) || string.IsNullOrEmpty(Libro))
+            {
+                MessageBox.Show("Por favor, selecciona un testamento y una versión.", "Advertencia", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return;
+            }
+
+            EnlaceDB enlaceDB = new EnlaceDB();
+            DataTable versiculos = enlaceDB.BuscarVersiculosPorTestamentoYLibro(palabraBuscar, testamento, version, Libro);
+
+            // Configurar el DataGridView
+            ConfigurarDataGridView();
+
+            // Asignar datos a la columna "Versiculos"
+            dataGridView1.DataSource = versiculos;
+            dataGridView1.Columns["Versiculo"].DataPropertyName = "Versiculo";
 
         }
     }

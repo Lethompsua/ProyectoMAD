@@ -41,10 +41,14 @@
             this.salirToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.textBox1 = new System.Windows.Forms.TextBox();
             this.dataGridView1 = new System.Windows.Forms.DataGridView();
+            this.Favorito = new System.Windows.Forms.DataGridViewButtonColumn();
             this.btnGuardarFav = new System.Windows.Forms.Button();
             this.btnMostrarLibro = new System.Windows.Forms.Button();
-            this.btnBuscar = new System.Windows.Forms.Button();
-            this.Favorito = new System.Windows.Forms.DataGridViewButtonColumn();
+            this.btnBuscarTodLibro = new System.Windows.Forms.Button();
+            this.cb_Cap = new System.Windows.Forms.ComboBox();
+            this.label5 = new System.Windows.Forms.Label();
+            this.BtnBuscarEnUnLibro = new System.Windows.Forms.Button();
+            this.btnBuscarEnUnTestemento = new System.Windows.Forms.Button();
             this.menuStrip1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
             this.SuspendLayout();
@@ -176,36 +180,6 @@
             this.dataGridView1.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dataGridView1_CellContentClick);
             this.dataGridView1.CellPainting += new System.Windows.Forms.DataGridViewCellPaintingEventHandler(this.DataGridView1_CellPainting);
             // 
-            // btnGuardarFav
-            // 
-            this.btnGuardarFav.Location = new System.Drawing.Point(456, 691);
-            this.btnGuardarFav.Name = "btnGuardarFav";
-            this.btnGuardarFav.Size = new System.Drawing.Size(283, 73);
-            this.btnGuardarFav.TabIndex = 28;
-            this.btnGuardarFav.Text = "🗒️Guardar Favoritos";
-            this.btnGuardarFav.UseVisualStyleBackColor = true;
-            this.btnGuardarFav.Click += new System.EventHandler(this.btnGuardarFav_Click);
-            // 
-            // btnMostrarLibro
-            // 
-            this.btnMostrarLibro.Location = new System.Drawing.Point(13, 691);
-            this.btnMostrarLibro.Name = "btnMostrarLibro";
-            this.btnMostrarLibro.Size = new System.Drawing.Size(219, 73);
-            this.btnMostrarLibro.TabIndex = 29;
-            this.btnMostrarLibro.Text = "Mostrar Libro";
-            this.btnMostrarLibro.UseVisualStyleBackColor = true;
-            this.btnMostrarLibro.Click += new System.EventHandler(this.btnMostrarLibro_Click);
-            // 
-            // btnBuscar
-            // 
-            this.btnBuscar.Location = new System.Drawing.Point(231, 691);
-            this.btnBuscar.Name = "btnBuscar";
-            this.btnBuscar.Size = new System.Drawing.Size(219, 73);
-            this.btnBuscar.TabIndex = 37;
-            this.btnBuscar.Text = "Buscar";
-            this.btnBuscar.UseVisualStyleBackColor = true;
-            this.btnBuscar.Click += new System.EventHandler(this.btnBuscar_Click);
-            // 
             // Favorito
             // 
             this.Favorito.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
@@ -219,12 +193,84 @@
             this.Favorito.UseColumnTextForButtonValue = true;
             this.Favorito.Width = 125;
             // 
+            // btnGuardarFav
+            // 
+            this.btnGuardarFav.Location = new System.Drawing.Point(238, 691);
+            this.btnGuardarFav.Name = "btnGuardarFav";
+            this.btnGuardarFav.Size = new System.Drawing.Size(212, 73);
+            this.btnGuardarFav.TabIndex = 28;
+            this.btnGuardarFav.Text = "Mostrar Libro capitulo especificado";
+            this.btnGuardarFav.UseVisualStyleBackColor = true;
+            this.btnGuardarFav.Click += new System.EventHandler(this.btnGuardarFav_Click);
+            // 
+            // btnMostrarLibro
+            // 
+            this.btnMostrarLibro.Location = new System.Drawing.Point(13, 691);
+            this.btnMostrarLibro.Name = "btnMostrarLibro";
+            this.btnMostrarLibro.Size = new System.Drawing.Size(219, 73);
+            this.btnMostrarLibro.TabIndex = 29;
+            this.btnMostrarLibro.Text = "Mostrar Libro";
+            this.btnMostrarLibro.UseVisualStyleBackColor = true;
+            this.btnMostrarLibro.Click += new System.EventHandler(this.btnMostrarLibro_Click);
+            // 
+            // btnBuscarTodLibro
+            // 
+            this.btnBuscarTodLibro.Location = new System.Drawing.Point(456, 691);
+            this.btnBuscarTodLibro.Name = "btnBuscarTodLibro";
+            this.btnBuscarTodLibro.Size = new System.Drawing.Size(219, 73);
+            this.btnBuscarTodLibro.TabIndex = 37;
+            this.btnBuscarTodLibro.Text = "Buscar en toda la lados";
+            this.btnBuscarTodLibro.UseVisualStyleBackColor = true;
+            this.btnBuscarTodLibro.Click += new System.EventHandler(this.btnBuscar_Click);
+            // 
+            // cb_Cap
+            // 
+            this.cb_Cap.FormattingEnabled = true;
+            this.cb_Cap.Location = new System.Drawing.Point(1148, 66);
+            this.cb_Cap.Name = "cb_Cap";
+            this.cb_Cap.Size = new System.Drawing.Size(173, 35);
+            this.cb_Cap.TabIndex = 39;
+            this.cb_Cap.SelectedIndexChanged += new System.EventHandler(this.cb_Cap_SelectedIndexChanged);
+            // 
+            // label5
+            // 
+            this.label5.AutoSize = true;
+            this.label5.Location = new System.Drawing.Point(1143, 36);
+            this.label5.Name = "label5";
+            this.label5.Size = new System.Drawing.Size(96, 27);
+            this.label5.TabIndex = 38;
+            this.label5.Text = "Capitulo:";
+            // 
+            // BtnBuscarEnUnLibro
+            // 
+            this.BtnBuscarEnUnLibro.Location = new System.Drawing.Point(906, 691);
+            this.BtnBuscarEnUnLibro.Name = "BtnBuscarEnUnLibro";
+            this.BtnBuscarEnUnLibro.Size = new System.Drawing.Size(219, 73);
+            this.BtnBuscarEnUnLibro.TabIndex = 40;
+            this.BtnBuscarEnUnLibro.Text = "Buscar en un capitulo";
+            this.BtnBuscarEnUnLibro.UseVisualStyleBackColor = true;
+            this.BtnBuscarEnUnLibro.Click += new System.EventHandler(this.BtnBuscarEnUnLibro_Click);
+            // 
+            // btnBuscarEnUnTestemento
+            // 
+            this.btnBuscarEnUnTestemento.Location = new System.Drawing.Point(681, 691);
+            this.btnBuscarEnUnTestemento.Name = "btnBuscarEnUnTestemento";
+            this.btnBuscarEnUnTestemento.Size = new System.Drawing.Size(219, 73);
+            this.btnBuscarEnUnTestemento.TabIndex = 41;
+            this.btnBuscarEnUnTestemento.Text = "Buscar en un testamento";
+            this.btnBuscarEnUnTestemento.UseVisualStyleBackColor = true;
+            this.btnBuscarEnUnTestemento.Click += new System.EventHandler(this.btnBuscarEnUnTestemento_Click);
+            // 
             // Form3
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(12F, 27F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1530, 1055);
-            this.Controls.Add(this.btnBuscar);
+            this.Controls.Add(this.btnBuscarEnUnTestemento);
+            this.Controls.Add(this.BtnBuscarEnUnLibro);
+            this.Controls.Add(this.cb_Cap);
+            this.Controls.Add(this.label5);
+            this.Controls.Add(this.btnBuscarTodLibro);
             this.Controls.Add(this.btnMostrarLibro);
             this.Controls.Add(this.btnGuardarFav);
             this.Controls.Add(this.textBox1);
@@ -244,6 +290,7 @@
             this.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.Name = "Form3";
             this.Text = "Búsquedas";
+            this.Load += new System.EventHandler(this.Form3_Load);
             this.menuStrip1.ResumeLayout(false);
             this.menuStrip1.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).EndInit();
@@ -269,7 +316,11 @@
         private System.Windows.Forms.DataGridView dataGridView1;
         private System.Windows.Forms.Button btnGuardarFav;
         private System.Windows.Forms.Button btnMostrarLibro;
-        private System.Windows.Forms.Button btnBuscar;
+        private System.Windows.Forms.Button btnBuscarTodLibro;
         private System.Windows.Forms.DataGridViewButtonColumn Favorito;
+        private System.Windows.Forms.ComboBox cb_Cap;
+        private System.Windows.Forms.Label label5;
+        private System.Windows.Forms.Button BtnBuscarEnUnLibro;
+        private System.Windows.Forms.Button btnBuscarEnUnTestemento;
     }
 }
