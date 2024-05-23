@@ -74,7 +74,7 @@
             // label3
             // 
             this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(964, 37);
+            this.label3.Location = new System.Drawing.Point(1249, 38);
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(52, 21);
             this.label3.TabIndex = 2;
@@ -82,17 +82,19 @@
             // 
             // cbVersion
             // 
+            this.cbVersion.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.cbVersion.FormattingEnabled = true;
             this.cbVersion.Location = new System.Drawing.Point(623, 67);
             this.cbVersion.Name = "cbVersion";
-            this.cbVersion.Size = new System.Drawing.Size(161, 29);
+            this.cbVersion.Size = new System.Drawing.Size(346, 29);
             this.cbVersion.TabIndex = 4;
             this.cbVersion.SelectedIndexChanged += new System.EventHandler(this.cbVersion_SelectedIndexChanged);
             // 
             // cbLibro
             // 
+            this.cbLibro.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.cbLibro.FormattingEnabled = true;
-            this.cbLibro.Location = new System.Drawing.Point(969, 67);
+            this.cbLibro.Location = new System.Drawing.Point(1254, 68);
             this.cbLibro.Name = "cbLibro";
             this.cbLibro.Size = new System.Drawing.Size(173, 29);
             this.cbLibro.TabIndex = 5;
@@ -100,6 +102,7 @@
             // 
             // cbIdioma
             // 
+            this.cbIdioma.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.cbIdioma.FormattingEnabled = true;
             this.cbIdioma.Location = new System.Drawing.Point(444, 67);
             this.cbIdioma.Name = "cbIdioma";
@@ -118,17 +121,18 @@
             // 
             // cbTestamento
             // 
+            this.cbTestamento.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.cbTestamento.FormattingEnabled = true;
-            this.cbTestamento.Location = new System.Drawing.Point(790, 67);
+            this.cbTestamento.Location = new System.Drawing.Point(975, 68);
             this.cbTestamento.Name = "cbTestamento";
-            this.cbTestamento.Size = new System.Drawing.Size(173, 29);
+            this.cbTestamento.Size = new System.Drawing.Size(273, 29);
             this.cbTestamento.TabIndex = 11;
             this.cbTestamento.SelectedIndexChanged += new System.EventHandler(this.comboBox5_SelectedIndexChanged);
             // 
             // label6
             // 
             this.label6.AutoSize = true;
-            this.label6.Location = new System.Drawing.Point(786, 37);
+            this.label6.Location = new System.Drawing.Point(971, 38);
             this.label6.Name = "label6";
             this.label6.Size = new System.Drawing.Size(100, 21);
             this.label6.TabIndex = 10;
@@ -199,7 +203,7 @@
             this.btnShowChap.Name = "btnShowChap";
             this.btnShowChap.Size = new System.Drawing.Size(212, 73);
             this.btnShowChap.TabIndex = 28;
-            this.btnShowChap.Text = "Mostrar Libro capitulo especificado";
+            this.btnShowChap.Text = "Mostrar Capítulo";
             this.btnShowChap.UseVisualStyleBackColor = true;
             this.btnShowChap.Click += new System.EventHandler(this.btnShowCap_Click);
             // 
@@ -219,23 +223,24 @@
             this.btnBuscarTodLibro.Name = "btnBuscarTodLibro";
             this.btnBuscarTodLibro.Size = new System.Drawing.Size(219, 73);
             this.btnBuscarTodLibro.TabIndex = 37;
-            this.btnBuscarTodLibro.Text = "Buscar en toda la lados";
+            this.btnBuscarTodLibro.Text = "Buscar en toda la biblia";
             this.btnBuscarTodLibro.UseVisualStyleBackColor = true;
             this.btnBuscarTodLibro.Click += new System.EventHandler(this.btnBuscar_Click);
             // 
             // cb_Cap
             // 
+            this.cb_Cap.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.cb_Cap.FormattingEnabled = true;
-            this.cb_Cap.Location = new System.Drawing.Point(1148, 66);
+            this.cb_Cap.Location = new System.Drawing.Point(1433, 67);
             this.cb_Cap.Name = "cb_Cap";
-            this.cb_Cap.Size = new System.Drawing.Size(173, 29);
+            this.cb_Cap.Size = new System.Drawing.Size(73, 29);
             this.cb_Cap.TabIndex = 39;
             this.cb_Cap.SelectedIndexChanged += new System.EventHandler(this.cb_Cap_SelectedIndexChanged);
             // 
             // label5
             // 
             this.label5.AutoSize = true;
-            this.label5.Location = new System.Drawing.Point(1143, 36);
+            this.label5.Location = new System.Drawing.Point(1428, 37);
             this.label5.Name = "label5";
             this.label5.Size = new System.Drawing.Size(78, 21);
             this.label5.TabIndex = 38;
@@ -247,7 +252,7 @@
             this.BtnBuscarEnUnLibro.Name = "BtnBuscarEnUnLibro";
             this.BtnBuscarEnUnLibro.Size = new System.Drawing.Size(219, 73);
             this.BtnBuscarEnUnLibro.TabIndex = 40;
-            this.BtnBuscarEnUnLibro.Text = "Buscar en un capitulo";
+            this.BtnBuscarEnUnLibro.Text = "Buscar en capitulo";
             this.BtnBuscarEnUnLibro.UseVisualStyleBackColor = true;
             this.BtnBuscarEnUnLibro.Click += new System.EventHandler(this.BtnBuscarEnUnLibro_Click);
             // 
@@ -257,7 +262,7 @@
             this.btnBuscarEnUnTestemento.Name = "btnBuscarEnUnTestemento";
             this.btnBuscarEnUnTestemento.Size = new System.Drawing.Size(219, 73);
             this.btnBuscarEnUnTestemento.TabIndex = 41;
-            this.btnBuscarEnUnTestemento.Text = "Buscar en un testamento";
+            this.btnBuscarEnUnTestemento.Text = "Buscar en testamento";
             this.btnBuscarEnUnTestemento.UseVisualStyleBackColor = true;
             this.btnBuscarEnUnTestemento.Click += new System.EventHandler(this.btnBuscarEnUnTestemento_Click);
             // 

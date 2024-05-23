@@ -95,7 +95,7 @@ namespace ProyectoMAD
         }
         private void btnAgregar_Click(object sender, EventArgs e)
         {
-            Consultas consultas = Consultas.GetInstance();
+            Form3 consultas = Form3.GetInstance();
             consultas.Show();
         }
         private void gridFavoritos_CellDoubleClick(object sender, DataGridViewCellEventArgs e)

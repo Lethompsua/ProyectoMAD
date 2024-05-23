@@ -989,8 +989,10 @@ namespace WindowsFormsApplication1
                 string qry = "sp_ObtenerVersiculosPorNombreLibro";
                 _comandosql = new SqlCommand(qry, _conexion);
                 _comandosql.CommandType = CommandType.StoredProcedure;
+
                 _comandosql.Parameters.AddWithValue("@nombre_libro", nombreLibro);
                 _comandosql.Parameters.AddWithValue("@version", version);
+
                 _adaptador.SelectCommand = _comandosql;
                 _adaptador.Fill(tabla);
             }
@@ -1007,26 +1009,32 @@ namespace WindowsFormsApplication1
             return tabla;
         }
 
-        public DataTable BuscarVersiculos(string busqueda)
+        public DataTable BuscarVersiculos(string busqueda, string version)
         {
             DataTable tabla = new DataTable();
             try
             {
                 conectar();
-                string qry = "EXEC BuscarVersiculosPorPalabraOFrase @Busqueda";
-                SqlCommand cmd = new SqlCommand(qry, _conexion);
-                cmd.Parameters.AddWithValue("@Busqueda", busqueda);
-                SqlDataAdapter adaptador = new SqlDataAdapter(cmd);
-                adaptador.Fill(tabla);
+                string qry = "BuscarVersiculosPorPalabraOFrase";
+                _comandosql = new SqlCommand(qry, _conexion);
+                _comandosql.CommandType = CommandType.StoredProcedure;
+
+                _comandosql.Parameters.AddWithValue("@Busqueda", busqueda);
+                _comandosql.Parameters.AddWithValue("@version", version);
+
+                _adaptador.SelectCommand = _comandosql;
+                _adaptador.Fill(tabla);
             }
             catch (SqlException e)
             {
-                MessageBox.Show("Excepción de base de datos: \n" + e.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                string msg = "Excepción de base de datos: \n" + e.Message;
+                MessageBox.Show(msg, "Warning!", MessageBoxButtons.OK, MessageBoxIcon.Stop);
             }
             finally
             {
                 desconectar();
             }
+
             return tabla;
         }
 
@@ -1040,7 +1048,9 @@ namespace WindowsFormsApplication1
                 string qry = "ObtenerCapitulosPorLibro";
                 _comandosql = new SqlCommand(qry, _conexion);
                 _comandosql.CommandType = CommandType.StoredProcedure;
+
                 _comandosql.Parameters.AddWithValue("@idLibro", idLibro);
+
                 _adaptador.SelectCommand = _comandosql;
                 _adaptador.Fill(tabla);
             }
@@ -1113,20 +1123,23 @@ namespace WindowsFormsApplication1
         }
 
 
-        public DataTable BuscarVersiculosPorTestamentoYLibro(string busqueda, string Testamento, string Version, string Libro)
+        public DataTable BuscarVersiculosPorCapitulo(string busqueda, string Version, string Libro, int capitulo)
         {
             DataTable tabla = new DataTable();
             try
             {
                 conectar();
-                string qry = "EXEC BuscarVersiculosPorPalabraOFraseSegunElTestamentoYVersionYLibro @Busqueda, @Testamento, @Version, @Libro";
-                SqlCommand cmd = new SqlCommand(qry, _conexion);
-                cmd.Parameters.AddWithValue("@Busqueda", busqueda);
-                cmd.Parameters.AddWithValue("@Testamento", Testamento);
-                cmd.Parameters.AddWithValue("@Version", Version);
-                cmd.Parameters.AddWithValue("@Libro", Libro);
-                SqlDataAdapter adaptador = new SqlDataAdapter(cmd);
-                adaptador.Fill(tabla);
+                string qry = "BuscarVersiculosPorCapitulo";
+                _comandosql = new SqlCommand(qry, _conexion);
+                _comandosql.CommandType = CommandType.StoredProcedure;
+
+                _comandosql.Parameters.AddWithValue("@Busqueda", busqueda);
+                _comandosql.Parameters.AddWithValue("@Version", Version);
+                _comandosql.Parameters.AddWithValue("@Libro", Libro);
+                _comandosql.Parameters.AddWithValue("@capitulo", capitulo);
+
+                _adaptador.SelectCommand = _comandosql;
+                _adaptador.Fill(tabla);
             }
             catch (SqlException e)
             {

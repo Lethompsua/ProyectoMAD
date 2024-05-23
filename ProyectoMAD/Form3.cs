@@ -74,8 +74,6 @@ namespace ProyectoMAD
             }
         }
 
-
-
         private void CargarIdiomas()
         {
             EnlaceDB enlaceDB = new EnlaceDB();
@@ -119,9 +117,6 @@ namespace ProyectoMAD
             cbLibro.DataSource = libros;
             cbLibro.DisplayMember = "Nombre";
         }
-
-
-
 
         private void comboBox2_SelectedIndexChanged(object sender, EventArgs e)
         {
@@ -303,16 +298,25 @@ namespace ProyectoMAD
 
         private void btnBuscar_Click(object sender, EventArgs e)
         {
-            // Obtener la palabra o frase a buscar
             string palabraBuscar = textBox1.Text;
+            string version = cbVersion.Text;
+
             if (string.IsNullOrEmpty(palabraBuscar))
             {
                 MessageBox.Show("Por favor, ingresa una palabra o frase para buscar.", "Advertencia", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 return;
             }
+            if (string.IsNullOrEmpty(version))
+            {
+                MessageBox.Show("Por favor, selecciona la versión en la que quieres buscar.", "Advertencia", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return;
+            }
 
             EnlaceDB enlaceDB = new EnlaceDB();
-            DataTable versiculos = enlaceDB.BuscarVersiculos(palabraBuscar);
+            DataTable versiculos = enlaceDB.BuscarVersiculos(palabraBuscar, version);
+
+            //// Limpiar ComboBoxes antes de asignar datos al DataGridView
+            //LimpiarComboBoxes();
 
             // Configurar el DataGridView
             ConfigurarDataGridView();
@@ -424,7 +428,6 @@ namespace ProyectoMAD
 
         private void btnBuscarEnUnTestemento_Click(object sender, EventArgs e)
         {
-            // Obtener la palabra o frase a buscar
             string palabraBuscar = textBox1.Text;
             if (string.IsNullOrEmpty(palabraBuscar))
             {
@@ -432,13 +435,9 @@ namespace ProyectoMAD
                 return;
             }
 
-            // Obtener el testamento seleccionado
-            string testamento = cbTestamento.SelectedItem?.ToString();
-
-            // Obtener la versión seleccionada
-            string version = cbVersion.SelectedItem?.ToString();
-
-            // Verificar si el testamento o la versión son NULL
+            string testamento = cbTestamento.Text;
+            string version = cbVersion.Text;
+            
             if (string.IsNullOrEmpty(testamento) || string.IsNullOrEmpty(version))
             {
                 MessageBox.Show("Por favor, selecciona un testamento y una versión.", "Advertencia", MessageBoxButtons.OK, MessageBoxIcon.Warning);
@@ -458,26 +457,24 @@ namespace ProyectoMAD
 
         private void BtnBuscarEnUnLibro_Click(object sender, EventArgs e)
         {
-
-            // Obtener la palabra o frase a buscar
-            string palabraBuscar = textBox1.Text;
-            string libro = cbLibro.Text;
-            string testamento = cbTestamento.Text;
-            string version = cbVersion.Text;
-
-            if (string.IsNullOrEmpty(palabraBuscar))
+            if (string.IsNullOrEmpty(textBox1.Text))
             {
                 MessageBox.Show("Por favor, ingresa una palabra o frase para buscar.", "Advertencia", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 return;
             }
-            if (string.IsNullOrEmpty(testamento) || string.IsNullOrEmpty(version) || string.IsNullOrEmpty(libro))
+            if (string.IsNullOrEmpty(cb_Cap.Text))
             {
                 MessageBox.Show("Por favor, selecciona un testamento, una versión y un capítulo.", "Advertencia", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 return;
             }
 
+            string palabraBuscar = textBox1.Text;
+            string libro = cbLibro.Text;
+            string version = cbVersion.Text;
+            int capitulo = Convert.ToInt32(cb_Cap.Text);
+
             EnlaceDB enlaceDB = new EnlaceDB();
-            DataTable versiculos = enlaceDB.BuscarVersiculosPorTestamentoYLibro(palabraBuscar, testamento, version, libro);
+            DataTable versiculos = enlaceDB.BuscarVersiculosPorCapitulo(palabraBuscar, version, libro, capitulo);
 
             // Configurar el DataGridView
             ConfigurarDataGridView();

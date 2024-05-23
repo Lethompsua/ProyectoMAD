@@ -22,4 +22,4 @@ BEGIN
         AND Versiones.NombreVersion = @Version;
 END;
 
---EXEC BuscarVersiculosPorPalabraOFraseSegunElTestamentoYVersion 'Jehova', 'ANTIGUO TESTAMENTO', 'REINA VALERA 1960'
+--EXEC BuscarVersiculosPorPalabraOFraseSegunElTestamentoYVersion 'Dios', 'ANTIGUO TESTAMENTO', 'REINA VALERA 1960'

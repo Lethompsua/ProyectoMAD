@@ -50,10 +50,6 @@ namespace ProyectoMAD
             {
                 Form4.CloseInstance();
             }
-            if (Consultas.InstanceExists() == true)
-            {
-                Consultas.CloseInstance();
-            }
             if (Historial.InstanceExists() == true)
             {
                 Historial.CloseInstance();
@@ -94,11 +90,6 @@ namespace ProyectoMAD
         {
             Historial historial = Historial.GetInstance();
             historial.Show();
-        }
-        private void picConsultas_Click(object sender, EventArgs e)
-        {
-            Consultas consultas = Consultas.GetInstance();
-            consultas.Show();
         }
         #endregion
     }
