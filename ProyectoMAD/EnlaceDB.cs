@@ -319,11 +319,18 @@ namespace WindowsFormsApplication1
             try
             {
                 conectar();
-                string qry = "SELECT dbo.GetQuestion(@id)";
+                string qry = "spGetQuestion";
                 _comandosql = new SqlCommand(qry, _conexion);
+                _comandosql.CommandType = CommandType.StoredProcedure;
+
                 _comandosql.Parameters.AddWithValue("@id", id);
 
-                result = _comandosql.ExecuteScalar().ToString();
+                SqlParameter question = new SqlParameter("@question", SqlDbType.VarChar, 100);
+                question.Direction = ParameterDirection.Output;
+                _comandosql.Parameters.Add(question);
+
+                _comandosql.ExecuteNonQuery();
+                result = question.Value.ToString();
             }
             catch (SqlException e)
             {
@@ -572,108 +579,6 @@ namespace WindowsFormsApplication1
             return result;
         }
         #endregion
-        public void MostrarTestamentosEnComboBox(ComboBox comboBox)
-        {
-            try
-            {
-                conectar();
-                string procedureName = "MostrarNombresTestamento"; // Nombre del procedimiento almacenado
-
-                _comandosql = new SqlCommand(procedureName, _conexion);
-                _comandosql.CommandType = CommandType.StoredProcedure;
-                _comandosql.CommandTimeout = 1200;
-
-                // Ejecutar el comando y obtener los resultados
-                using (SqlDataReader reader = _comandosql.ExecuteReader())
-                {
-                    // Limpiar el ComboBox
-                    comboBox.Items.Clear();
-
-                    // Leer los resultados y agregarlos al ComboBox
-                    while (reader.Read())
-                    {
-                        // Agregar el nombre del testamento al ComboBox
-                        comboBox.Items.Add(reader["nombre"].ToString());
-                    }
-                }
-            }
-            catch (SqlException e)
-            {
-                string msg = "Excepción de base de datos: \n";
-                msg += e.Message;
-                MessageBox.Show(msg, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-            }
-            finally
-            {
-                desconectar();
-            }
-        }
-        public List<string> ObtenerLibrosPorTestamento(string testamento)
-        {
-            List<string> libros = new List<string>();
-
-            try
-            {
-                conectar();
-                string procedureName = "ObtenerLibrosPorTestamento"; // Nombre del procedimiento almacenado
-
-                _comandosql = new SqlCommand(procedureName, _conexion);
-                _comandosql.CommandType = CommandType.StoredProcedure;
-                _comandosql.Parameters.AddWithValue("@Testamentoo", testamento);
-
-                using (SqlDataReader reader = _comandosql.ExecuteReader())
-                {
-                    while (reader.Read())
-                    {
-                        libros.Add(reader["nombre"].ToString());
-                    }
-                }
-            }
-            catch (SqlException e)
-            {
-                string msg = "Excepción de base de datos: \n";
-                msg += e.Message;
-                MessageBox.Show(msg, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-            }
-            finally
-            {
-                desconectar();
-            }
-
-            return libros;
-        }
-        public DataTable get_Versiculos()
-        {
-            var msg = "";
-            DataTable tabla = new DataTable();
-            try
-            {
-                conectar();
-                // Ejemplo de cómo ejecutar un query, 
-                // PERO lo correcto es siempre usar SP para cualquier consulta a la base de datos
-                string qry = "Select * from VistaVersiculos;";
-                _comandosql = new SqlCommand(qry, _conexion);
-                _comandosql.CommandType = CommandType.Text;
-                // Esta opción solo la podrían utilizar si hacen un EXEC al SP concatenando los parámetros.
-                _comandosql.CommandTimeout = 1200;
-
-                _adaptador.SelectCommand = _comandosql;
-                _adaptador.Fill(tabla);
-
-            }
-            catch (SqlException e)
-            {
-                msg = "Excepción de base de datos: \n";
-                msg += e.Message;
-                MessageBox.Show(msg, "Warning!", MessageBoxButtons.OK, MessageBoxIcon.Stop);
-            }
-            finally
-            {
-                desconectar();
-            }
-
-            return tabla;
-        }
 
         #region Procedures para Historial
         public DataTable getHistory(int id)
@@ -874,7 +779,7 @@ namespace WindowsFormsApplication1
         }
         #endregion
 
-        #region Consultas libro
+        #region Consultas y búsquedas
         public DataTable ObtenerIdiomas()
         {
             var msg = "";
