@@ -782,14 +782,13 @@ namespace WindowsFormsApplication1
         #region Consultas y búsquedas
         public DataTable ObtenerIdiomas()
         {
-            var msg = "";
             DataTable tabla = new DataTable();
             try
             {
                 conectar();
-                string qry = "EXEC ObtenerIdiomas";
+                string qry = "ObtenerIdiomas";
                 _comandosql = new SqlCommand(qry, _conexion);
-                _comandosql.CommandType = CommandType.Text;
+                _comandosql.CommandType = CommandType.StoredProcedure;
                 _comandosql.CommandTimeout = 1200;
 
                 _adaptador.SelectCommand = _comandosql;
@@ -797,7 +796,7 @@ namespace WindowsFormsApplication1
             }
             catch (SqlException e)
             {
-                msg = "Excepción de base de datos: \n";
+                string msg = "Excepción de base de datos: \n";
                 msg += e.Message;
                 MessageBox.Show(msg, "Warning!", MessageBoxButtons.OK, MessageBoxIcon.Stop);
             }
@@ -812,16 +811,18 @@ namespace WindowsFormsApplication1
         public DataTable ObtenerVersionesPorNombreIdioma(string nombreIdioma)
         {
             DataTable tabla = new DataTable();
+
             try
             {
                 conectar();
-                using (SqlCommand comando = new SqlCommand("ObtenerVersionesPorNombreIdioma", _conexion))
-                {
-                    comando.CommandType = CommandType.StoredProcedure;
-                    comando.Parameters.AddWithValue("@NombreIdioma", nombreIdioma);
-                    SqlDataAdapter adaptador = new SqlDataAdapter(comando);
-                    adaptador.Fill(tabla);
-                }
+                string qry = "ObtenerVersionesPorNombreIdioma";
+                _comandosql = new SqlCommand(qry, _conexion);
+                _comandosql.CommandType = CommandType.StoredProcedure;
+
+                _comandosql.Parameters.AddWithValue("@NombreIdioma", nombreIdioma);
+
+                _adaptador.SelectCommand = _comandosql;
+                _adaptador.Fill(tabla);
             }
             catch (SqlException ex)
             {
@@ -840,14 +841,15 @@ namespace WindowsFormsApplication1
             try
             {
                 conectar();
-                using (SqlCommand comando = new SqlCommand("ObtenerTestamentosPorNombreVersion", _conexion))
-                {
-                    comando.CommandType = CommandType.StoredProcedure;
-                    comando.Parameters.AddWithValue("@NombreIdioma", nombreIdioma);
-                    comando.Parameters.AddWithValue("@NombreVersion", nombreVersion);
-                    SqlDataAdapter adaptador = new SqlDataAdapter(comando);
-                    adaptador.Fill(tabla);
-                }
+                string qry = "ObtenerVersionesPorNombreIdioma";
+                _comandosql = new SqlCommand(qry, _conexion);
+                _comandosql.CommandType = CommandType.StoredProcedure;
+
+                _comandosql.Parameters.AddWithValue("@NombreIdioma", nombreIdioma);
+                _comandosql.Parameters.AddWithValue("@NombreVersion", nombreVersion);
+
+                _adaptador.SelectCommand = _comandosql;
+                _adaptador.Fill(tabla);
             }
             catch (SqlException ex)
             {
@@ -866,13 +868,14 @@ namespace WindowsFormsApplication1
             try
             {
                 conectar();
-                using (SqlCommand comando = new SqlCommand("ObtenerLibrosPorNombreTestamento", _conexion))
-                {
-                    comando.CommandType = CommandType.StoredProcedure;
-                    comando.Parameters.AddWithValue("@NombreTestamento", nombreTestamento);
-                    SqlDataAdapter adaptador = new SqlDataAdapter(comando);
-                    adaptador.Fill(tabla);
-                }
+                string qry = "ObtenerLibrosPorNombreTestamento";
+                _comandosql = new SqlCommand(qry, _conexion);
+                _comandosql.CommandType = CommandType.StoredProcedure;
+
+                _comandosql.Parameters.AddWithValue("@NombreTestamento", nombreTestamento);
+
+                _adaptador.SelectCommand = _comandosql;
+                _adaptador.Fill(tabla);
             }
             catch (SqlException ex)
             {
@@ -1054,6 +1057,7 @@ namespace WindowsFormsApplication1
             {
                 desconectar();
             }
+
             return tabla;
         }
 

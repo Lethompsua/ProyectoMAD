@@ -45,7 +45,7 @@
             this.btnShowChap = new System.Windows.Forms.Button();
             this.btnMostrarLibro = new System.Windows.Forms.Button();
             this.btnBuscarTodLibro = new System.Windows.Forms.Button();
-            this.cb_Cap = new System.Windows.Forms.ComboBox();
+            this.cbCap = new System.Windows.Forms.ComboBox();
             this.label5 = new System.Windows.Forms.Label();
             this.BtnBuscarEnUnLibro = new System.Windows.Forms.Button();
             this.btnBuscarEnUnTestemento = new System.Windows.Forms.Button();
@@ -98,7 +98,7 @@
             this.cbLibro.Name = "cbLibro";
             this.cbLibro.Size = new System.Drawing.Size(173, 29);
             this.cbLibro.TabIndex = 5;
-            this.cbLibro.SelectedIndexChanged += new System.EventHandler(this.comboBox2_SelectedIndexChanged);
+            this.cbLibro.SelectedIndexChanged += new System.EventHandler(this.cbLibro_SelectedIndexChanged);
             // 
             // cbIdioma
             // 
@@ -108,7 +108,7 @@
             this.cbIdioma.Name = "cbIdioma";
             this.cbIdioma.Size = new System.Drawing.Size(173, 29);
             this.cbIdioma.TabIndex = 9;
-            this.cbIdioma.SelectedIndexChanged += new System.EventHandler(this.comboBox3_SelectedIndexChanged);
+            this.cbIdioma.SelectedIndexChanged += new System.EventHandler(this.cbIdioma_SelectedIndexChanged);
             // 
             // label4
             // 
@@ -127,7 +127,7 @@
             this.cbTestamento.Name = "cbTestamento";
             this.cbTestamento.Size = new System.Drawing.Size(273, 29);
             this.cbTestamento.TabIndex = 11;
-            this.cbTestamento.SelectedIndexChanged += new System.EventHandler(this.comboBox5_SelectedIndexChanged);
+            this.cbTestamento.SelectedIndexChanged += new System.EventHandler(this.cbTestamento_SelectedIndexChanged);
             // 
             // label6
             // 
@@ -227,15 +227,15 @@
             this.btnBuscarTodLibro.UseVisualStyleBackColor = true;
             this.btnBuscarTodLibro.Click += new System.EventHandler(this.btnBuscar_Click);
             // 
-            // cb_Cap
+            // cbCap
             // 
-            this.cb_Cap.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.cb_Cap.FormattingEnabled = true;
-            this.cb_Cap.Location = new System.Drawing.Point(1433, 67);
-            this.cb_Cap.Name = "cb_Cap";
-            this.cb_Cap.Size = new System.Drawing.Size(73, 29);
-            this.cb_Cap.TabIndex = 39;
-            this.cb_Cap.SelectedIndexChanged += new System.EventHandler(this.cb_Cap_SelectedIndexChanged);
+            this.cbCap.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.cbCap.FormattingEnabled = true;
+            this.cbCap.Location = new System.Drawing.Point(1433, 67);
+            this.cbCap.Name = "cbCap";
+            this.cbCap.Size = new System.Drawing.Size(73, 29);
+            this.cbCap.TabIndex = 39;
+            this.cbCap.SelectedIndexChanged += new System.EventHandler(this.cbCap_SelectedIndexChanged);
             // 
             // label5
             // 
@@ -273,7 +273,7 @@
             this.ClientSize = new System.Drawing.Size(1530, 1055);
             this.Controls.Add(this.btnBuscarEnUnTestemento);
             this.Controls.Add(this.BtnBuscarEnUnLibro);
-            this.Controls.Add(this.cb_Cap);
+            this.Controls.Add(this.cbCap);
             this.Controls.Add(this.label5);
             this.Controls.Add(this.btnBuscarTodLibro);
             this.Controls.Add(this.btnMostrarLibro);
@@ -295,7 +295,6 @@
             this.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.Name = "Form3";
             this.Text = "Búsquedas";
-            this.Load += new System.EventHandler(this.Form3_Load);
             this.menuStrip1.ResumeLayout(false);
             this.menuStrip1.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).EndInit();
@@ -323,7 +322,7 @@
         private System.Windows.Forms.Button btnMostrarLibro;
         private System.Windows.Forms.Button btnBuscarTodLibro;
         private System.Windows.Forms.DataGridViewButtonColumn Favorito;
-        private System.Windows.Forms.ComboBox cb_Cap;
+        private System.Windows.Forms.ComboBox cbCap;
         private System.Windows.Forms.Label label5;
         private System.Windows.Forms.Button BtnBuscarEnUnLibro;
         private System.Windows.Forms.Button btnBuscarEnUnTestemento;

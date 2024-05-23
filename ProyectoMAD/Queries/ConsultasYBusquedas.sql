@@ -107,7 +107,7 @@ BEGIN
 END;
 GO
 
-CREATE OR ALTER   PROCEDURE [dbo].[ObtenerCapitulosPorLibro]
+CREATE OR ALTER PROCEDURE [dbo].[ObtenerCapitulosPorLibro]
     @idLibro INT
 AS
 BEGIN
@@ -134,35 +134,51 @@ CREATE OR ALTER PROCEDURE [dbo].[BuscarVersiculosPorCapitulo]
     @Busqueda NVARCHAR(100),
     @Version NVARCHAR(30),
     @Libro NVARCHAR(25),
-	@capitulo TINYINT
+    @Capitulo TINYINT
 AS
 BEGIN
-	BEGIN TRY
-		PRINT 'Busqueda: ' + @Busqueda
-        PRINT 'Version: ' + @Version
-        PRINT 'Libro: ' + @Libro
-        PRINT 'Capitulo: ' + CAST(@capitulo AS NVARCHAR(3))
+	SET NOCOUNT ON
 
-		SELECT DISTINCT 
-			CONCAT(Libros.Nombre, ' ', Versiculos.NumeroCap, ':', Versiculos.NumeroVers, ' ', Versiculos.Texto) AS Versiculo
-		FROM 
-			DB_Bible.dbo.Versiculos
-		INNER JOIN 
-			DB_Bible.dbo.Libros ON Versiculos.Id_Libro = Libros.Id_Libro
-		INNER JOIN 
-			DB_Bible.dbo.Versiones ON Versiculos.Id_Version = Versiones.Id_Version
-		WHERE 
-			Versiculos.Texto LIKE '%' + @Busqueda + '%'
-			AND Libros.Nombre = @Libro
-			AND Versiones.NombreVersion = @Version
-			AND Versiculos.NumeroCap = @capitulo;
-	END TRY
-	BEGIN CATCH
-		THROW
-	END CATCH
+    BEGIN TRY
+        CREATE TABLE #PalabrasBusqueda (Palabra NVARCHAR(100));
+
+        INSERT INTO #PalabrasBusqueda (Palabra)
+        SELECT VALUE
+        FROM STRING_SPLIT(@Busqueda, ' ');
+
+        SELECT DISTINCT 
+            Libros.Nombre + ' ' + CAST(Versiculos.NumeroCap AS NVARCHAR) + ':' + CAST(Versiculos.NumeroVers AS NVARCHAR) AS Cita,
+            CONVERT(NVARCHAR(MAX), Versiculos.Texto) AS Texto --TEXT no puede usarse con DISTINCT, así que lo convertimos a NVARCHAR
+        FROM 
+            DB_Bible.dbo.Versiculos
+        INNER JOIN 
+            DB_Bible.dbo.Libros ON Versiculos.Id_Libro = Libros.Id_Libro
+        INNER JOIN 
+            DB_Bible.dbo.Versiones ON Versiculos.Id_Version = Versiones.Id_Version
+        WHERE 
+            Libros.Nombre = @Libro
+            AND Versiones.NombreVersion = @Version
+            AND Versiculos.NumeroCap = @Capitulo
+            AND NOT EXISTS (
+                SELECT 1
+                FROM #PalabrasBusqueda
+                WHERE Versiculos.Texto NOT LIKE '%' + Palabra + '%');
+
+        DROP TABLE #PalabrasBusqueda;
+    END TRY
+    BEGIN CATCH
+        THROW;
+    END CATCH
 END;
 GO
-
+/*
+EXEC [dbo].[BuscarVersiculosPorCapitulo] 
+    @Busqueda = 'Dijo lumbreras',
+    @Version = 'REINA VALERA 1960',
+    @Libro = 'Génesis',
+    @Capitulo = 1;
+GO
+*/
 CREATE OR ALTER PROCEDURE [dbo].[BuscarVersiculosPorPalabraOFraseSegunElTestamentoYVersionYLibro]
     @Busqueda NVARCHAR(100),
     @Testamento NVARCHAR(20),
