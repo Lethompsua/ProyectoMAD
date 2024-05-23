@@ -841,7 +841,7 @@ namespace WindowsFormsApplication1
             try
             {
                 conectar();
-                string qry = "ObtenerVersionesPorNombreIdioma";
+                string qry = "ObtenerTestamentosPorNombreVersion";
                 _comandosql = new SqlCommand(qry, _conexion);
                 _comandosql.CommandType = CommandType.StoredProcedure;
 

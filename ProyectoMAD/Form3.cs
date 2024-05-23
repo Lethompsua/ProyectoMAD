@@ -110,32 +110,6 @@ namespace ProyectoMAD
             cbIdioma.DisplayMember = "Nombre";
             cbIdioma.ValueMember = "Id_Idioma";
         }
-        private void CargarCapitulos(int idLibro)
-        {
-            EnlaceDB enlaceDB = new EnlaceDB();
-            DataTable tablaCapitulos = enlaceDB.ObtenerCapitulosPorLibro(idLibro);
-
-            if (tablaCapitulos != null && tablaCapitulos.Rows.Count > 0)
-            {
-                cbCap.DataSource = null;
-
-                List<int> capitulos = new List<int>();
-                foreach (DataRow fila in tablaCapitulos.Rows)
-                {
-                    // Suponiendo que la columna que contiene el número de capítulos se llama "NumeroCapitulos"
-                    int numeroCapitulo = Convert.ToInt32(fila["NumCap"]);
-                    capitulos.Add(numeroCapitulo);
-                }
-
-                // Establecer la lista de capítulos como origen de datos y refrescar el ComboBox
-                cbCap.DataSource = capitulos;
-                cbCap.Refresh(); // o cb_Cap.Invalidate();
-            }
-            else
-            {
-                MessageBox.Show("No se encontraron capítulos para este libro.", "INFO", MessageBoxButtons.OK, MessageBoxIcon.Information);
-            }
-        }
         private void cbIdioma_SelectedIndexChanged(object sender, EventArgs e)
         {
             string nombreIdioma = cbIdioma.Text;
@@ -145,12 +119,16 @@ namespace ProyectoMAD
                 cbVersion.DataSource = null;
                 cbTestamento.DataSource = null;
                 cbLibro.DataSource = null;
-                MessageBox.Show("Lo sentimos. No se ha encontrado ningún idioma", "INFO", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return;
             }
 
             EnlaceDB enlaceDB = new EnlaceDB();
             DataTable versiones = enlaceDB.ObtenerVersionesPorNombreIdioma(nombreIdioma);
+
+            if (versiones.Rows.Count == 0 && nombreIdioma != "System.Data.DataRowView")
+            {
+                MessageBox.Show("Lo sentimos. No se ha encontrado ninguna versión para este idioma", "INFO", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            }
 
             cbVersion.DataSource = null;
             cbTestamento.DataSource = null;
@@ -175,6 +153,11 @@ namespace ProyectoMAD
             EnlaceDB enlaceDB = new EnlaceDB();
             DataTable testamentos = enlaceDB.ObtenerTestamentosPorNombreVersion(nombreIdioma, nombreVersion);
 
+            if (testamentos.Rows.Count == 0 && nombreVersion != "System.Data.DataRowView")
+            {
+                MessageBox.Show("Lo sentimos. No se ha encontrado ningún testamento para esta versión", "INFO", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            }
+
             cbTestamento.DataSource = null;
             cbLibro.DataSource = null;
 
@@ -195,7 +178,10 @@ namespace ProyectoMAD
             EnlaceDB enlaceDB = new EnlaceDB();
             DataTable libros = enlaceDB.ObtenerLibrosPorNombreTestamento(nombreTestamento);
 
-            cbLibro.DataSource = null;
+            if (libros.Rows.Count == 0 && nombreTestamento != "System.Data.DataRowView")
+            {
+                MessageBox.Show("Lo sentimos. No se ha encontrado ningún libro para este testamento", "INFO", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            }
 
             cbLibro.DataSource = libros;
             cbLibro.DisplayMember = "Nombre";
@@ -214,6 +200,33 @@ namespace ProyectoMAD
                 {
                     MessageBox.Show("Error al cargar los capítulos: " + ex.Message);
                 }
+            }
+        }
+        private void CargarCapitulos(int idLibro)
+        {
+            EnlaceDB enlaceDB = new EnlaceDB();
+            DataTable tablaCapitulos = enlaceDB.ObtenerCapitulosPorLibro(idLibro);
+
+            if (tablaCapitulos != null && tablaCapitulos.Rows.Count > 0)
+            {
+                cbCap.DataSource = null;
+
+                List<int> capitulos = new List<int>();
+                foreach (DataRow fila in tablaCapitulos.Rows)
+                {
+                    int numeroCapitulo = Convert.ToInt32(fila["NumeroCap"]);
+                    capitulos.Add(numeroCapitulo);
+                }
+
+                // Establecer la lista de capítulos como origen de datos y refrescar el ComboBox
+                cbCap.DataSource = capitulos;
+                cbCap.Refresh(); // o cb_Cap.Invalidate();
+            }
+            else
+            {
+                MessageBox.Show("No se encontraron capítulos para este libro.", "INFO", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                cbCap.DataSource = null;
+                return;
             }
         }
         private void cbCap_SelectedIndexChanged(object sender, EventArgs e)
@@ -434,7 +447,7 @@ namespace ProyectoMAD
             }
             if (string.IsNullOrEmpty(cbCap.Text))
             {
-                MessageBox.Show("Por favor, selecciona un testamento, una versión y un capítulo.", "Advertencia", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                MessageBox.Show("Por favor, selecciona un capítulo.", "Advertencia", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 return;
             }
 
@@ -457,7 +470,5 @@ namespace ProyectoMAD
             dataGridView1.Columns["Cita"].DataPropertyName = "Cita";
             dataGridView1.Columns["Texto"].DataPropertyName = "Texto";
         }
-
-        
     }
 }
