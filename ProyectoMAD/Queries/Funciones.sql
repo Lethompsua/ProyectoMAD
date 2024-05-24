@@ -27,3 +27,16 @@ BEGIN
 	RETURN @question;
 END
 GO
+
+CREATE OR ALTER FUNCTION GetSize(@id SMALLINT)
+RETURNS SMALLINT
+AS
+BEGIN
+	DECLARE @size SMALLINT
+	SELECT @size = tamaño_texto
+	FROM Usuarios
+	WHERE id_usuario = @id
+
+	RETURN @size
+END
+GO

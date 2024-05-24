@@ -262,3 +262,19 @@ BEGIN
         AND Libros.Nombre = @Libro;
 END
 GO
+
+CREATE OR ALTER PROCEDURE spGetSize
+	@id_user SMALLINT,
+	@size SMALLINT OUTPUT
+AS
+BEGIN
+	SET NOCOUNT ON
+
+	BEGIN TRY
+		SELECT @size = dbo.GetSize(@id_user)
+	END TRY
+	BEGIN CATCH
+		THROW
+	END CATCH
+END
+GO

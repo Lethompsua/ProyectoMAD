@@ -39,8 +39,6 @@ namespace ProyectoMAD
             comboTamaño.Items.Add("26");
             comboTamaño.Items.Add("28");
             comboTamaño.Items.Add("36");
-            comboTamaño.Items.Add("48");
-            comboTamaño.Items.Add("72");
 
             picShow.Visible = false;
 

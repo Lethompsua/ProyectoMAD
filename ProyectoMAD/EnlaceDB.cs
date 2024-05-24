@@ -1061,6 +1061,37 @@ namespace WindowsFormsApplication1
             return tabla;
         }
 
+        public int getSize(int id_usuario)
+        {
+            int size = 0;
+            try
+            {
+                conectar();
+                string qry = "spGetSize";
+                _comandosql = new SqlCommand(qry, _conexion);
+                _comandosql.CommandType = CommandType.StoredProcedure;
+
+                _comandosql.Parameters.AddWithValue("@id_user", id_usuario);
+                SqlParameter tamaño = new SqlParameter("@size", SqlDbType.SmallInt);
+                tamaño.Direction = ParameterDirection.Output;
+                _comandosql.Parameters.Add(tamaño);
+
+                _comandosql.ExecuteNonQuery();
+
+                size = Convert.ToInt32(tamaño.Value);
+            }
+            catch (SqlException e)
+            {
+                MessageBox.Show("Excepción de base de datos: \n" + e.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+            finally
+            {
+                desconectar();
+            }
+
+            return size;
+        }
+
 
         #endregion
     }

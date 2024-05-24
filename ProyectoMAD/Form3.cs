@@ -460,5 +460,14 @@ namespace ProyectoMAD
                 MessageBox.Show("Por favor, selecciona una celda que contenga texto para copiar.", "ATENCIÓN", MessageBoxButtons.OK, MessageBoxIcon.Warning);
             }
         }
+
+        private void dataGridView1_CellFormatting(object sender, DataGridViewCellFormattingEventArgs e)
+        {
+            EnlaceDB enlaceDB = new EnlaceDB();
+            int tamanoFuente = enlaceDB.getSize(frmLogin.userID);
+
+            Font font = new Font(e.CellStyle.Font.FontFamily, tamanoFuente, e.CellStyle.Font.Style);
+            e.CellStyle.Font = font;
+        }
     }
 }
