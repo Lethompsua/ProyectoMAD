@@ -260,15 +260,19 @@ namespace ProyectoMAD
                 EnlaceDB enlaceDB = new EnlaceDB();
                 DataTable versiculos = enlaceDB.ObtenerVersiculosPorNombreLibro(nombreLibro, version);
 
-                // Limpiar ComboBoxes antes de asignar datos al DataGridView
-                LimpiarComboBoxes();
+                if (versiculos.Rows.Count == 0)
+                {
+                    MessageBox.Show("Lo sentimos. No se encontraron versículos para este libro", "INFO", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    return;
+                }
 
-                // Configurar el DataGridView
+                //LimpiarComboBoxes();
+
                 ConfigurarDataGridView();
 
-                // Asignar datos a la columna "Versiculo"
                 dataGridView1.DataSource = versiculos;
-                dataGridView1.Columns["Versiculo"].DataPropertyName = "Versiculo"; // Asegurar que se asigne a la columna correcta
+                dataGridView1.Columns["Cita"].DataPropertyName = "Cita";
+                dataGridView1.Columns["Texto"].DataPropertyName = "Texto";
             }
             catch (Exception ex)
             {
@@ -309,6 +313,12 @@ namespace ProyectoMAD
             EnlaceDB enlaceDB = new EnlaceDB();
             DataTable versiculos = enlaceDB.BuscarVersiculos(palabraBuscar, version);
 
+            if (versiculos.Rows.Count == 0)
+            {
+                MessageBox.Show("No se encontraron resultados para la búsqueda.", "INFO", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                return;
+            }
+
             //// Limpiar ComboBoxes antes de asignar datos al DataGridView
             //LimpiarComboBoxes();
 
@@ -317,7 +327,8 @@ namespace ProyectoMAD
 
             // Asignar datos a la columna "Versiculos"
             dataGridView1.DataSource = versiculos;
-            dataGridView1.Columns["Versiculo"].DataPropertyName = "Versiculo";
+            dataGridView1.Columns["Cita"].DataPropertyName = "Cita";
+            dataGridView1.Columns["Texto"].DataPropertyName = "Texto";
         }
 
         private void DataGridView1_CellPainting(object sender, DataGridViewCellPaintingEventArgs e)
@@ -374,7 +385,6 @@ namespace ProyectoMAD
 
         private void btnShowCap_Click(object sender, EventArgs e)
         {
-            // Verificar que los ComboBoxes no estén vacíos
             if (cbLibro.SelectedItem == null || cbCap.SelectedItem == null)
             {
                 MessageBox.Show("Por favor, selecciona todos los campos requeridos.", "Advertencia", MessageBoxButtons.OK, MessageBoxIcon.Warning);
@@ -393,15 +403,18 @@ namespace ProyectoMAD
                 EnlaceDB enlaceDB = new EnlaceDB();
                 DataTable versiculos = enlaceDB.ObtenerVersiculosPorNombreLibroYNumeroCap(nombreLibro, numeroCapitulo, version);
 
-                // Limpiar ComboBoxes antes de asignar datos al DataGridView
-                LimpiarComboBoxes();
+                if (versiculos.Rows.Count == 0)
+                {
+                    MessageBox.Show("No se encontraron versículos para este capítulo.", "INFO", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    return;
+                }
 
-                // Configurar el DataGridView
+                //LimpiarComboBoxes();
                 ConfigurarDataGridView();
 
-                // Asignar datos a la columna "Versiculo"
                 dataGridView1.DataSource = versiculos;
-                dataGridView1.Columns["Versiculo"].DataPropertyName = "Versiculo"; // Asegurar que se asigne a la columna correcta
+                dataGridView1.Columns["Cita"].DataPropertyName = "Cita";
+                dataGridView1.Columns["Texto"].DataPropertyName = "Texto";
             }
             catch (Exception ex)
             {
@@ -430,12 +443,18 @@ namespace ProyectoMAD
             EnlaceDB enlaceDB = new EnlaceDB();
             DataTable versiculos = enlaceDB.BuscarVersiculosPorTestamento(palabraBuscar, testamento, version);
 
+            if (versiculos.Rows.Count == 0)
+            {
+                MessageBox.Show("No se encontraron resultados para la búsqueda.", "INFO", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                return;
+            }
+
             // Configurar el DataGridView
             ConfigurarDataGridView();
 
-            // Asignar datos a la columna "Versiculos"
             dataGridView1.DataSource = versiculos;
-            dataGridView1.Columns["Versiculo"].DataPropertyName = "Versiculo";
+            dataGridView1.Columns["Cita"].DataPropertyName = "Cita";
+            dataGridView1.Columns["Texto"].DataPropertyName = "Texto";
         }
 
         private void BtnBuscarEnUnLibro_Click(object sender, EventArgs e)

@@ -20,21 +20,17 @@ CREATE OR ALTER PROCEDURE [dbo].[sp_ObtenerVersiculosPorNombreLibro]
 	@version NVARCHAR(30)
 AS
 BEGIN
-	DECLARE @id_version SMALLINT
-	BEGIN TRY
-		SELECT @id_version = Id_Version
-		FROM DB_Bible.dbo.Versiones
-		WHERE NombreVersion = @version;
+	SET NOCOUNT ON
 
+	BEGIN TRY
 		SELECT 
-			L.nombre AS NombreLibro,
-			V.NumeroCap,
-			V.NumeroVers,
-			CONCAT(L.nombre, ' ', V.NumeroCap, ':', V.NumeroVers, ' ', CAST(V.texto AS NVARCHAR(MAX))) AS Versiculo
+			CONCAT(L.nombre, ' ', V.NumeroCap, ':', V.NumeroVers) AS Cita,
+			CONVERT (NVARCHAR(MAX), V.Texto) AS Texto
 		FROM DB_Bible.dbo.Versiculos V
 		JOIN DB_Bible.dbo.Libros L ON V.id_libro = L.id_libro
+		JOIN DB_Bible.dbo.Versiones b ON V.Id_Version = b.Id_Version
 		WHERE L.nombre = @nombre_libro
-			AND V.Id_Version = @id_version;
+			AND b.NombreVersion = @version
 	END TRY
 	BEGIN CATCH
 		THROW
@@ -48,20 +44,21 @@ CREATE OR ALTER PROCEDURE [dbo].[sp_ObtenerVersiculosPorNombreYNumeroCapitulo]
 	@version TINYINT
 AS
 BEGIN
-    SELECT DISTINCT
-        L.nombre AS NombreLibro,
-        V.NumeroCap,
-        V.NumeroVers,
-        CONCAT(L.nombre, ' ', V.NumeroCap, ':', V.NumeroVers, ' ', CAST(V.texto AS NVARCHAR(MAX))) AS Versiculo
-    FROM 
-        DB_Bible.dbo.Versiculos V
-    JOIN 
-        DB_Bible.dbo.Libros L ON V.id_libro = L.id_libro
-    WHERE 
-        L.nombre = @nombre_libro
-        AND V.NumeroCap = @numero_capitulo
-		AND Id_Version = @version;
-END;
+	SET NOCOUNT ON
+	BEGIN TRY
+		SELECT --NO USAR DISTINCT (desordena los resultados)
+			CONCAT(L.nombre, ' ', V.NumeroCap, ':', V.NumeroVers) AS Cita,
+			CONVERT(NVARCHAR(MAX), V.Texto) AS Texto
+		FROM DB_Bible.dbo.Versiculos V
+		JOIN DB_Bible.dbo.Libros L ON V.id_libro = L.id_libro
+		WHERE L.nombre = @nombre_libro
+			AND V.NumeroCap = @numero_capitulo
+			AND V.Id_Version = @version
+	END TRY
+	BEGIN CATCH
+		THROW
+	END CATCH
+END
 GO
 
 CREATE OR ALTER PROCEDURE ObtenerVersionesPorNombreIdioma
@@ -119,16 +116,40 @@ END
 GO
 
 CREATE OR ALTER PROCEDURE [dbo].[BuscarVersiculosPorPalabraOFrase]
-    @Busqueda NVARCHAR(100)
+    @Busqueda NVARCHAR(100),
+    @Version NVARCHAR(30)
 AS
 BEGIN
-    SELECT DISTINCT 
-        CONCAT(Libros.Nombre, ' ', Versiculos.NumeroCap, ':', Versiculos.NumeroVers, ' ', Versiculos.Texto) AS Versiculo  -- Cambio en el nombre de la columna
-    FROM DB_Bible.dbo.Versiculos
-    JOIN DB_Bible.dbo.Libros ON Versiculos.id_libro = Libros.id_libro
-    WHERE Versiculos.Texto LIKE '%' + @Busqueda + '%';
+    SET NOCOUNT ON;
+    BEGIN TRY
+        CREATE TABLE #PalabrasBusqueda (Palabra NVARCHAR(100));
+
+        INSERT INTO #PalabrasBusqueda (Palabra)
+        SELECT VALUE
+        FROM STRING_SPLIT(@Busqueda, ' ');
+
+        SELECT DISTINCT 
+            CONCAT(Libros.Nombre, ' ', Versiculos.NumeroCap, ':', Versiculos.NumeroVers) AS Cita,
+            CONVERT(NVARCHAR(MAX), Versiculos.Texto) AS Texto
+        FROM DB_Bible.dbo.Versiculos
+        JOIN DB_Bible.dbo.Libros ON Versiculos.id_libro = Libros.id_libro
+        JOIN DB_Bible.dbo.Versiones ON Versiculos.Id_Version = Versiones.Id_Version
+        WHERE Versiones.NombreVersion = @Version
+            AND NOT EXISTS (
+                SELECT 1 
+                FROM #PalabrasBusqueda 
+                WHERE Versiculos.Texto NOT LIKE '%' + Palabra + '%');
+
+        DROP TABLE #PalabrasBusqueda;
+    END TRY
+    BEGIN CATCH
+        THROW
+    END CATCH
 END
 GO
+
+
+--EXEC BuscarVersiculosPorPalabraOFrase 'Dios mujer', 'REINA VALERA 1960'
 
 CREATE OR ALTER PROCEDURE [dbo].[BuscarVersiculosPorCapitulo]
     @Busqueda NVARCHAR(100),
@@ -164,19 +185,57 @@ BEGIN
                 FROM #PalabrasBusqueda
                 WHERE Versiculos.Texto NOT LIKE '%' + Palabra + '%');
 
-        DROP TABLE #PalabrasBusqueda;
+        DROP TABLE #PalabrasBusqueda
     END TRY
     BEGIN CATCH
         THROW;
     END CATCH
 END;
 GO
-/*
-EXEC [dbo].[BuscarVersiculosPorCapitulo] 
-    @Busqueda = 'Dijo lumbreras',
-    @Version = 'REINA VALERA 1960',
-    @Libro = 'Génesis',
-    @Capitulo = 1;
+
+CREATE OR ALTER PROCEDURE [dbo].[BuscarVersiculosPorPalabraOFraseSegunElTestamentoYVersion]
+    @Busqueda NVARCHAR(100),
+	@Testamento NVARCHAR(20),
+	@Version NVARCHAR(30)
+AS
+BEGIN
+	SET NOCOUNT ON
+
+    BEGIN TRY
+        CREATE TABLE #PalabrasBusqueda (Palabra NVARCHAR(100));
+
+        INSERT INTO #PalabrasBusqueda (Palabra)
+        SELECT VALUE
+        FROM STRING_SPLIT(@Busqueda, ' ');
+
+		SELECT DISTINCT 
+			CONCAT(Libros.Nombre, ' ', Versiculos.NumeroCap, ':', Versiculos.NumeroVers) AS Cita,
+			CONVERT(NVARCHAR(MAX), Versiculos.Texto) AS Texto
+		FROM 
+			 DB_Bible.dbo.Versiculos
+		INNER JOIN
+			 DB_Bible.dbo.Libros ON Versiculos.Id_Libro = Libros.Id_Libro
+		INNER JOIN 
+			 DB_Bible.dbo.Testamentos ON Libros.Id_Testamento = Testamentos.Id_Testamento
+		INNER JOIN 
+			 DB_Bible.dbo.Versiones ON Versiculos.Id_Version = Versiones.Id_Version
+		WHERE 
+			NOT EXISTS (SELECT 1 FROM #PalabrasBusqueda
+			WHERE Versiculos.Texto NOT LIKE '%' + Palabra + '%')
+			AND Testamentos.Nombre = @Testamento
+			AND Versiones.NombreVersion = @Version;
+
+		DROP TABLE #PalabrasBusqueda
+	END TRY
+	BEGIN CATCH
+		THROW
+	END CATCH
+END
+GO
+ /*
+EXEC BuscarVersiculosPorPalabraOFraseSegunElTestamentoYVersion 'Dios hijos también', 'ANTIGUO TESTAMENTO', 'REINA VALERA 1960';
+
+SELECT * FROM DB_Bible.dbo.Versiculos
 GO
 */
 CREATE OR ALTER PROCEDURE [dbo].[BuscarVersiculosPorPalabraOFraseSegunElTestamentoYVersionYLibro]
@@ -202,54 +261,4 @@ BEGIN
         AND Versiones.NombreVersion = @Version
         AND Libros.Nombre = @Libro;
 END
-GO
-
-CREATE OR ALTER PROCEDURE [dbo].[BuscarVersiculosPorPalabraOFraseSegunElTestamentoYVersion]
-    @Busqueda NVARCHAR(100),
-	@Testamento NVARCHAR(20),
-	@Version NVARCHAR(30)
-	--@Libro NVARCHAR(25),
-	--@NumCap INT
-AS
-BEGIN
-    SELECT DISTINCT 
-        CONCAT(Libros.Nombre, ' ', Versiculos.NumeroCap, ':', Versiculos.NumeroVers, ' ', Versiculos.Texto) AS Versiculo
-    FROM 
-         DB_Bible.dbo.Versiculos
-    INNER JOIN
-         DB_Bible.dbo.Libros ON Versiculos.Id_Libro = Libros.Id_Libro
-    INNER JOIN 
-         DB_Bible.dbo.Testamentos ON Libros.Id_Testamento = Testamentos.Id_Testamento
-    INNER JOIN 
-         DB_Bible.dbo.Versiones ON Versiculos.Id_Version = Versiones.Id_Version
-    WHERE 
-        Versiculos.Texto LIKE '%' + @Busqueda + '%'
-        AND Testamentos.Nombre = @Testamento
-        AND Versiones.NombreVersion = @Version;
-END
-GO
-
-CREATE OR ALTER PROCEDURE BuscarVersiculosPorPalabraOFrase
-    @Busqueda NVARCHAR(100),
-	@version NVARCHAR(30)
-AS
-BEGIN
-	DECLARE @id_version SMALLINT
-
-	BEGIN TRY
-		SELECT @id_version = Id_Version
-		FROM DB_Bible.dbo.Versiones
-		WHERE NombreVersion = @version;
-
-		SELECT DISTINCT 
-			CONCAT(Libros.Nombre, ' ', Versiculos.NumeroCap, ':', Versiculos.NumeroVers, ' ', Versiculos.Texto) AS Versiculo
-		FROM DB_Bible.dbo.Versiculos
-		JOIN DB_Bible.dbo.Libros ON Versiculos.id_libro = Libros.id_libro
-		WHERE Versiculos.Texto LIKE '%' + @Busqueda + '%'
-			AND Versiculos.Id_Version = @id_version;
-	END TRY
-	BEGIN CATCH
-		THROW
-	END CATCH
-END;
 GO
