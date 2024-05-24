@@ -253,7 +253,7 @@
             this.BtnBuscarEnUnLibro.Name = "BtnBuscarEnUnLibro";
             this.BtnBuscarEnUnLibro.Size = new System.Drawing.Size(219, 73);
             this.BtnBuscarEnUnLibro.TabIndex = 40;
-            this.BtnBuscarEnUnLibro.Text = "Buscar en capitulo";
+            this.BtnBuscarEnUnLibro.Text = "Buscar en libro";
             this.BtnBuscarEnUnLibro.UseVisualStyleBackColor = true;
             this.BtnBuscarEnUnLibro.Click += new System.EventHandler(this.BtnBuscarEnUnLibro_Click);
             // 

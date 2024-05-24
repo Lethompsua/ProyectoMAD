@@ -329,6 +329,8 @@ namespace ProyectoMAD
             dataGridView1.DataSource = versiculos;
             dataGridView1.Columns["Cita"].DataPropertyName = "Cita";
             dataGridView1.Columns["Texto"].DataPropertyName = "Texto";
+
+            enlaceDB.registrarBusqueda(frmLogin.userID, textBox1.Text, "N/A", "N/A", cbVersion.Text);
         }
 
         private void btnShowCap_Click(object sender, EventArgs e)
@@ -403,6 +405,8 @@ namespace ProyectoMAD
             dataGridView1.DataSource = versiculos;
             dataGridView1.Columns["Cita"].DataPropertyName = "Cita";
             dataGridView1.Columns["Texto"].DataPropertyName = "Texto";
+
+            enlaceDB.registrarBusqueda(frmLogin.userID, textBox1.Text, cbTestamento.Text, "N/A", cbVersion.Text);
         }
 
         private void BtnBuscarEnUnLibro_Click(object sender, EventArgs e)
@@ -424,7 +428,7 @@ namespace ProyectoMAD
             int capitulo = Convert.ToInt32(cbCap.Text);
 
             EnlaceDB enlaceDB = new EnlaceDB();
-            DataTable versiculos = enlaceDB.BuscarVersiculosPorCapitulo(palabraBuscar, version, libro, capitulo);
+            DataTable versiculos = enlaceDB.BuscarVersiculosPorLibro(palabraBuscar, version, libro);
 
             if (versiculos.Rows.Count == 0)
             {
@@ -436,6 +440,8 @@ namespace ProyectoMAD
             dataGridView1.DataSource = versiculos;
             dataGridView1.Columns["Cita"].DataPropertyName = "Cita";
             dataGridView1.Columns["Texto"].DataPropertyName = "Texto";
+
+            enlaceDB.registrarBusqueda(frmLogin.userID, textBox1.Text, cbTestamento.Text, cbLibro.Text, cbVersion.Text);
         }
 
         private void btnCopy_Click(object sender, EventArgs e)

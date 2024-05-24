@@ -3,18 +3,14 @@ GO
 
 CREATE OR ALTER VIEW historyView
 AS
-	SELECT h.id_usuario,
-		h.id_historial AS #,
-		h.palabra AS Palabra, 
-		i.Nombre AS Idioma, 
-		v.NombreVersion AS Version, 
-		h.filtro_testamento AS Testamento, 
-		h.filtro_libro AS Libro, 
-		h.fecha AS Fecha
-			FROM Historiales h
-			INNER JOIN DB_Bible.dbo.Libros l ON l.Nombre = h.filtro_libro
-			INNER JOIN DB_Bible.dbo.Idiomas i ON i.Id_Idioma = l.Id_Idioma
-			INNER JOIN DB_Bible.dbo.Versiones v ON v.NombreVersion = h.filtro_version
+	SELECT id_usuario,
+		id_historial AS #,
+		palabra AS Palabra, 
+		filtro_version AS Version,
+		filtro_testamento AS Testamento, 
+		filtro_libro AS Libro, 
+		fecha AS Fecha
+	FROM Historiales h
 GO
 
 CREATE OR ALTER PROCEDURE spGetHistory
@@ -26,7 +22,6 @@ BEGIN
     BEGIN TRY
         SELECT #,
             Palabra,
-            Idioma,
             Version,
             Testamento,
             Libro,
@@ -83,7 +78,6 @@ BEGIN
 		BEGIN
 			SELECT #,
 				Palabra,
-				Idioma,
 				Version,
 				Testamento,
 				Libro,
@@ -97,7 +91,6 @@ BEGIN
 		BEGIN
 			SELECT #,
 				Palabra,
-				Idioma,
 				Version,
 				Testamento,
 				Libro,
@@ -111,7 +104,6 @@ BEGIN
 		BEGIN
 			SELECT #,
 				Palabra,
-				Idioma,
 				Version,
 				Testamento,
 				Libro,

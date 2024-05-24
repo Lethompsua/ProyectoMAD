@@ -25,6 +25,7 @@ using System.Windows.Forms;
 using ProyectoMAD;
 using static System.Windows.Forms.VisualStyles.VisualStyleElement.ListView;
 using System.Runtime.Remoting.Messaging;
+using System.Drawing;
 
 
 /*
@@ -1031,20 +1032,19 @@ namespace WindowsFormsApplication1
         }
 
 
-        public DataTable BuscarVersiculosPorCapitulo(string busqueda, string Version, string Libro, int capitulo)
+        public DataTable BuscarVersiculosPorLibro(string busqueda, string Version, string Libro)
         {
             DataTable tabla = new DataTable();
             try
             {
                 conectar();
-                string qry = "BuscarVersiculosPorCapitulo";
+                string qry = "BuscarVersiculosPorLibro";
                 _comandosql = new SqlCommand(qry, _conexion);
                 _comandosql.CommandType = CommandType.StoredProcedure;
 
                 _comandosql.Parameters.AddWithValue("@Busqueda", busqueda);
                 _comandosql.Parameters.AddWithValue("@Version", Version);
                 _comandosql.Parameters.AddWithValue("@Libro", Libro);
-                _comandosql.Parameters.AddWithValue("@capitulo", capitulo);
 
                 _adaptador.SelectCommand = _comandosql;
                 _adaptador.Fill(tabla);
@@ -1092,7 +1092,37 @@ namespace WindowsFormsApplication1
             return size;
         }
 
+        public bool registrarBusqueda (int id_usuario, string palabra, string testamento, string libro, string version)
+        {
+            bool registrado = true;
 
+            try
+            {
+                conectar();
+                string qry = "spInsertHistorial";
+                _comandosql = new SqlCommand(qry, _conexion);
+                _comandosql.CommandType = CommandType.StoredProcedure;
+
+                _comandosql.Parameters.AddWithValue("@id_user", id_usuario);
+                _comandosql.Parameters.AddWithValue("@palabra", palabra);
+                _comandosql.Parameters.AddWithValue("@testamento", testamento);
+                _comandosql.Parameters.AddWithValue("@libro", libro);
+                _comandosql.Parameters.AddWithValue("@version", version);
+
+                _comandosql.ExecuteNonQuery();
+            }
+            catch (SqlException e)
+            {
+                MessageBox.Show("Excepción de base de datos: \n" + e.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                registrado = false;
+            }
+            finally
+            {
+                desconectar();
+            }
+
+            return registrado;
+        }
         #endregion
     }
 }

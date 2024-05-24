@@ -151,11 +151,10 @@ GO
 
 --EXEC BuscarVersiculosPorPalabraOFrase 'Dios mujer', 'REINA VALERA 1960'
 
-CREATE OR ALTER PROCEDURE [dbo].[BuscarVersiculosPorCapitulo]
+CREATE OR ALTER PROCEDURE [dbo].[BuscarVersiculosPorLibro]
     @Busqueda NVARCHAR(100),
     @Version NVARCHAR(30),
-    @Libro NVARCHAR(25),
-    @Capitulo TINYINT
+    @Libro NVARCHAR(25)
 AS
 BEGIN
 	SET NOCOUNT ON
@@ -170,16 +169,12 @@ BEGIN
         SELECT DISTINCT 
             Libros.Nombre + ' ' + CAST(Versiculos.NumeroCap AS NVARCHAR) + ':' + CAST(Versiculos.NumeroVers AS NVARCHAR) AS Cita,
             CONVERT(NVARCHAR(MAX), Versiculos.Texto) AS Texto --TEXT no puede usarse con DISTINCT, así que lo convertimos a NVARCHAR
-        FROM 
-            DB_Bible.dbo.Versiculos
-        INNER JOIN 
-            DB_Bible.dbo.Libros ON Versiculos.Id_Libro = Libros.Id_Libro
-        INNER JOIN 
-            DB_Bible.dbo.Versiones ON Versiculos.Id_Version = Versiones.Id_Version
+        FROM DB_Bible.dbo.Versiculos 
+			INNER JOIN DB_Bible.dbo.Libros ON Versiculos.Id_Libro = Libros.Id_Libro
+			INNER JOIN DB_Bible.dbo.Versiones ON Versiculos.Id_Version = Versiones.Id_Version
         WHERE 
             Libros.Nombre = @Libro
             AND Versiones.NombreVersion = @Version
-            AND Versiculos.NumeroCap = @Capitulo
             AND NOT EXISTS (
                 SELECT 1
                 FROM #PalabrasBusqueda
@@ -238,7 +233,7 @@ EXEC BuscarVersiculosPorPalabraOFraseSegunElTestamentoYVersion 'Dios hijos tambi
 SELECT * FROM DB_Bible.dbo.Versiculos
 GO
 */
-CREATE OR ALTER PROCEDURE [dbo].[BuscarVersiculosPorPalabraOFraseSegunElTestamentoYVersionYLibro]
+CREATE OR ALTER PROCEDURE [dbo].[BuscarVersiculosPorPalabraOFraseSegunElTestamentoYVersionYLibro] --Este no se usa
     @Busqueda NVARCHAR(100),
     @Testamento NVARCHAR(20),
     @Version NVARCHAR(30),
@@ -278,3 +273,26 @@ BEGIN
 	END CATCH
 END
 GO
+
+--INSERTAR FAVORITOS Y HISTORIAL
+CREATE OR ALTER PROCEDURE spInsertHistorial
+	@id_user SMALLINT,
+	@palabra VARCHAR(MAX),
+	@testamento VARCHAR(50),
+	@libro VARCHAR(50),
+	@version VARCHAR(50)
+AS
+BEGIN
+	SET NOCOUNT ON
+
+	BEGIN TRY
+		INSERT INTO Historiales (palabra, filtro_testamento, filtro_libro, filtro_version, fecha, id_usuario)
+		VALUES (@palabra, @testamento, @libro, @version, GETDATE(), @id_user)
+	END TRY
+	BEGIN CATCH
+		THROW
+	END CATCH
+END
+GO
+
+SELECT * FROM Historiales
