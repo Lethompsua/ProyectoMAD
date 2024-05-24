@@ -25,6 +25,7 @@ using System.Windows.Forms;
 using ProyectoMAD;
 using static System.Windows.Forms.VisualStyles.VisualStyleElement.ListView;
 using System.Runtime.Remoting.Messaging;
+using System.Drawing;
 
 
 /*
@@ -319,11 +320,18 @@ namespace WindowsFormsApplication1
             try
             {
                 conectar();
-                string qry = "SELECT dbo.GetQuestion(@id)";
+                string qry = "spGetQuestion";
                 _comandosql = new SqlCommand(qry, _conexion);
+                _comandosql.CommandType = CommandType.StoredProcedure;
+
                 _comandosql.Parameters.AddWithValue("@id", id);
 
-                result = _comandosql.ExecuteScalar().ToString();
+                SqlParameter question = new SqlParameter("@question", SqlDbType.VarChar, 100);
+                question.Direction = ParameterDirection.Output;
+                _comandosql.Parameters.Add(question);
+
+                _comandosql.ExecuteNonQuery();
+                result = question.Value.ToString();
             }
             catch (SqlException e)
             {
@@ -572,108 +580,6 @@ namespace WindowsFormsApplication1
             return result;
         }
         #endregion
-        public void MostrarTestamentosEnComboBox(ComboBox comboBox)
-        {
-            try
-            {
-                conectar();
-                string procedureName = "MostrarNombresTestamento"; // Nombre del procedimiento almacenado
-
-                _comandosql = new SqlCommand(procedureName, _conexion);
-                _comandosql.CommandType = CommandType.StoredProcedure;
-                _comandosql.CommandTimeout = 1200;
-
-                // Ejecutar el comando y obtener los resultados
-                using (SqlDataReader reader = _comandosql.ExecuteReader())
-                {
-                    // Limpiar el ComboBox
-                    comboBox.Items.Clear();
-
-                    // Leer los resultados y agregarlos al ComboBox
-                    while (reader.Read())
-                    {
-                        // Agregar el nombre del testamento al ComboBox
-                        comboBox.Items.Add(reader["nombre"].ToString());
-                    }
-                }
-            }
-            catch (SqlException e)
-            {
-                string msg = "Excepción de base de datos: \n";
-                msg += e.Message;
-                MessageBox.Show(msg, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-            }
-            finally
-            {
-                desconectar();
-            }
-        }
-        public List<string> ObtenerLibrosPorTestamento(string testamento)
-        {
-            List<string> libros = new List<string>();
-
-            try
-            {
-                conectar();
-                string procedureName = "ObtenerLibrosPorTestamento"; // Nombre del procedimiento almacenado
-
-                _comandosql = new SqlCommand(procedureName, _conexion);
-                _comandosql.CommandType = CommandType.StoredProcedure;
-                _comandosql.Parameters.AddWithValue("@Testamentoo", testamento);
-
-                using (SqlDataReader reader = _comandosql.ExecuteReader())
-                {
-                    while (reader.Read())
-                    {
-                        libros.Add(reader["nombre"].ToString());
-                    }
-                }
-            }
-            catch (SqlException e)
-            {
-                string msg = "Excepción de base de datos: \n";
-                msg += e.Message;
-                MessageBox.Show(msg, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-            }
-            finally
-            {
-                desconectar();
-            }
-
-            return libros;
-        }
-        public DataTable get_Versiculos()
-        {
-            var msg = "";
-            DataTable tabla = new DataTable();
-            try
-            {
-                conectar();
-                // Ejemplo de cómo ejecutar un query, 
-                // PERO lo correcto es siempre usar SP para cualquier consulta a la base de datos
-                string qry = "Select * from VistaVersiculos;";
-                _comandosql = new SqlCommand(qry, _conexion);
-                _comandosql.CommandType = CommandType.Text;
-                // Esta opción solo la podrían utilizar si hacen un EXEC al SP concatenando los parámetros.
-                _comandosql.CommandTimeout = 1200;
-
-                _adaptador.SelectCommand = _comandosql;
-                _adaptador.Fill(tabla);
-
-            }
-            catch (SqlException e)
-            {
-                msg = "Excepción de base de datos: \n";
-                msg += e.Message;
-                MessageBox.Show(msg, "Warning!", MessageBoxButtons.OK, MessageBoxIcon.Stop);
-            }
-            finally
-            {
-                desconectar();
-            }
-
-            return tabla;
-        }
 
         #region Procedures para Historial
         public DataTable getHistory(int id)
@@ -874,17 +780,16 @@ namespace WindowsFormsApplication1
         }
         #endregion
 
-        #region Consultas libro
+        #region Consultas y búsquedas
         public DataTable ObtenerIdiomas()
         {
-            var msg = "";
             DataTable tabla = new DataTable();
             try
             {
                 conectar();
-                string qry = "EXEC ObtenerIdiomas";
+                string qry = "ObtenerIdiomas";
                 _comandosql = new SqlCommand(qry, _conexion);
-                _comandosql.CommandType = CommandType.Text;
+                _comandosql.CommandType = CommandType.StoredProcedure;
                 _comandosql.CommandTimeout = 1200;
 
                 _adaptador.SelectCommand = _comandosql;
@@ -892,7 +797,7 @@ namespace WindowsFormsApplication1
             }
             catch (SqlException e)
             {
-                msg = "Excepción de base de datos: \n";
+                string msg = "Excepción de base de datos: \n";
                 msg += e.Message;
                 MessageBox.Show(msg, "Warning!", MessageBoxButtons.OK, MessageBoxIcon.Stop);
             }
@@ -907,16 +812,18 @@ namespace WindowsFormsApplication1
         public DataTable ObtenerVersionesPorNombreIdioma(string nombreIdioma)
         {
             DataTable tabla = new DataTable();
+
             try
             {
                 conectar();
-                using (SqlCommand comando = new SqlCommand("ObtenerVersionesPorNombreIdioma", _conexion))
-                {
-                    comando.CommandType = CommandType.StoredProcedure;
-                    comando.Parameters.AddWithValue("@NombreIdioma", nombreIdioma);
-                    SqlDataAdapter adaptador = new SqlDataAdapter(comando);
-                    adaptador.Fill(tabla);
-                }
+                string qry = "ObtenerVersionesPorNombreIdioma";
+                _comandosql = new SqlCommand(qry, _conexion);
+                _comandosql.CommandType = CommandType.StoredProcedure;
+
+                _comandosql.Parameters.AddWithValue("@NombreIdioma", nombreIdioma);
+
+                _adaptador.SelectCommand = _comandosql;
+                _adaptador.Fill(tabla);
             }
             catch (SqlException ex)
             {
@@ -935,14 +842,15 @@ namespace WindowsFormsApplication1
             try
             {
                 conectar();
-                using (SqlCommand comando = new SqlCommand("ObtenerTestamentosPorNombreVersion", _conexion))
-                {
-                    comando.CommandType = CommandType.StoredProcedure;
-                    comando.Parameters.AddWithValue("@NombreIdioma", nombreIdioma);
-                    comando.Parameters.AddWithValue("@NombreVersion", nombreVersion);
-                    SqlDataAdapter adaptador = new SqlDataAdapter(comando);
-                    adaptador.Fill(tabla);
-                }
+                string qry = "ObtenerTestamentosPorNombreVersion";
+                _comandosql = new SqlCommand(qry, _conexion);
+                _comandosql.CommandType = CommandType.StoredProcedure;
+
+                _comandosql.Parameters.AddWithValue("@NombreIdioma", nombreIdioma);
+                _comandosql.Parameters.AddWithValue("@NombreVersion", nombreVersion);
+
+                _adaptador.SelectCommand = _comandosql;
+                _adaptador.Fill(tabla);
             }
             catch (SqlException ex)
             {
@@ -961,13 +869,14 @@ namespace WindowsFormsApplication1
             try
             {
                 conectar();
-                using (SqlCommand comando = new SqlCommand("ObtenerLibrosPorNombreTestamento", _conexion))
-                {
-                    comando.CommandType = CommandType.StoredProcedure;
-                    comando.Parameters.AddWithValue("@NombreTestamento", nombreTestamento);
-                    SqlDataAdapter adaptador = new SqlDataAdapter(comando);
-                    adaptador.Fill(tabla);
-                }
+                string qry = "ObtenerLibrosPorNombreTestamento";
+                _comandosql = new SqlCommand(qry, _conexion);
+                _comandosql.CommandType = CommandType.StoredProcedure;
+
+                _comandosql.Parameters.AddWithValue("@NombreTestamento", nombreTestamento);
+
+                _adaptador.SelectCommand = _comandosql;
+                _adaptador.Fill(tabla);
             }
             catch (SqlException ex)
             {
@@ -989,8 +898,10 @@ namespace WindowsFormsApplication1
                 string qry = "sp_ObtenerVersiculosPorNombreLibro";
                 _comandosql = new SqlCommand(qry, _conexion);
                 _comandosql.CommandType = CommandType.StoredProcedure;
+
                 _comandosql.Parameters.AddWithValue("@nombre_libro", nombreLibro);
                 _comandosql.Parameters.AddWithValue("@version", version);
+
                 _adaptador.SelectCommand = _comandosql;
                 _adaptador.Fill(tabla);
             }
@@ -1007,26 +918,32 @@ namespace WindowsFormsApplication1
             return tabla;
         }
 
-        public DataTable BuscarVersiculos(string busqueda)
+        public DataTable BuscarVersiculos(string busqueda, string version)
         {
             DataTable tabla = new DataTable();
             try
             {
                 conectar();
-                string qry = "EXEC BuscarVersiculosPorPalabraOFrase @Busqueda";
-                SqlCommand cmd = new SqlCommand(qry, _conexion);
-                cmd.Parameters.AddWithValue("@Busqueda", busqueda);
-                SqlDataAdapter adaptador = new SqlDataAdapter(cmd);
-                adaptador.Fill(tabla);
+                string qry = "BuscarVersiculosPorPalabraOFrase";
+                _comandosql = new SqlCommand(qry, _conexion);
+                _comandosql.CommandType = CommandType.StoredProcedure;
+
+                _comandosql.Parameters.AddWithValue("@Busqueda", busqueda);
+                _comandosql.Parameters.AddWithValue("@version", version);
+
+                _adaptador.SelectCommand = _comandosql;
+                _adaptador.Fill(tabla);
             }
             catch (SqlException e)
             {
-                MessageBox.Show("Excepción de base de datos: \n" + e.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                string msg = "Excepción de base de datos: \n" + e.Message;
+                MessageBox.Show(msg, "Warning!", MessageBoxButtons.OK, MessageBoxIcon.Stop);
             }
             finally
             {
                 desconectar();
             }
+
             return tabla;
         }
 
@@ -1040,7 +957,9 @@ namespace WindowsFormsApplication1
                 string qry = "ObtenerCapitulosPorLibro";
                 _comandosql = new SqlCommand(qry, _conexion);
                 _comandosql.CommandType = CommandType.StoredProcedure;
+
                 _comandosql.Parameters.AddWithValue("@idLibro", idLibro);
+
                 _adaptador.SelectCommand = _comandosql;
                 _adaptador.Fill(tabla);
             }
@@ -1113,20 +1032,22 @@ namespace WindowsFormsApplication1
         }
 
 
-        public DataTable BuscarVersiculosPorTestamentoYLibro(string busqueda, string Testamento, string Version, string Libro)
+        public DataTable BuscarVersiculosPorLibro(string busqueda, string Version, string Libro)
         {
             DataTable tabla = new DataTable();
             try
             {
                 conectar();
-                string qry = "EXEC BuscarVersiculosPorPalabraOFraseSegunElTestamentoYVersionYLibro @Busqueda, @Testamento, @Version, @Libro";
-                SqlCommand cmd = new SqlCommand(qry, _conexion);
-                cmd.Parameters.AddWithValue("@Busqueda", busqueda);
-                cmd.Parameters.AddWithValue("@Testamento", Testamento);
-                cmd.Parameters.AddWithValue("@Version", Version);
-                cmd.Parameters.AddWithValue("@Libro", Libro);
-                SqlDataAdapter adaptador = new SqlDataAdapter(cmd);
-                adaptador.Fill(tabla);
+                string qry = "BuscarVersiculosPorLibro";
+                _comandosql = new SqlCommand(qry, _conexion);
+                _comandosql.CommandType = CommandType.StoredProcedure;
+
+                _comandosql.Parameters.AddWithValue("@Busqueda", busqueda);
+                _comandosql.Parameters.AddWithValue("@Version", Version);
+                _comandosql.Parameters.AddWithValue("@Libro", Libro);
+
+                _adaptador.SelectCommand = _comandosql;
+                _adaptador.Fill(tabla);
             }
             catch (SqlException e)
             {
@@ -1136,10 +1057,135 @@ namespace WindowsFormsApplication1
             {
                 desconectar();
             }
+
             return tabla;
         }
 
+        public int getSize(int id_usuario)
+        {
+            int size = 0;
+            try
+            {
+                conectar();
+                string qry = "spGetSize";
+                _comandosql = new SqlCommand(qry, _conexion);
+                _comandosql.CommandType = CommandType.StoredProcedure;
 
+                _comandosql.Parameters.AddWithValue("@id_user", id_usuario);
+                SqlParameter sizeSQL = new SqlParameter("@size", SqlDbType.SmallInt);
+                sizeSQL.Direction = ParameterDirection.Output;
+                _comandosql.Parameters.Add(sizeSQL);
+
+                _comandosql.ExecuteNonQuery();
+
+                size = Convert.ToInt32(sizeSQL.Value);
+            }
+            catch (SqlException e)
+            {
+                MessageBox.Show("Excepción de base de datos: \n" + e.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+            finally
+            {
+                desconectar();
+            }
+
+            return size;
+        }
+
+        public bool registrarBusqueda (int id_usuario, string palabra, string testamento, string libro, string version)
+        {
+            bool registrado = true;
+
+            try
+            {
+                conectar();
+                string qry = "spInsertHistorial";
+                _comandosql = new SqlCommand(qry, _conexion);
+                _comandosql.CommandType = CommandType.StoredProcedure;
+
+                _comandosql.Parameters.AddWithValue("@id_user", id_usuario);
+                _comandosql.Parameters.AddWithValue("@palabra", palabra);
+                _comandosql.Parameters.AddWithValue("@testamento", testamento);
+                _comandosql.Parameters.AddWithValue("@libro", libro);
+                _comandosql.Parameters.AddWithValue("@version", version);
+
+                _comandosql.ExecuteNonQuery();
+            }
+            catch (SqlException e)
+            {
+                MessageBox.Show("Excepción de base de datos: \n" + e.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                registrado = false;
+            }
+            finally
+            {
+                desconectar();
+            }
+
+            return registrado;
+        }
+        public bool registrarFavorito(string nombre, string libro, int capitulo, string version, int id_versiculo, int id_usuario)
+        {
+            bool registrado = true;
+
+            try
+            {
+                conectar();
+                string qry = "spInsertFav";
+                _comandosql = new SqlCommand(qry, _conexion);
+                _comandosql.CommandType = CommandType.StoredProcedure;
+
+                _comandosql.Parameters.AddWithValue("@nombre", nombre);
+                _comandosql.Parameters.AddWithValue("@libro", libro);
+                _comandosql.Parameters.AddWithValue("@capitulo", capitulo);
+                _comandosql.Parameters.AddWithValue("@version", version);
+                _comandosql.Parameters.AddWithValue("@id_versiculo", id_versiculo);
+                _comandosql.Parameters.AddWithValue("@id_usuario", id_usuario);
+
+                _comandosql.ExecuteNonQuery();
+            }
+            catch (SqlException e)
+            {
+                MessageBox.Show("Excepción de base de datos: \n" + e.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                registrado = false;
+            }
+            finally
+            {
+                desconectar();
+            }
+
+            return registrado;
+        }
+        public int getIdVersiculo(string text)
+        {
+            int id = 0;
+
+            try
+            {
+                conectar();
+                string qry = "spGetVersiculoID";
+                _comandosql = new SqlCommand(qry, _conexion);
+                _comandosql.CommandType = CommandType.StoredProcedure;
+
+                _comandosql.Parameters.AddWithValue("@text", text);
+                SqlParameter idSQL = new SqlParameter("@id", SqlDbType.SmallInt);
+                idSQL.Direction = ParameterDirection.Output;
+                _comandosql.Parameters.Add(idSQL);
+
+                _comandosql.ExecuteNonQuery();
+
+                id = Convert.ToInt32(idSQL.Value);
+            }
+            catch (SqlException e)
+            {
+                MessageBox.Show("Excepción de base de datos: \n" + e.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+            finally
+            {
+                desconectar();
+            }
+
+            return id;
+        }
         #endregion
     }
 }

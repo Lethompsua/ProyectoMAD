@@ -35,6 +35,7 @@
             this.salirToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.label3 = new System.Windows.Forms.Label();
             this.picReturn = new System.Windows.Forms.PictureBox();
+            this.label1 = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.gridFavoritos)).BeginInit();
             this.menuStrip1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.picReturn)).BeginInit();
@@ -114,11 +115,22 @@
             this.picReturn.TabStop = false;
             this.picReturn.Click += new System.EventHandler(this.picReturn_Click);
             // 
+            // label1
+            // 
+            this.label1.AutoSize = true;
+            this.label1.Font = new System.Drawing.Font("Microsoft YaHei Light", 12F, System.Drawing.FontStyle.Italic, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label1.Location = new System.Drawing.Point(47, 80);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(444, 21);
+            this.label1.TabIndex = 29;
+            this.label1.Text = "Si deseas ver el capítulo completo, haz doble clic en la fila";
+            // 
             // Favoritos
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(10F, 21F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1333, 640);
+            this.Controls.Add(this.label1);
             this.Controls.Add(this.picReturn);
             this.Controls.Add(this.label3);
             this.Controls.Add(this.menuStrip1);
@@ -147,5 +159,6 @@
         private System.Windows.Forms.ToolStripMenuItem salirToolStripMenuItem;
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.PictureBox picReturn;
+        private System.Windows.Forms.Label label1;
     }
 }

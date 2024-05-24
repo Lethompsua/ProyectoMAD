@@ -27,5 +27,29 @@ BEGIN
 		RETURN;
 	END
 END
+GO
 
-SELECT * FROM Usuarios;
+CREATE OR ALTER PROCEDURE spGetQuestion
+	@id SMALLINT,
+	@question VARCHAR(100) OUTPUT
+AS
+BEGIN
+	SET NOCOUNT ON
+	BEGIN TRY
+		DECLARE @tempQuestion VARCHAR(100);
+        SET @tempQuestion = dbo.GetQuestion(@id);
+        SET @question = @tempQuestion;
+
+		RETURN 0
+	END TRY
+	BEGIN CATCH
+		THROW
+	END CATCH
+END
+GO
+
+/*
+DECLARE @question VARCHAR(100);
+EXEC spGetQuestion 1, @question OUTPUT;
+SELECT @question;
+*/
