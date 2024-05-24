@@ -331,5 +331,3 @@ BEGIN
 	END CATCH
 END
 GO
-
-SELECT * FROM Favoritos

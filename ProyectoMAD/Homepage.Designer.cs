@@ -131,7 +131,7 @@
             // label7
             // 
             this.label7.AutoSize = true;
-            this.label7.Location = new System.Drawing.Point(970, 289);
+            this.label7.Location = new System.Drawing.Point(946, 289);
             this.label7.Name = "label7";
             this.label7.Size = new System.Drawing.Size(72, 21);
             this.label7.TabIndex = 26;
@@ -140,7 +140,7 @@
             // picHistorial
             // 
             this.picHistorial.Image = global::ProyectoMAD.Properties.Resources.historial;
-            this.picHistorial.Location = new System.Drawing.Point(959, 189);
+            this.picHistorial.Location = new System.Drawing.Point(935, 189);
             this.picHistorial.Name = "picHistorial";
             this.picHistorial.Size = new System.Drawing.Size(92, 79);
             this.picHistorial.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;

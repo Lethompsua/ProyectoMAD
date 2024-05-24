@@ -61,6 +61,7 @@ namespace ProyectoMAD
             gridHistory.DataSource = history;
             gridHistory.AutoResizeColumns(DataGridViewAutoSizeColumnsMode.AllCells);
             gridHistory.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
+            gridHistory.DefaultCellStyle.WrapMode = DataGridViewTriState.True;
 
             gridHistory.SelectionChanged += GridHistory_SelectionChanged;
         }

@@ -25,8 +25,8 @@ namespace ProyectoMAD
 
             DataTable favs = enlaceDB.getFavs(frmLogin.userID);
             gridFavoritos.DataSource = favs;
-            gridFavoritos.AutoResizeColumns(DataGridViewAutoSizeColumnsMode.AllCells);
-            gridFavoritos.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.AllCells;
+
+            actualizarGrid();
 
             picReturn.Visible = false;
             picReturn.Enabled = false;
@@ -57,6 +57,26 @@ namespace ProyectoMAD
             }
         }
         #endregion
+
+        public void actualizarGrid()
+        {
+            if (gridChapterOn == true)
+            {
+                gridFavoritos.AutoSizeRowsMode = DataGridViewAutoSizeRowsMode.AllCells;
+                gridFavoritos.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
+                gridFavoritos.DefaultCellStyle.WrapMode = DataGridViewTriState.True;
+            }
+            else
+            {
+                gridFavoritos.AutoSizeRowsMode = DataGridViewAutoSizeRowsMode.AllCells;
+                gridFavoritos.DefaultCellStyle.WrapMode = DataGridViewTriState.True;
+                gridFavoritos.Columns["#"].Width = 50;
+                gridFavoritos.Columns["Nombre"].Width = 100;
+                gridFavoritos.Columns["Libro"].Width = 100;
+                gridFavoritos.Columns["Capitulo"].Width = 100;
+                gridFavoritos.Columns["Texto"].AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill;
+            }
+        }
 
         private void salirToolStripMenuItem_Click(object sender, EventArgs e)
         {
@@ -97,6 +117,7 @@ namespace ProyectoMAD
         {
             Form3 consultas = Form3.GetInstance();
             consultas.Show();
+            this.Close();
         }
         private void gridFavoritos_CellDoubleClick(object sender, DataGridViewCellEventArgs e)
         {
@@ -110,8 +131,7 @@ namespace ProyectoMAD
 
                 DataTable chapter = enlaceDB.getChapter(libro, capitulo);
                 gridFavoritos.DataSource = chapter;
-                gridFavoritos.AutoResizeColumns(DataGridViewAutoSizeColumnsMode.AllCells);
-                gridFavoritos.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.AllCells;
+                actualizarGrid();
 
                 picReturn.Visible = true;
                 picReturn.Enabled = true;
@@ -132,13 +152,12 @@ namespace ProyectoMAD
 
             gridFavoritos.DataSource = null; //Primero vacío el datagrid para que se acomode bien
             gridFavoritos.DataSource = favs;
-            gridFavoritos.AutoResizeColumns(DataGridViewAutoSizeColumnsMode.AllCells);
-            gridFavoritos.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.AllCells;
 
             picReturn.Visible = false;
             picReturn.Enabled = false;
 
             gridChapterOn = false;
+            actualizarGrid();
         }
     }
 }
