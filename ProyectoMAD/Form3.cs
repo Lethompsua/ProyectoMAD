@@ -67,7 +67,7 @@ namespace ProyectoMAD
                 textoColumn.Name = "Texto";
                 textoColumn.HeaderText = "Texto";
                 textoColumn.DataPropertyName = "Texto";
-                textoColumn.Width = 800;
+                textoColumn.Width = dataGridView1.Width - 200;
                 textoColumn.DefaultCellStyle.WrapMode = DataGridViewTriState.True;
                 dataGridView1.Columns.Add(textoColumn);
             }
