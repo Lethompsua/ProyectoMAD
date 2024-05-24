@@ -71,27 +71,6 @@ namespace ProyectoMAD
                 textoColumn.DefaultCellStyle.WrapMode = DataGridViewTriState.True;
                 dataGridView1.Columns.Add(textoColumn);
             }
-            if (dataGridView1.Columns["Favorito"] == null)
-            {
-                DataGridViewButtonColumn buttonColumn = new DataGridViewButtonColumn();
-                buttonColumn.Name = "Favorito";
-                buttonColumn.HeaderText = "Favorito";
-                buttonColumn.Text = "Favorito";
-                buttonColumn.UseColumnTextForButtonValue = true;
-                dataGridView1.Columns.Add(buttonColumn);
-            }
-
-            dataGridView1.CellClick += DataGridView1_CellClick;
-        }
-
-        private void DataGridView1_CellClick(object sender, DataGridViewCellEventArgs e)
-        {
-            // Asegurarse de que el índice de columna es el de la columna de botón y no es un encabezado
-            if (e.ColumnIndex == dataGridView1.Columns["Favorito"].Index && e.RowIndex >= 0)
-            {
-                // Mostrar un mensaje como prueba
-                MessageBox.Show("Favorito button clicked in row " + e.RowIndex);
-            }
         }
 
         #region Comboboxes
@@ -279,21 +258,10 @@ namespace ProyectoMAD
                 MessageBox.Show("Error al mostrar el libro: " + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
-        private void dataGridView1_CellContentClick(object sender, DataGridViewCellEventArgs e)
-        {
-            if (dataGridView1.Columns["Favorito"] == null)
-            {
-                DataGridViewCheckBoxColumn checkBoxColumn = new DataGridViewCheckBoxColumn();
-                checkBoxColumn.Name = "Favorito";
-                checkBoxColumn.HeaderText = "Favorito";
-                dataGridView1.Columns.Add(checkBoxColumn);
-            }
-        }
         private void salirToolStripMenuItem_Click(object sender, EventArgs e)
         {
             this.Close();
         }
-
         private void btnBuscar_Click(object sender, EventArgs e)
         {
             string palabraBuscar = textBox1.Text;
@@ -474,6 +442,42 @@ namespace ProyectoMAD
 
             Font font = new Font(e.CellStyle.Font.FontFamily, tamanoFuente, e.CellStyle.Font.Style);
             e.CellStyle.Font = font;
+        }
+
+        private void btnFav_Click(object sender, EventArgs e)
+        {
+            if (dataGridView1.CurrentCell != null)
+            {
+                int rowIndex = dataGridView1.CurrentCell.RowIndex;
+
+                EnlaceDB enlaceDB = new EnlaceDB();
+                string texto = dataGridView1.Rows[rowIndex].Cells["Texto"].Value.ToString();
+
+                NombreFavorito nombreFavorito = new NombreFavorito();
+                nombreFavorito.ShowDialog();
+
+                if (NombreFavorito.cancelado == false)
+                {
+                    string nombre = NombreFavorito.nombre;
+
+                    int idVers = enlaceDB.getIdVersiculo(texto);
+
+                    if (NombreFavorito.esTodoElCapitulo == true)
+                    {
+                        enlaceDB.registrarFavorito(nombre, cbLibro.Text, Convert.ToInt32(cbCap.Text), cbVersion.Text, 0, frmLogin.userID);
+                    }
+                    else
+                    {
+                        enlaceDB.registrarFavorito(nombre, cbLibro.Text, Convert.ToInt32(cbCap.Text), cbVersion.Text, idVers, frmLogin.userID);
+                    }
+
+                    MessageBox.Show("Tu favorito se ha registrado", "INFO", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                }
+            }
+            else
+            {
+                MessageBox.Show("Por favor, selecciona una celda primero.", "Advertencia", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+            }
         }
     }
 }

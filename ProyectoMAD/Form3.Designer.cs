@@ -41,7 +41,6 @@
             this.salirToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.textBox1 = new System.Windows.Forms.TextBox();
             this.dataGridView1 = new System.Windows.Forms.DataGridView();
-            this.Favorito = new System.Windows.Forms.DataGridViewButtonColumn();
             this.btnShowChap = new System.Windows.Forms.Button();
             this.btnMostrarLibro = new System.Windows.Forms.Button();
             this.btnBuscarTodLibro = new System.Windows.Forms.Button();
@@ -50,6 +49,7 @@
             this.BtnBuscarEnUnLibro = new System.Windows.Forms.Button();
             this.btnBuscarEnUnTestemento = new System.Windows.Forms.Button();
             this.btnCopy = new System.Windows.Forms.Button();
+            this.btnFav = new System.Windows.Forms.Button();
             this.menuStrip1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
             this.SuspendLayout();
@@ -172,8 +172,6 @@
             this.dataGridView1.BackgroundColor = System.Drawing.SystemColors.ActiveCaption;
             this.dataGridView1.ColumnHeadersHeight = 40;
             this.dataGridView1.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.DisableResizing;
-            this.dataGridView1.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
-            this.Favorito});
             this.dataGridView1.GridColor = System.Drawing.SystemColors.ActiveCaption;
             this.dataGridView1.Location = new System.Drawing.Point(12, 107);
             this.dataGridView1.Name = "dataGridView1";
@@ -182,21 +180,7 @@
             this.dataGridView1.RowTemplate.Height = 80;
             this.dataGridView1.Size = new System.Drawing.Size(1494, 578);
             this.dataGridView1.TabIndex = 36;
-            this.dataGridView1.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dataGridView1_CellContentClick);
             this.dataGridView1.CellFormatting += new System.Windows.Forms.DataGridViewCellFormattingEventHandler(this.dataGridView1_CellFormatting);
-            // 
-            // Favorito
-            // 
-            this.Favorito.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.Favorito.HeaderText = "Favorito:";
-            this.Favorito.MinimumWidth = 6;
-            this.Favorito.Name = "Favorito";
-            this.Favorito.ReadOnly = true;
-            this.Favorito.Resizable = System.Windows.Forms.DataGridViewTriState.True;
-            this.Favorito.Text = "ADD";
-            this.Favorito.ToolTipText = "ADD";
-            this.Favorito.UseColumnTextForButtonValue = true;
-            this.Favorito.Width = 125;
             // 
             // btnShowChap
             // 
@@ -278,11 +262,25 @@
             this.btnCopy.UseVisualStyleBackColor = true;
             this.btnCopy.Click += new System.EventHandler(this.btnCopy_Click);
             // 
+            // btnFav
+            // 
+            this.btnFav.BackgroundImage = global::ProyectoMAD.Properties.Resources.star;
+            this.btnFav.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
+            this.btnFav.Font = new System.Drawing.Font("Microsoft YaHei", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnFav.Location = new System.Drawing.Point(1339, 691);
+            this.btnFav.Name = "btnFav";
+            this.btnFav.Size = new System.Drawing.Size(88, 58);
+            this.btnFav.TabIndex = 44;
+            this.btnFav.Text = "Favorito";
+            this.btnFav.UseVisualStyleBackColor = true;
+            this.btnFav.Click += new System.EventHandler(this.btnFav_Click);
+            // 
             // Form3
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(10F, 21F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1530, 1055);
+            this.Controls.Add(this.btnFav);
             this.Controls.Add(this.btnCopy);
             this.Controls.Add(this.btnBuscarEnUnTestemento);
             this.Controls.Add(this.BtnBuscarEnUnLibro);
@@ -334,11 +332,11 @@
         private System.Windows.Forms.Button btnShowChap;
         private System.Windows.Forms.Button btnMostrarLibro;
         private System.Windows.Forms.Button btnBuscarTodLibro;
-        private System.Windows.Forms.DataGridViewButtonColumn Favorito;
         private System.Windows.Forms.ComboBox cbCap;
         private System.Windows.Forms.Label label5;
         private System.Windows.Forms.Button BtnBuscarEnUnLibro;
         private System.Windows.Forms.Button btnBuscarEnUnTestemento;
         private System.Windows.Forms.Button btnCopy;
+        private System.Windows.Forms.Button btnFav;
     }
 }

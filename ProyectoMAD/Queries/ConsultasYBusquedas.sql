@@ -295,4 +295,41 @@ BEGIN
 END
 GO
 
-SELECT * FROM Historiales
+CREATE OR ALTER PROCEDURE spInsertFav
+	@nombre VARCHAR(20),
+	@libro VARCHAR(20),
+	@capitulo TINYINT,
+	@version VARCHAR(50),
+	@id_versiculo SMALLINT,
+	@id_usuario SMALLINT
+AS
+BEGIN
+	SET NOCOUNT ON
+	
+	BEGIN TRY
+		INSERT INTO Favoritos (nombre, fecha_registro, libro, capitulo, version, id_versiculo, id_usuario)
+		VALUES (@nombre, GETDATE(), @libro, @capitulo, @version, @id_versiculo, @id_usuario)
+	END TRY
+	BEGIN CATCH
+		THROW
+	END CATCH
+END
+GO
+
+CREATE OR ALTER PROCEDURE spGetVersiculoID
+	@text VARCHAR(MAX),
+	@id SMALLINT OUTPUT
+AS
+BEGIN
+	SET NOCOUNT ON
+
+	BEGIN TRY
+		SELECT @id = dbo.GetVersiculoID(@text)
+	END TRY
+	BEGIN CATCH
+		THROW
+	END CATCH
+END
+GO
+
+SELECT * FROM Favoritos

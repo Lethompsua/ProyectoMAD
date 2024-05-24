@@ -1072,13 +1072,13 @@ namespace WindowsFormsApplication1
                 _comandosql.CommandType = CommandType.StoredProcedure;
 
                 _comandosql.Parameters.AddWithValue("@id_user", id_usuario);
-                SqlParameter tamaño = new SqlParameter("@size", SqlDbType.SmallInt);
-                tamaño.Direction = ParameterDirection.Output;
-                _comandosql.Parameters.Add(tamaño);
+                SqlParameter sizeSQL = new SqlParameter("@size", SqlDbType.SmallInt);
+                sizeSQL.Direction = ParameterDirection.Output;
+                _comandosql.Parameters.Add(sizeSQL);
 
                 _comandosql.ExecuteNonQuery();
 
-                size = Convert.ToInt32(tamaño.Value);
+                size = Convert.ToInt32(sizeSQL.Value);
             }
             catch (SqlException e)
             {
@@ -1122,6 +1122,69 @@ namespace WindowsFormsApplication1
             }
 
             return registrado;
+        }
+        public bool registrarFavorito(string nombre, string libro, int capitulo, string version, int id_versiculo, int id_usuario)
+        {
+            bool registrado = true;
+
+            try
+            {
+                conectar();
+                string qry = "spInsertFav";
+                _comandosql = new SqlCommand(qry, _conexion);
+                _comandosql.CommandType = CommandType.StoredProcedure;
+
+                _comandosql.Parameters.AddWithValue("@nombre", nombre);
+                _comandosql.Parameters.AddWithValue("@libro", libro);
+                _comandosql.Parameters.AddWithValue("@capitulo", capitulo);
+                _comandosql.Parameters.AddWithValue("@version", version);
+                _comandosql.Parameters.AddWithValue("@id_versiculo", id_versiculo);
+                _comandosql.Parameters.AddWithValue("@id_usuario", id_usuario);
+
+                _comandosql.ExecuteNonQuery();
+            }
+            catch (SqlException e)
+            {
+                MessageBox.Show("Excepción de base de datos: \n" + e.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                registrado = false;
+            }
+            finally
+            {
+                desconectar();
+            }
+
+            return registrado;
+        }
+        public int getIdVersiculo(string text)
+        {
+            int id = 0;
+
+            try
+            {
+                conectar();
+                string qry = "spGetVersiculoID";
+                _comandosql = new SqlCommand(qry, _conexion);
+                _comandosql.CommandType = CommandType.StoredProcedure;
+
+                _comandosql.Parameters.AddWithValue("@text", text);
+                SqlParameter idSQL = new SqlParameter("@id", SqlDbType.SmallInt);
+                idSQL.Direction = ParameterDirection.Output;
+                _comandosql.Parameters.Add(idSQL);
+
+                _comandosql.ExecuteNonQuery();
+
+                id = Convert.ToInt32(idSQL.Value);
+            }
+            catch (SqlException e)
+            {
+                MessageBox.Show("Excepción de base de datos: \n" + e.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+            finally
+            {
+                desconectar();
+            }
+
+            return id;
         }
         #endregion
     }
