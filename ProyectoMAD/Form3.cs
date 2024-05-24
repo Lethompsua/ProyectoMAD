@@ -10,6 +10,7 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using WindowsFormsApplication1;
 using static System.Windows.Forms.VisualStyles.VisualStyleElement;
+using System.Text.RegularExpressions;
 
 namespace ProyectoMAD
 {
@@ -81,7 +82,6 @@ namespace ProyectoMAD
             }
 
             dataGridView1.CellClick += DataGridView1_CellClick;
-            dataGridView1.CellPainting += DataGridView1_CellPainting;
         }
 
         private void DataGridView1_CellClick(object sender, DataGridViewCellEventArgs e)
@@ -329,58 +329,6 @@ namespace ProyectoMAD
             dataGridView1.DataSource = versiculos;
             dataGridView1.Columns["Cita"].DataPropertyName = "Cita";
             dataGridView1.Columns["Texto"].DataPropertyName = "Texto";
-        }
-
-        private void DataGridView1_CellPainting(object sender, DataGridViewCellPaintingEventArgs e)
-        {
-            if (e.ColumnIndex == dataGridView1.Columns["Texto"].Index && e.RowIndex >= 0)
-            {
-                e.Handled = true;
-                e.PaintBackground(e.CellBounds, true);
-
-                string cellText = e.FormattedValue?.ToString();
-                string palabraBuscar = textBox1.Text;
-
-                if (!string.IsNullOrEmpty(cellText) && !string.IsNullOrEmpty(palabraBuscar))
-                {
-                    int startIndex = cellText.IndexOf(palabraBuscar, StringComparison.OrdinalIgnoreCase);
-                    if (startIndex >= 0)
-                    {
-                        // Dibujar el texto antes, durante y después de la palabra buscada
-                        string beforeSearchText = cellText.Substring(0, startIndex);
-                        string searchText = cellText.Substring(startIndex, palabraBuscar.Length);
-                        string afterSearchText = cellText.Substring(startIndex + palabraBuscar.Length);
-
-                        // Medir el tamaño del texto antes de la palabra buscada
-                        SizeF beforeSize = e.Graphics.MeasureString(beforeSearchText, e.CellStyle.Font, e.CellBounds.Width);
-
-                        // Dibujar el texto antes de la palabra buscada
-                        RectangleF beforeRect = new RectangleF(e.CellBounds.X, e.CellBounds.Y, beforeSize.Width, e.CellBounds.Height);
-                        e.Graphics.DrawString(beforeSearchText, e.CellStyle.Font, new SolidBrush(e.CellStyle.ForeColor), beforeRect);
-
-                        // Medir el tamaño del texto de la palabra buscada
-                        SizeF searchSize = e.Graphics.MeasureString(searchText, new Font(e.CellStyle.Font, FontStyle.Bold), e.CellBounds.Width);
-
-                        // Dibujar la palabra buscada en rojo y negrita
-                        RectangleF searchRect = new RectangleF(e.CellBounds.X + beforeSize.Width, e.CellBounds.Y, searchSize.Width, e.CellBounds.Height);
-                        e.Graphics.DrawString(searchText, new Font(e.CellStyle.Font, FontStyle.Bold), new SolidBrush(Color.Red), searchRect);
-
-                        // Dibujar el texto después de la palabra buscada
-                        RectangleF afterRect = new RectangleF(e.CellBounds.X + beforeSize.Width + searchSize.Width, e.CellBounds.Y, e.CellBounds.Width - beforeSize.Width - searchSize.Width, e.CellBounds.Height);
-                        e.Graphics.DrawString(afterSearchText, e.CellStyle.Font, new SolidBrush(e.CellStyle.ForeColor), afterRect);
-                    }
-                    else
-                    {
-                        // Si no se encuentra la palabra, dibujar el texto normalmente
-                        e.Graphics.DrawString(cellText, e.CellStyle.Font, new SolidBrush(e.CellStyle.ForeColor), e.CellBounds);
-                    }
-                }
-                else
-                {
-                    // Si el texto o la palabra buscada están vacíos, dibujar el texto normalmente
-                    e.Graphics.DrawString(cellText, e.CellStyle.Font, new SolidBrush(e.CellStyle.ForeColor), e.CellBounds);
-                }
-            }
         }
 
         private void btnShowCap_Click(object sender, EventArgs e)
