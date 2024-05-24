@@ -9,10 +9,12 @@ AS
 		f.version AS Version,
 		f.libro AS Libro,
 		f.capitulo AS capitulo, 
-		v.texto AS Texto
+		CASE WHEN f.id_versiculo = 0
+			THEN 'N/A'
+			ELSE v.texto
+		END AS Texto
 	FROM Favoritos f
-	INNER JOIN DB_Bible.dbo.Versiculos v
-	ON f.id_versiculo = v.Id_Vers;
+	LEFT JOIN DB_Bible.dbo.Versiculos v ON f.id_versiculo = v.Id_Vers
 GO
 
 CREATE OR ALTER PROCEDURE spShowFavs
@@ -20,6 +22,7 @@ CREATE OR ALTER PROCEDURE spShowFavs
 AS
 BEGIN
 	SET NOCOUNT ON
+
 	BEGIN TRY
 		SELECT #, Nombre, Libro, Capitulo, Texto
 		FROM FavsView

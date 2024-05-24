@@ -32,23 +32,20 @@
             this.menuStrip1 = new System.Windows.Forms.MenuStrip();
             this.usuarioToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.modificarUsuarioToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.cerrarSesiónToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.salirToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.label2 = new System.Windows.Forms.Label();
-            this.label3 = new System.Windows.Forms.Label();
             this.label4 = new System.Windows.Forms.Label();
             this.label5 = new System.Windows.Forms.Label();
             this.label7 = new System.Windows.Forms.Label();
             this.picHistorial = new System.Windows.Forms.PictureBox();
             this.picFavoritos = new System.Windows.Forms.PictureBox();
             this.picSearch = new System.Windows.Forms.PictureBox();
-            this.picConsultas = new System.Windows.Forms.PictureBox();
             this.picEdit = new System.Windows.Forms.PictureBox();
-            this.cerrarSesiónToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.menuStrip1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.picHistorial)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.picFavoritos)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.picSearch)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.picConsultas)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.picEdit)).BeginInit();
             this.SuspendLayout();
             // 
@@ -86,9 +83,16 @@
             // modificarUsuarioToolStripMenuItem
             // 
             this.modificarUsuarioToolStripMenuItem.Name = "modificarUsuarioToolStripMenuItem";
-            this.modificarUsuarioToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.modificarUsuarioToolStripMenuItem.Size = new System.Drawing.Size(168, 22);
             this.modificarUsuarioToolStripMenuItem.Text = "Modificar Usuario";
             this.modificarUsuarioToolStripMenuItem.Click += new System.EventHandler(this.modificarUsuarioToolStripMenuItem_Click);
+            // 
+            // cerrarSesiónToolStripMenuItem
+            // 
+            this.cerrarSesiónToolStripMenuItem.Name = "cerrarSesiónToolStripMenuItem";
+            this.cerrarSesiónToolStripMenuItem.Size = new System.Drawing.Size(168, 22);
+            this.cerrarSesiónToolStripMenuItem.Text = "Cerrar sesión";
+            this.cerrarSesiónToolStripMenuItem.Click += new System.EventHandler(this.cerrarSesiónToolStripMenuItem_Click);
             // 
             // salirToolStripMenuItem
             // 
@@ -100,34 +104,25 @@
             // label2
             // 
             this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(248, 290);
+            this.label2.Location = new System.Drawing.Point(263, 289);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(98, 21);
             this.label2.TabIndex = 16;
             this.label2.Text = "Editar perfil";
             // 
-            // label3
-            // 
-            this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(422, 297);
-            this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(84, 21);
-            this.label3.TabIndex = 18;
-            this.label3.Text = "Consultas";
-            // 
             // label4
             // 
             this.label4.AutoSize = true;
-            this.label4.Location = new System.Drawing.Point(605, 297);
+            this.label4.Location = new System.Drawing.Point(463, 289);
             this.label4.Name = "label4";
-            this.label4.Size = new System.Drawing.Size(92, 21);
+            this.label4.Size = new System.Drawing.Size(184, 21);
             this.label4.TabIndex = 20;
-            this.label4.Text = "Búsquedas";
+            this.label4.Text = "Búsquedas y Consultas";
             // 
             // label5
             // 
             this.label5.AutoSize = true;
-            this.label5.Location = new System.Drawing.Point(795, 297);
+            this.label5.Location = new System.Drawing.Point(742, 289);
             this.label5.Name = "label5";
             this.label5.Size = new System.Drawing.Size(79, 21);
             this.label5.TabIndex = 22;
@@ -136,7 +131,7 @@
             // label7
             // 
             this.label7.AutoSize = true;
-            this.label7.Location = new System.Drawing.Point(969, 297);
+            this.label7.Location = new System.Drawing.Point(946, 289);
             this.label7.Name = "label7";
             this.label7.Size = new System.Drawing.Size(72, 21);
             this.label7.TabIndex = 26;
@@ -145,7 +140,7 @@
             // picHistorial
             // 
             this.picHistorial.Image = global::ProyectoMAD.Properties.Resources.historial;
-            this.picHistorial.Location = new System.Drawing.Point(969, 190);
+            this.picHistorial.Location = new System.Drawing.Point(935, 189);
             this.picHistorial.Name = "picHistorial";
             this.picHistorial.Size = new System.Drawing.Size(92, 79);
             this.picHistorial.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
@@ -156,9 +151,9 @@
             // picFavoritos
             // 
             this.picFavoritos.Image = global::ProyectoMAD.Properties.Resources.favs;
-            this.picFavoritos.Location = new System.Drawing.Point(795, 190);
+            this.picFavoritos.Location = new System.Drawing.Point(746, 189);
             this.picFavoritos.Name = "picFavoritos";
-            this.picFavoritos.Size = new System.Drawing.Size(92, 79);
+            this.picFavoritos.Size = new System.Drawing.Size(75, 79);
             this.picFavoritos.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
             this.picFavoritos.TabIndex = 21;
             this.picFavoritos.TabStop = false;
@@ -167,7 +162,7 @@
             // picSearch
             // 
             this.picSearch.Image = global::ProyectoMAD.Properties.Resources.búsquedas;
-            this.picSearch.Location = new System.Drawing.Point(605, 190);
+            this.picSearch.Location = new System.Drawing.Point(502, 189);
             this.picSearch.Name = "picSearch";
             this.picSearch.Size = new System.Drawing.Size(92, 79);
             this.picSearch.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
@@ -175,34 +170,16 @@
             this.picSearch.TabStop = false;
             this.picSearch.Click += new System.EventHandler(this.picSearch_Click);
             // 
-            // picConsultas
-            // 
-            this.picConsultas.Image = global::ProyectoMAD.Properties.Resources.consultas;
-            this.picConsultas.Location = new System.Drawing.Point(422, 190);
-            this.picConsultas.Name = "picConsultas";
-            this.picConsultas.Size = new System.Drawing.Size(92, 79);
-            this.picConsultas.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
-            this.picConsultas.TabIndex = 17;
-            this.picConsultas.TabStop = false;
-            this.picConsultas.Click += new System.EventHandler(this.picConsultas_Click);
-            // 
             // picEdit
             // 
             this.picEdit.Image = global::ProyectoMAD.Properties.Resources.user;
-            this.picEdit.Location = new System.Drawing.Point(263, 190);
+            this.picEdit.Location = new System.Drawing.Point(278, 189);
             this.picEdit.Name = "picEdit";
             this.picEdit.Size = new System.Drawing.Size(74, 79);
             this.picEdit.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
             this.picEdit.TabIndex = 1;
             this.picEdit.TabStop = false;
             this.picEdit.Click += new System.EventHandler(this.picEdit_Click);
-            // 
-            // cerrarSesiónToolStripMenuItem
-            // 
-            this.cerrarSesiónToolStripMenuItem.Name = "cerrarSesiónToolStripMenuItem";
-            this.cerrarSesiónToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
-            this.cerrarSesiónToolStripMenuItem.Text = "Cerrar sesión";
-            this.cerrarSesiónToolStripMenuItem.Click += new System.EventHandler(this.cerrarSesiónToolStripMenuItem_Click);
             // 
             // Homepage
             // 
@@ -215,8 +192,6 @@
             this.Controls.Add(this.picFavoritos);
             this.Controls.Add(this.label4);
             this.Controls.Add(this.picSearch);
-            this.Controls.Add(this.label3);
-            this.Controls.Add(this.picConsultas);
             this.Controls.Add(this.label2);
             this.Controls.Add(this.menuStrip1);
             this.Controls.Add(this.picEdit);
@@ -230,7 +205,6 @@
             ((System.ComponentModel.ISupportInitialize)(this.picHistorial)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.picFavoritos)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.picSearch)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.picConsultas)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.picEdit)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
@@ -246,8 +220,6 @@
         private System.Windows.Forms.ToolStripMenuItem modificarUsuarioToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem salirToolStripMenuItem;
         private System.Windows.Forms.Label label2;
-        private System.Windows.Forms.PictureBox picConsultas;
-        private System.Windows.Forms.Label label3;
         private System.Windows.Forms.PictureBox picSearch;
         private System.Windows.Forms.Label label4;
         private System.Windows.Forms.Label label5;

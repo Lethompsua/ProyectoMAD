@@ -27,3 +27,29 @@ BEGIN
 	RETURN @question;
 END
 GO
+
+CREATE OR ALTER FUNCTION GetSize(@id SMALLINT)
+RETURNS SMALLINT
+AS
+BEGIN
+	DECLARE @size SMALLINT
+	SELECT @size = tamaño_texto
+	FROM Usuarios
+	WHERE id_usuario = @id
+
+	RETURN @size
+END
+GO
+
+CREATE OR ALTER FUNCTION GetVersiculoID(@text VARCHAR(MAX))
+RETURNS SMALLINT
+AS
+BEGIN
+	DECLARE @id SMALLINT
+	SELECT @id = Id_Vers
+	FROM DB_Bible.dbo.Versiculos
+	WHERE CAST(Texto AS VARCHAR(MAX)) = @text
+
+	RETURN @id
+END
+GO
