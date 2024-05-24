@@ -49,6 +49,7 @@
             this.label5 = new System.Windows.Forms.Label();
             this.BtnBuscarEnUnLibro = new System.Windows.Forms.Button();
             this.btnBuscarEnUnTestemento = new System.Windows.Forms.Button();
+            this.btnCopy = new System.Windows.Forms.Button();
             this.menuStrip1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
             this.SuspendLayout();
@@ -265,11 +266,23 @@
             this.btnBuscarEnUnTestemento.UseVisualStyleBackColor = true;
             this.btnBuscarEnUnTestemento.Click += new System.EventHandler(this.btnBuscarEnUnTestemento_Click);
             // 
+            // btnCopy
+            // 
+            this.btnCopy.Font = new System.Drawing.Font("Microsoft YaHei", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnCopy.Location = new System.Drawing.Point(1438, 691);
+            this.btnCopy.Name = "btnCopy";
+            this.btnCopy.Size = new System.Drawing.Size(68, 58);
+            this.btnCopy.TabIndex = 43;
+            this.btnCopy.Text = "📝Copiar";
+            this.btnCopy.UseVisualStyleBackColor = true;
+            this.btnCopy.Click += new System.EventHandler(this.btnCopy_Click);
+            // 
             // Form3
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(10F, 21F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1530, 1055);
+            this.Controls.Add(this.btnCopy);
             this.Controls.Add(this.btnBuscarEnUnTestemento);
             this.Controls.Add(this.BtnBuscarEnUnLibro);
             this.Controls.Add(this.cbCap);
@@ -325,5 +338,6 @@
         private System.Windows.Forms.Label label5;
         private System.Windows.Forms.Button BtnBuscarEnUnLibro;
         private System.Windows.Forms.Button btnBuscarEnUnTestemento;
+        private System.Windows.Forms.Button btnCopy;
     }
 }

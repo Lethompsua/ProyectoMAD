@@ -437,5 +437,28 @@ namespace ProyectoMAD
             dataGridView1.Columns["Cita"].DataPropertyName = "Cita";
             dataGridView1.Columns["Texto"].DataPropertyName = "Texto";
         }
+
+        private void btnCopy_Click(object sender, EventArgs e)
+        {
+            if (dataGridView1.SelectedCells.Count > 0)
+            {
+                var cellValue = dataGridView1.SelectedCells[0].Value;
+
+                if (cellValue != null)
+                {
+                    string textToCopy = cellValue.ToString();
+                    Clipboard.SetText(textToCopy);
+                    MessageBox.Show("El texto se ha copiado al portapapeles.", "Copiado", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                }
+                else
+                {
+                    MessageBox.Show("No hay ningún texto seleccionado para copiar.", "ATENCIÓN", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                }
+            }
+            else
+            {
+                MessageBox.Show("Por favor, selecciona una celda que contenga texto para copiar.", "ATENCIÓN", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+            }
+        }
     }
 }
