@@ -70,155 +70,6 @@ namespace WindowsFormsApplication1
             _conexion.Close();
         }
 
-        #region Procedures de ejemplo
-        public bool Autentificar(string us, string ps)
-        {
-            bool isValid = false;
-            try
-            {
-                conectar();
-                string qry = "SP_ValidaUser";
-                _comandosql = new SqlCommand(qry, _conexion);
-                _comandosql.CommandType = CommandType.StoredProcedure;
-                _comandosql.CommandTimeout = 9000;
-
-                var parametro1 = _comandosql.Parameters.Add("@u", SqlDbType.Char, 20);
-                parametro1.Value = us;
-                var parametro2 = _comandosql.Parameters.Add("@p", SqlDbType.Char, 20);
-                parametro2.Value = ps;
-
-                _adaptador.SelectCommand = _comandosql;
-                _adaptador.Fill(_tabla);
-
-                if(_tabla.Rows.Count > 0)
-                {
-                    isValid = true;
-                }
-
-            }
-            catch(SqlException e)
-            {
-                isValid = false;
-            }
-            finally
-            {
-                desconectar();
-            }
-
-            return isValid;
-        }
-
-        public DataTable get_Users()
-        {
-            var msg = "";
-            DataTable tabla = new DataTable();
-            try
-            {
-                conectar();
-				// Ejemplo de cómo ejecutar un query, 
-				// PERO lo correcto es siempre usar SP para cualquier consulta a la base de datos
-                string qry = "Select Nombre, email, Fecha_modif from Usuarios where Activo = 0;";
-                _comandosql = new SqlCommand(qry, _conexion);
-                _comandosql.CommandType = CommandType.Text;
-						// Esta opción solo la podrían utilizar si hacen un EXEC al SP concatenando los parámetros.
-                _comandosql.CommandTimeout = 1200;
-
-                _adaptador.SelectCommand = _comandosql;
-                _adaptador.Fill(tabla);
-
-            }
-            catch (SqlException e)
-            {
-                msg = "Excepción de base de datos: \n";
-                msg += e.Message;
-                MessageBox.Show(msg, "Warning!", MessageBoxButtons.OK, MessageBoxIcon.Stop);
-            }
-            finally
-            {
-                desconectar();
-            }
-
-            return tabla;
-        }
-
-		// Ejemplo de método para recibir una consulta en forma de tabla
-		// Cuando el SP ejecutará un SELECT
-        public DataTable get_Deptos(string opc)
-        {
-            var msg = "";
-            DataTable tabla = new DataTable();
-            try
-            {
-                conectar();
-                string qry = "sp_Gestiona_Deptos";
-                _comandosql = new SqlCommand(qry, _conexion);
-                _comandosql.CommandType = CommandType.StoredProcedure;
-                _comandosql.CommandTimeout = 1200;
-
-                var parametro1 = _comandosql.Parameters.Add("@Opc", SqlDbType.Char, 1);
-                parametro1.Value = opc;
-
-
-                _adaptador.SelectCommand = _comandosql;
-                _adaptador.Fill(tabla); 
-				// la ejecución del SP espera que regrese datos en formato tabla
-
-            }
-            catch (SqlException e)
-            {
-                msg = "Excepción de base de datos: \n";
-                msg += e.Message;
-                MessageBox.Show(msg, "Warning!", MessageBoxButtons.OK, MessageBoxIcon.Stop);
-            }
-            finally
-            {
-                desconectar();
-            }
-
-            return tabla;
-        }
-		
-		// Ejemplo de método para ejecutar un SP que no se espera que regrese información, 
-		// solo que ejecute ya sea un INSERT, UPDATE o DELETE
-        public bool Add_Deptos(string opc, string depto)
-        {
-            var msg = "";
-            var add = true;
-            try
-            {
-                conectar();
-                string qry = "sp_Gestiona_Deptos";
-                _comandosql = new SqlCommand(qry, _conexion);
-                _comandosql.CommandType = CommandType.StoredProcedure;
-                _comandosql.CommandTimeout = 1200;
-
-                var parametro1 = _comandosql.Parameters.Add("@Opc", SqlDbType.Char, 1);
-                parametro1.Value = opc;
-                var parametro2 = _comandosql.Parameters.Add("@Nombre", SqlDbType.VarChar, 20);
-                parametro2.Value = depto;
-
-                _adaptador.InsertCommand = _comandosql;
-				// También se tienen las propiedades del adaptador: UpdateCommand  y DeleteCommand
-                
-                _comandosql.ExecuteNonQuery();
-
-            }
-            catch (SqlException e)
-            {
-                add = false;
-                msg = "Excepción de base de datos: \n";
-                msg += e.Message;
-                MessageBox.Show(msg, "Warning!", MessageBoxButtons.OK, MessageBoxIcon.Stop);
-            }
-            finally
-            {
-                desconectar();                
-            }
-
-            return add;
-        }
-        #endregion
-
         #region Procedurese para usuarios
         public bool AgregarUsuario(string email, string password, string nombreCompleto, DateTime fechaNacimiento, string genero, string preguntaSeguridad, string respuestaSeguridad)
         {
@@ -947,7 +798,6 @@ namespace WindowsFormsApplication1
             return tabla;
         }
 
-
         public DataTable ObtenerCapitulosPorLibro(int idLibro)
         {
             DataTable tabla = new DataTable();
@@ -975,7 +825,6 @@ namespace WindowsFormsApplication1
 
             return tabla;
         }
-
 
         public DataTable ObtenerVersiculosPorNombreLibroYNumeroCap(string nombreLibro, int NumCapitulo, int version)
         {
@@ -1005,20 +854,22 @@ namespace WindowsFormsApplication1
             return tabla;
         }
 
-
         public DataTable BuscarVersiculosPorTestamento(string busqueda, string Testamento, string Version)
         {
             DataTable tabla = new DataTable();
             try
             {
                 conectar();
-                string qry = "EXEC BuscarVersiculosPorPalabraOFraseSegunElTestamentoYVersion @Busqueda, @Testamento, @Version";
-                SqlCommand cmd = new SqlCommand(qry, _conexion);
-                cmd.Parameters.AddWithValue("@Busqueda", busqueda);
-                cmd.Parameters.AddWithValue("@Testamento", Testamento);
-                cmd.Parameters.AddWithValue("@Version", Version);
-                SqlDataAdapter adaptador = new SqlDataAdapter(cmd);
-                adaptador.Fill(tabla);
+                string qry = "BuscarVersiculosPorPalabraOFraseSegunElTestamentoYVersion";
+                _comandosql = new SqlCommand(qry, _conexion);
+                _comandosql.CommandType = CommandType.StoredProcedure;
+
+                _comandosql.Parameters.AddWithValue("@Busqueda", busqueda);
+                _comandosql.Parameters.AddWithValue("@Testamento", Testamento);
+                _comandosql.Parameters.AddWithValue("@Version", Version);
+
+                _adaptador.SelectCommand = _comandosql;
+                _adaptador.Fill(tabla);
             }
             catch (SqlException e)
             {
@@ -1030,7 +881,6 @@ namespace WindowsFormsApplication1
             }
             return tabla;
         }
-
 
         public DataTable BuscarVersiculosPorLibro(string busqueda, string Version, string Libro)
         {

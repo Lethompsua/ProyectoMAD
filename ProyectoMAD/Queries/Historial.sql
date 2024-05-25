@@ -7,8 +7,14 @@ AS
 		id_historial AS #,
 		palabra AS Palabra, 
 		filtro_version AS Version,
-		filtro_testamento AS Testamento, 
-		filtro_libro AS Libro, 
+		CASE WHEN filtro_testamento = '' OR filtro_testamento IS NULL
+			THEN 'N/A'
+			ELSE filtro_testamento
+		END AS Testamento,
+		CASE WHEN filtro_libro = '' OR filtro_libro IS NULL
+			THEN 'N/A'
+			ELSE filtro_libro
+		END AS Libro,
 		fecha AS Fecha
 	FROM Historiales h
 GO

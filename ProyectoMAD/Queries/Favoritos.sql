@@ -9,7 +9,7 @@ AS
 		f.version AS Version,
 		f.libro AS Libro,
 		f.capitulo AS capitulo, 
-		CASE WHEN f.id_versiculo = 0
+		CASE WHEN f.id_versiculo = 0 OR f.id_versiculo IS NULL
 			THEN 'N/A'
 			ELSE v.texto
 		END AS Texto
