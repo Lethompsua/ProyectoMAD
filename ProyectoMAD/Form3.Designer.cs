@@ -279,7 +279,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(10F, 21F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1530, 1055);
+            this.ClientSize = new System.Drawing.Size(1530, 838);
             this.Controls.Add(this.btnFav);
             this.Controls.Add(this.btnCopy);
             this.Controls.Add(this.btnBuscarEnUnTestemento);
